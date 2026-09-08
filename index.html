@@ -3,420 +3,427 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="소프트웨어 엔지니어 이제준 (Lee Jejun)의 에디토리얼 포트폴리오. 시스템 아키텍처, 프론트엔드 인터랙션, 클린 엔지니어링.">
-  <meta name="keywords" content="이제준, Lee Jejun, Software Engineer, Frontend, Full Stack, Portfolio">
+  <meta name="description" content="개발자 트레이너 이제준 (Lee Jejun)의 포켓몬 감성 포트폴리오 & 코드 도감. 상명대학교 그린스마트시티학과, 풀스택 & 프론트엔드 엔지니어링.">
+  <meta name="keywords" content="이제준, Lee Jejun, 개발자 도감, 포켓몬 포트폴리오, 풀스택, 프론트엔드, 상명대학교">
   <meta name="author" content="이제준 (Lee Jejun)">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="JEJUN LEE — Software & Systems Engineer">
-  <meta property="og:description" content="Engineering with Precision, Designing for Real Impact.">
+  <meta property="og:title" content="TRAINER LEE JEJUN — Developer Dex & Portfolio">
+  <meta property="og:description" content="A Wild Full-Stack Engineer Appeared! Explore Trainer Lee Jejun's Code-Dex & Badges.">
 
-  <title>JEJUN LEE — Engineering & Systems Portfolio</title>
+  <title>TRAINER LEE JEJUN — Developer Dex & Portfolio</title>
 
-  <!-- Google Fonts: Instrument Serif & Inter & JetBrains Mono -->
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- Pretendard (한글 가독성) -->
+  <!-- Pretendard (최고의 한글 가독성) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Technical Dot Matrix Grid Background -->
-  <div class="bg-grid-pattern"></div>
-
-  <!-- Top Technical Status Bar -->
-  <header class="top-status-bar" id="top-status-bar">
-    <div class="layout-container" style="width: 100%;">
-      <div class="status-bar-inner">
-        <a href="#cover" class="brand-mark">
-          <span class="brand-symbol">JL</span>
-          <span class="scramble-hover" data-scramble="JEJUN LEE">JEJUN LEE</span>
+  <!-- Top Pokémon Style Navigation -->
+  <header class="poke-header">
+    <div class="poke-header-stripe"></div>
+    <div class="layout-container">
+      <div class="header-inner">
+        
+        <!-- Brand / Trainer Logo -->
+        <a href="#hero" class="brand-trainer" title="트레이너 이제준 홈으로">
+          <div class="pokeball-icon"></div>
+          <span class="brand-text-name">JEJUN.DEX</span>
+          <span class="brand-tag-lvl">Lv.24 TRAINER</span>
         </a>
 
-        <div class="meta-status-group">
-          <span class="status-indicator">
-            <span class="indicator-dot pulse"></span>
-            <span>STATUS: OPEN TO WORK</span>
-          </span>
-          <span class="status-indicator" style="display: none; @media(min-width: 768px){display: flex;}">
-            <span>LOC: CHEONAN, KR (36.83° N)</span>
-          </span>
-          <span class="status-indicator">
-            <span id="kst-clock">KST 00:00:00</span>
-          </span>
-        </div>
-
-        <nav class="header-nav-links">
-          <a href="#about" class="header-nav-item scramble-hover" data-scramble="ABOUT">ABOUT</a>
-          <a href="#specs" class="header-nav-item scramble-hover" data-scramble="SPECS">SPECS</a>
-          <a href="#works" class="header-nav-item scramble-hover" data-scramble="WORKS">WORKS</a>
-          <a href="#timeline" class="header-nav-item scramble-hover" data-scramble="TIMELINE">TIMELINE</a>
-          <a href="#contact" class="header-nav-item scramble-hover" data-scramble="CONTACT">CONTACT</a>
+        <!-- Main Nav Links -->
+        <nav class="poke-nav">
+          <a href="#hero" class="nav-link"><i class="fa-solid fa-id-card"></i> 트레이너 카드</a>
+          <a href="#badges" class="nav-link"><i class="fa-solid fa-award"></i> 체육관 배지</a>
+          <a href="#dex" class="nav-link"><i class="fa-solid fa-book-bookmark"></i> 프로젝트 도감</a>
+          <a href="#quests" class="nav-link"><i class="fa-solid fa-map-location-dot"></i> 모험 일지</a>
+          <a href="#comms" class="nav-link"><i class="fa-solid fa-satellite-dish"></i> 통신 센터</a>
         </nav>
 
-        <div class="header-controls">
-          <button class="minimal-btn" id="btn-theme-toggle" title="테마 전환">
-            <i class="fa-solid fa-circle-half-stroke"></i>
-            <span id="theme-btn-label">THEME</span>
+        <!-- Header Actions (Sound, Theme) -->
+        <div class="header-actions">
+          <button class="icon-action-btn active-sound" id="btn-sound-toggle" title="8비트 효과음 On/Off">
+            <i class="fa-solid fa-volume-high" id="sound-icon"></i>
           </button>
-          <button class="minimal-btn" id="btn-print-resume" title="이력서 인쇄">
-            <i class="fa-solid fa-print"></i>
+          <button class="icon-action-btn" id="btn-theme-toggle" title="주간/야간 모드 전환">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
           </button>
         </div>
+
       </div>
     </div>
   </header>
 
   <main>
     <!-- ==========================================
-         1. Hero Cover Section (Nota Style)
+         1. Hero Section: Trainer Profile & 3D Card
          ========================================== -->
-    <section class="hero-cover" id="cover">
-      <div class="layout-container" style="width: 100%;">
-        <div class="hero-meta-header">
-          <span>SPEC_INDEX: 2026_ARCHIVE</span>
-          <span>DISCIPLINE: SOFTWARE ENGINEERING / CREATIVE COMPUTING</span>
-          <span>IDENTITY: LEE JEJUN (이제준)</span>
-        </div>
-
-        <div class="hero-main-typography">
-          <h1 class="hero-headline-serif">
-            Engineering with <span class="serif-italic">Precision</span>, <br>
-            Designing for <span class="serif-italic">Real People.</span>
-          </h1>
-          <p class="hero-korean-subtitle">
-            복잡한 시스템을 명료한 아키텍처로 구현하고, 사용자 중심의 높은 사용성을 완성하는 소프트웨어 엔지니어 이제준입니다.
-          </p>
-
-          <div class="hero-action-buttons">
-            <a href="#works" class="btn-editorial-primary">
-              <span>EXPLORE WORKS</span>
-              <i class="fa-solid fa-arrow-down-long"></i>
-            </a>
-            <a href="#contact" class="btn-editorial-secondary">
-              <span>INITIATE CONTACT</span>
-            </a>
-            <button class="btn-editorial-secondary" id="btn-hero-copy-phone" data-phone="010-4677-2417">
-              <i class="fa-solid fa-phone"></i>
-              <span>010-4677-2417 COPY</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="hero-spec-grid">
-          <div class="spec-cell">
-            <span class="spec-cell-label">01 // DOMAIN</span>
-            <span class="spec-cell-value">Full-Stack & Frontend</span>
-          </div>
-          <div class="spec-cell">
-            <span class="spec-cell-label">02 // LOCATION</span>
-            <span class="spec-cell-value">Cheonan, South Korea</span>
-          </div>
-          <div class="spec-cell">
-            <span class="spec-cell-label">03 // DIRECT COMMS</span>
-            <span class="spec-cell-value">010-4677-2417</span>
-          </div>
-          <div class="spec-cell">
-            <span class="spec-cell-label">04 // REPOSITORY</span>
-            <span class="spec-cell-value">github.com/jejun-lee</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         2. About / Philosophy (Editorial Narrative)
-         ========================================== -->
-    <section class="section" id="about">
+    <section class="hero-trainer-section" id="hero">
       <div class="layout-container">
-        <div class="section-header-editorial">
-          <div>
-            <span class="section-num">01 / PHILOSOPHY & CAPABILITY</span>
-            <h2 class="section-title-large">Architecture & <span class="serif-italic">Craftsmanship</span></h2>
-          </div>
-          <p class="section-caption">
-            코드는 기계를 위한 지시서일 뿐만 아니라, 사람과 가치를 연결하는 가장 정밀한 설계도입니다.
-          </p>
-        </div>
-
-        <div class="about-split-layout">
-          <div>
-            <div class="editorial-quote-card">
-              <p class="editorial-quote-text serif">
-                "We shape our tools, and thereafter our tools shape our thinking."
-              </p>
-              <span class="mono" style="font-size: 0.8rem; color: var(--text-dim);">— Marshall McLuhan / Engineering Principle</span>
+        <div class="hero-grid">
+          
+          <!-- Left: Hero Text & CTAs -->
+          <div class="hero-text-content">
+            <div class="trainer-badge-pill">
+              <span class="pulse-dot"></span>
+              <span>야생의 소프트웨어 엔지니어가 나타났다!</span>
             </div>
 
-            <div class="about-body-narrative">
-              <p>
-                저는 충청남도 천안시 안서동 상명대길을 거점으로 컴퓨터 과학의 기본 원리와 현대 웹 생태계의 고도화된 기술들을 연구해왔습니다.
-              </p>
-              <p>
-                단순히 기능을 나열하는 개발을 지양하며, 데이터의 흐름이 명확하고 예측 가능한 상태 관리, 렌더링 병목을 최소화한 프론트엔드 최적화, 그리고 누구나 직관적으로 이해할 수 있는 인터페이스를 구축합니다.
-              </p>
-            </div>
-          </div>
+            <h1 class="hero-main-title">
+              새로운 가치를 포획하는 <br>
+              <span class="highlight-red">트레이너 이제준</span>입니다.
+            </h1>
 
-          <div class="specs-stack-list">
-            <div class="spec-sheet-item">
-              <div class="spec-sheet-header">
-                <span class="spec-sheet-title">Architectural Purity</span>
-                <span class="spec-sheet-id">SPEC_01</span>
-              </div>
-              <p class="spec-sheet-desc">
-                단일 책임 원칙(SRP)과 모듈화를 통해 유지보수가 용이하고 확장 가능한 코드베이스를 유지합니다.
-              </p>
-            </div>
+            <p class="hero-description">
+              상명대학교 천안캠퍼스 그린스마트시티학과에서 도시와 데이터, 소프트웨어 시스템을 탐구하며 복잡한 문제를 명쾌하고 유쾌한 사용자 경험으로 해결하는 풀스택 & 프론트엔드 엔지니어입니다.
+            </p>
 
-            <div class="spec-sheet-item">
-              <div class="spec-sheet-header">
-                <span class="spec-sheet-title">Frictionless Interaction</span>
-                <span class="spec-sheet-id">SPEC_02</span>
-              </div>
-              <p class="spec-sheet-desc">
-                마이크로 인터랙션과 키보드 접근성, 60fps 부드러운 전환 효과로 사용자 몰입감을 극대화합니다.
-              </p>
-            </div>
-
-            <div class="spec-sheet-item">
-              <div class="spec-sheet-header">
-                <span class="spec-sheet-title">Measurable Performance</span>
-                <span class="spec-sheet-id">SPEC_03</span>
-              </div>
-              <p class="spec-sheet-desc">
-                번들 크기 분석, 가상화 스크롤, 캐싱 전략으로 Lighthouse 성능 지표 95+ 점수를 지향합니다.
-              </p>
-            </div>
-
-            <div class="spec-sheet-item">
-              <div class="spec-sheet-header">
-                <span class="spec-sheet-title">Transparent Comms</span>
-                <span class="spec-sheet-id">SPEC_04</span>
-              </div>
-              <p class="spec-sheet-desc">
-                명료한 커밋 히스토리, 기술적 의사결정 기록(ADR), 겸손하고 능동적인 피드백 교환을 실천합니다.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         3. Technical Specifications (Skills Matrix)
-         ========================================== -->
-    <section class="section" id="specs">
-      <div class="layout-container">
-        <div class="section-header-editorial">
-          <div>
-            <span class="section-num">02 / TECHNICAL MATRIX</span>
-            <h2 class="section-title-large">System <span class="serif-italic">Specifications</span></h2>
-          </div>
-          <p class="section-caption">
-            각 레이어별로 철저히 검증된 도구와 기술적 숙련도를 갖추고 있습니다.
-          </p>
-        </div>
-
-        <div class="specs-tab-bar">
-          <button class="specs-tab-btn active" data-spec-cat="all">ALL SPECS [10]</button>
-          <button class="specs-tab-btn" data-spec-cat="frontend">CLIENT-SIDE [04]</button>
-          <button class="specs-tab-btn" data-spec-cat="backend">SERVER & DATA [03]</button>
-          <button class="specs-tab-btn" data-spec-cat="tools">DEVOPS & PIPELINE [03]</button>
-        </div>
-
-        <div class="specs-matrix-grid" id="specs-matrix-container">
-          <!-- JS Rendered -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         4. Curated Works Archive (Projects)
-         ========================================== -->
-    <section class="section" id="works">
-      <div class="layout-container">
-        <div class="section-header-editorial">
-          <div>
-            <span class="section-num">03 / ARCHIVE OF WORKS</span>
-            <h2 class="section-title-large">Selected <span class="serif-italic">Case Studies</span></h2>
-          </div>
-          <p class="section-caption">
-            현실의 문제를 분석하고 기술적 솔루션으로 풀어낸 대표 프로젝트 아카이브입니다.
-          </p>
-        </div>
-
-        <div class="works-filter-bar">
-          <button class="work-filter-btn active" data-filter="all">ALL ARCHIVES [04]</button>
-          <button class="work-filter-btn" data-filter="fullstack">FULL-STACK SYSTEMS [01]</button>
-          <button class="work-filter-btn" data-filter="webapp">COLLABORATIVE APPS [02]</button>
-          <button class="work-filter-btn" data-filter="productivity">PRODUCTIVITY [01]</button>
-        </div>
-
-        <div class="works-archive-list" id="works-archive-container">
-          <!-- JS Rendered -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         5. Timeline & Credentials
-         ========================================== -->
-    <section class="section" id="timeline">
-      <div class="layout-container">
-        <div class="section-header-editorial">
-          <div>
-            <span class="section-num">04 / CHRONOLOGY</span>
-            <h2 class="section-title-large">Timeline & <span class="serif-italic">Milestones</span></h2>
-          </div>
-          <p class="section-caption">
-            지속적인 탐구와 학습을 통해 축적해온 여정의 기록입니다.
-          </p>
-        </div>
-
-        <div class="timeline-spec-list">
-          <div class="timeline-row">
-            <div class="timeline-period-mono">2024.03 — PRESENT</div>
-            <div>
-              <h3 class="timeline-title-bold">소프트웨어 공학 & 모던 웹 시스템 연구 및 구축</h3>
-              <p class="timeline-desc-text">
-                TypeScript, React, Node.js 기반의 고성능 실시간 협업 시스템 및 풀스택 서비스 아키텍처를 집중적으로 설계하고 개발을 이어가고 있습니다.
-              </p>
-            </div>
-            <div class="timeline-org-tag">CHEONAN CAMPUS // LAB</div>
-          </div>
-
-          <div class="timeline-row">
-            <div class="timeline-period-mono">2023.03 — 2024.02</div>
-            <div>
-              <h3 class="timeline-title-bold">컴퓨터 과학 기초 & 알고리즘 및 데이터베이스</h3>
-              <p class="timeline-desc-text">
-                자료구조, 알고리즘 최적화, 관계형 데이터베이스 모델링 및 웹 표준 기본기를 체계적으로 습득하고 다양한 팀 프로젝트를 주도했습니다.
-              </p>
-            </div>
-            <div class="timeline-org-tag">ACADEMIC // STUDY GROUP</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================
-         6. Contact Terminal Section
-         ========================================== -->
-    <section class="section" id="contact" style="border-bottom: none;">
-      <div class="layout-container">
-        <div class="section-header-editorial">
-          <div>
-            <span class="section-num">05 / DIRECT CHANNEL</span>
-            <h2 class="section-title-large">Communication <span class="serif-italic">Protocol</span></h2>
-          </div>
-          <p class="section-caption">
-            새로운 기회, 협업, 엔지니어링 논의에 대해 언제나 열려 있습니다.
-          </p>
-        </div>
-
-        <div class="contact-terminal-grid">
-          <div class="terminal-info-col">
-            <div class="terminal-block">
-              <span class="terminal-label">DIRECT PHONE (CLICK TO COPY)</span>
-              <div class="terminal-value-interactive" id="terminal-phone-btn" data-phone="010-4677-2417">
-                <span>010-4677-2417</span>
-                <span class="copy-indicator">COPY</span>
-              </div>
-            </div>
-
-            <div class="terminal-block">
-              <span class="terminal-label">ELECTRONIC MAIL (CLICK TO COPY)</span>
-              <div class="terminal-value-interactive" id="terminal-email-btn" data-email="jejun.lee@example.com">
-                <span>jejun.lee@example.com</span>
-                <span class="copy-indicator">COPY</span>
-              </div>
-            </div>
-
-            <div class="terminal-block">
-              <span class="terminal-label">PRIMARY BASE / LOCATION</span>
-              <div class="terminal-value-interactive" style="cursor: default;">
-                <span>충청남도 천안시 안서동 상명대길</span>
-              </div>
-              <span class="mono" style="font-size: 0.76rem; color: var(--text-dim);">Coordinates: 36.8332° N, 127.1805° E</span>
-            </div>
-
-            <div class="terminal-block">
-              <span class="terminal-label">EXTERNAL LINKS</span>
-              <div style="display: flex; gap: 0.75rem; margin-top: 0.25rem;">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="tag-pill scramble-hover" data-scramble="GITHUB.COM">GITHUB.COM</a>
-                <a href="tel:010-4677-2417" class="tag-pill scramble-hover" data-scramble="CALL DIRECT">CALL DIRECT</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="terminal-form-col">
-            <form id="editorial-contact-form">
-              <div class="editorial-input-group">
-                <label class="editorial-label" for="input-name">NAME / ORGANIZATION *</label>
-                <input type="text" id="input-name" class="editorial-input" placeholder="홍길동 (또는 소속 기업)" required>
-              </div>
-
-              <div class="editorial-input-group">
-                <label class="editorial-label" for="input-email">RETURN EMAIL ADDRESS *</label>
-                <input type="email" id="input-email" class="editorial-input" placeholder="email@domain.com" required>
-              </div>
-
-              <div class="editorial-input-group">
-                <label class="editorial-label" for="input-subject">SUBJECT / PURPOSE *</label>
-                <input type="text" id="input-subject" class="editorial-input" placeholder="프로젝트 제안, 인터뷰 요청 등" required>
-              </div>
-
-              <div class="editorial-input-group">
-                <label class="editorial-label" for="input-message">MESSAGE BODY *</label>
-                <textarea id="input-message" class="editorial-textarea" placeholder="문의하실 내용을 입력해주세요." required></textarea>
-              </div>
-
-              <button type="submit" class="btn-editorial-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
-                <span>TRANSMIT MESSAGE</span>
+            <!-- Hero Action Buttons -->
+            <div class="hero-cta-group">
+              <a href="#dex" class="btn-poke-primary">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>코드 도감 열기</span>
+              </a>
+              <a href="#comms" class="btn-poke-secondary">
                 <i class="fa-solid fa-paper-plane"></i>
+                <span>통신 요청하기</span>
+              </a>
+              <button class="btn-poke-copy" id="btn-hero-copy-phone" data-phone="010-4677-2417" title="클릭하여 번호 복사">
+                <i class="fa-solid fa-phone"></i>
+                <span>010-4677-2417 복사</span>
+              </button>
+            </div>
+
+            <!-- Quick Stats Row -->
+            <div class="hero-quick-stats">
+              <div class="stat-box">
+                <span class="stat-label">GYM BADGES</span>
+                <span class="stat-value">8 / 8 획득</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">REGISTERED DEX</span>
+                <span class="stat-value">#004 완료</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">MAIN BASE</span>
+                <span class="stat-value">충남 천안시 안서동</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: 3D Holographic Trainer Card -->
+          <div class="trainer-card-wrapper">
+            <div class="trainer-card" id="interactive-trainer-card">
+              
+              <!-- Card Top -->
+              <div class="card-top-bar">
+                <span class="card-title-tag">TRAINER PASSPORT</span>
+                <span class="card-id-num">NO. 2026-JJL</span>
+              </div>
+
+              <!-- Profile Box -->
+              <div class="trainer-profile-box">
+                <div class="trainer-avatar-frame">
+                  <i class="fa-solid fa-user-astronaut"></i>
+                </div>
+                <div class="trainer-identity-info">
+                  <h3>이제준 (Lee Jejun)</h3>
+                  <p>상명대학교 그린스마트시티학과 3학년</p>
+                  <p style="color: var(--poke-yellow); font-weight: 700; margin-top: 2px;">⚡ Full-Stack Developer</p>
+                </div>
+              </div>
+
+              <!-- Stat Gauges -->
+              <div class="trainer-stat-bars">
+                <div class="gauge-row">
+                  <span class="gauge-label">HP</span>
+                  <div class="gauge-track">
+                    <div class="gauge-fill hp-bar"></div>
+                  </div>
+                  <span class="gauge-value">100 / 100</span>
+                </div>
+                <div class="gauge-row">
+                  <span class="gauge-label">EXP</span>
+                  <div class="gauge-track">
+                    <div class="gauge-fill exp-bar"></div>
+                  </div>
+                  <span class="gauge-value">9,999 MAX</span>
+                </div>
+              </div>
+
+              <!-- Starter Stacks -->
+              <div class="card-starter-stacks">
+                <span class="starter-title">STARTER TECH STACKS</span>
+                <div class="starter-chips-row">
+                  <span class="starter-chip">⚡ JavaScript</span>
+                  <span class="starter-chip">🔥 React / Next.js</span>
+                  <span class="starter-chip">💧 Node.js</span>
+                  <span class="starter-chip">🌿 Python / SmartCity</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         2. Gym Badges Section: Skill Matrix (8 Badges)
+         ========================================== -->
+    <section class="section" id="badges">
+      <div class="layout-container">
+        
+        <div class="section-header">
+          <span class="section-tag">MASTERED CAPABILITIES</span>
+          <h2 class="section-title">8대 체육관 스킬 배지</h2>
+          <p class="section-subtitle">
+            수많은 실전 프로젝트와 연구를 통해 클리어하고 획득한 기술 배지 컬렉션입니다.
+          </p>
+        </div>
+
+        <div class="badges-case-box">
+          <div class="badges-grid" id="badges-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         3. Project Dex Section: Code-Dex Archive
+         ========================================== -->
+    <section class="section" id="dex">
+      <div class="layout-container">
+        
+        <div class="section-header">
+          <span class="section-tag">CODE-DEX ARCHIVE</span>
+          <h2 class="section-title">프로젝트 도감 (Project Dex)</h2>
+          <p class="section-subtitle">
+            문제를 정의하고 기술적 솔루션으로 공략해 등록한 공식 개발 프로젝트 도감입니다.
+          </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="dex-filter-bar">
+          <button class="dex-filter-btn active" data-filter="all">
+            <i class="fa-solid fa-list"></i> 전체 도감 [4]
+          </button>
+          <button class="dex-filter-btn" data-filter="electric">
+            <i class="fa-solid fa-bolt"></i> 전기 속성 (풀스택/웹)
+          </button>
+          <button class="dex-filter-btn" data-filter="water">
+            <i class="fa-solid fa-water"></i> 물 속성 (실시간 협업)
+          </button>
+          <button class="dex-filter-btn" data-filter="grass">
+            <i class="fa-solid fa-leaf"></i> 풀 속성 (스마트시티/AI)
+          </button>
+          <button class="dex-filter-btn" data-filter="psychic">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> 에스퍼 속성 (생산성)
+          </button>
+        </div>
+
+        <!-- Dex Cards Grid -->
+        <div class="dex-grid" id="dex-container">
+          <!-- Rendered by JS -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         4. Adventure Log / Timeline Section
+         ========================================== -->
+    <section class="section" id="quests">
+      <div class="layout-container">
+        
+        <div class="section-header">
+          <span class="section-tag">ADVENTURE CHRONICLE</span>
+          <h2 class="section-title">모험의 여정 & 퀘스트 기록</h2>
+          <p class="section-subtitle">
+            기초 수련부터 고도화된 엔지니어링 챌린지까지, 지속적으로 성장해온 마일스톤입니다.
+          </p>
+        </div>
+
+        <div class="quest-timeline-box">
+          
+          <div class="quest-item">
+            <div class="quest-marker">
+              <i class="fa-solid fa-flag-checkered"></i>
+            </div>
+            <div class="quest-card">
+              <div class="quest-header">
+                <h3 class="quest-title">그린스마트시티 & 소프트웨어 공학 고도화</h3>
+                <span class="quest-route-tag">ROUTE 2024 — PRESENT</span>
+              </div>
+              <div class="quest-period">상명대학교 천안캠퍼스 3학년 수련 중</div>
+              <p class="quest-desc">
+                TypeScript, React, Node.js 기반의 고성능 실시간 협업 시스템을 구축하고, 스마트시티 데이터 모델링 및 모던 웹 아키텍처를 집중 연구하고 있습니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="quest-item">
+            <div class="quest-marker">
+              <i class="fa-solid fa-compass"></i>
+            </div>
+            <div class="quest-card">
+              <div class="quest-header">
+                <h3 class="quest-title">컴퓨터 과학 기초 & 알고리즘 수련 퀘스트 클리어</h3>
+                <span class="quest-route-tag">ROUTE 2023 — 2024</span>
+              </div>
+              <div class="quest-period">전공 기초 & 알고리즘 스터디</div>
+              <p class="quest-desc">
+                자료구조, 알고리즘 최적화, 관계형 데이터베이스(RDBMS) 설계 및 웹 표준 기본기를 체계적으로 습득하며 다수의 팀 프로젝트를 리드했습니다.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         5. Comms Station (Contact & Pokémon Center PC)
+         ========================================== -->
+    <section class="section" id="comms" style="border-bottom: none;">
+      <div class="layout-container">
+        
+        <div class="section-header">
+          <span class="section-tag">COMMUNICATION STATION</span>
+          <h2 class="section-title">트레이너 통신 센터</h2>
+          <p class="section-subtitle">
+            새로운 프로젝트 의뢰, 채용 인터뷰, 협업 제안 등 언제든 통신을 환영합니다!
+          </p>
+        </div>
+
+        <div class="comms-terminal-grid">
+          
+          <!-- Left: Contact Channels -->
+          <div class="comms-info-box">
+            <div>
+              <div class="comms-channel-item">
+                <span class="comms-channel-label">DIRECT PHONE (원클릭 복사)</span>
+                <div class="interactive-data-pill" id="comms-phone-btn" data-phone="010-4677-2417">
+                  <span><i class="fa-solid fa-mobile-screen" style="margin-right: 0.5rem; color: var(--poke-red);"></i> 010-4677-2417</span>
+                  <span class="copy-badge">복사</span>
+                </div>
+              </div>
+
+              <div class="comms-channel-item">
+                <span class="comms-channel-label">DIRECT EMAIL (원클릭 복사)</span>
+                <div class="interactive-data-pill" id="comms-email-btn" data-email="dvae1456@gmail.com">
+                  <span><i class="fa-solid fa-envelope" style="margin-right: 0.5rem; color: var(--poke-blue);"></i> dvae1456@gmail.com</span>
+                  <span class="copy-badge">복사</span>
+                </div>
+              </div>
+
+              <div class="comms-channel-item">
+                <span class="comms-channel-label">TRAINER LOCATION</span>
+                <div class="interactive-data-pill" style="cursor: default;">
+                  <span><i class="fa-solid fa-location-dot" style="margin-right: 0.5rem; color: #22C55E;"></i> 충청남도 천안시 동남구 상명대길</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+              <a href="https://github.com/JeJunLee-jj" target="_blank" rel="noopener noreferrer" class="btn-poke-secondary" style="flex: 1; justify-content: center;">
+                <i class="fa-brands fa-github"></i>
+                <span>GitHub 방문</span>
+              </a>
+              <a href="tel:010-4677-2417" class="btn-poke-primary" style="flex: 1; justify-content: center;">
+                <i class="fa-solid fa-phone-volume"></i>
+                <span>즉시 통화</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Pokémon Center PC Message Terminal -->
+          <div class="comms-form-box">
+            <div class="form-terminal-bar">
+              <div class="terminal-indicator-light"></div>
+              <span class="terminal-title-text">POKÉ-PC COMMUNICATION TERMINAL v2.4</span>
+            </div>
+
+            <form id="poke-contact-form">
+              <div class="poke-input-group">
+                <label class="poke-label" for="input-trainer-name">보내는 분 이름 / 기업명 *</label>
+                <input type="text" id="input-trainer-name" class="poke-input" placeholder="홍길동 (또는 기업명)" required>
+              </div>
+
+              <div class="poke-input-group">
+                <label class="poke-label" for="input-trainer-email">회신받으실 이메일 주소 *</label>
+                <input type="email" id="input-trainer-email" class="poke-input" placeholder="your-email@domain.com" required>
+              </div>
+
+              <div class="poke-input-group">
+                <label class="poke-label" for="input-trainer-msg">전송할 통신 메시지 내용 *</label>
+                <textarea id="input-trainer-msg" class="poke-textarea" placeholder="프로젝트 제안, 채용 인터뷰 제안, 기타 문의 내용을 자유롭게 입력해주세요." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-poke-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>통신 메시지 전송</span>
               </button>
             </form>
           </div>
+
         </div>
+
       </div>
     </section>
   </main>
 
-  <!-- Editorial Footer -->
-  <footer class="editorial-footer">
+  <!-- Footer -->
+  <footer class="poke-footer">
     <div class="layout-container">
-      <div class="footer-flex">
-        <div>
-          <span>© <span id="current-year">2026</span> LEE JEJUN. CRAFTED WITH EDITORIAL RESTRAINT.</span>
+      <div class="footer-content">
+        <div class="footer-copy">
+          <p>© 2026 <strong>TRAINER LEE JEJUN (이제준)</strong>. All Rights Reserved.</p>
+          <p style="font-size: 0.78rem; margin-top: 0.25rem; color: rgba(255, 255, 255, 0.5);">
+            Inspired by Pokémon creature adventure aesthetic. 100% Original Fan-Made Craftsmanship.
+          </p>
         </div>
-        <div style="display: flex; gap: 1.5rem;">
-          <a href="#cover" class="scramble-hover" data-scramble="RETURN TO TOP ↑">RETURN TO TOP ↑</a>
+        <div class="footer-links">
+          <a href="#hero">맨 위로 가기 ↑</a>
+          <a href="https://github.com/JeJunLee-jj/vibe-coding" target="_blank" rel="noopener noreferrer">저장소 코드 보기</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Project Detail Modal (Nota Style) -->
-  <div class="editorial-modal-overlay" id="work-modal-overlay">
-    <div class="editorial-modal-card">
-      <button class="modal-close-icon" id="modal-close-btn">[ ESC / CLOSE ]</button>
-      <div id="modal-content-container">
-        <!-- JS Injected -->
+  <!-- Project Dex Detail Modal (Game Screen View) -->
+  <div class="modal-overlay" id="pokedex-modal">
+    <div class="modal-pokedex-card">
+      <div class="modal-header-screen">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div class="pokeball-icon" style="width: 24px; height: 24px;"></div>
+          <span class="modal-pokedex-title" id="modal-project-title">PROJECT DEX #001</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn">[ 닫기 ESC ]</button>
+      </div>
+      <div class="modal-body-content" id="modal-body-container">
+        <!-- Rendered by JS -->
       </div>
     </div>
   </div>
 
   <!-- Toast Notification Container -->
-  <div class="editorial-toast-container" id="toast-container"></div>
+  <div class="toast-container" id="toast-container"></div>
 
   <script src="script.js"></script>
 </body>

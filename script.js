@@ -1,552 +1,627 @@
 /**
- * 이제준 (Lee Jejun) - NOTA Style Editorial Portfolio Script
- * Features: Scramble Text Engine, KST Clock, Spec Matrix, Work Archive, Theme Engine
+ * LEE JEJUN (이제준) — POKÉMON-INSPIRED DEVELOPER DEX & TRAINER PORTFOLIO
+ * Features:
+ *  - 8-Bit Web Audio Synthesizer (Retro Pokémon Sound Effects)
+ *  - 3D Hologram Trainer Card Physics (Mouse Parallax & Shine)
+ *  - Gym Badges Skill Matrix (8 Master Badges)
+ *  - Code-Dex Project Archive & Detail Screen Modal
+ *  - Day / Night Route Theme Engine
+ *  - Poke-Comms Contact & Instant Clipboard Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+
   // ------------------------------------------------------------------------
-  // 1. Data Store
+  // 1. Data Store: 8 Gym Badges (Mastered Capabilities)
   // ------------------------------------------------------------------------
-  const specsData = [
+  const badgesData = [
     {
-      id: 'SPEC_01',
-      name: 'JavaScript (ES6+)',
-      category: 'frontend',
-      level: 'PROFICIENT',
-      scope: 'Asynchronous Programming, Event Loops, DOM Engine, Web APIs',
-      desc: '비동기 흐름 제어, 이벤트 위임 및 고성능 클라이언트 로직 설계'
+      id: 'BADGE_01',
+      name: '썬더 배지 (Thunder)',
+      tech: 'JavaScript & TypeScript',
+      color: '#F8D030',
+      icon: 'fa-bolt',
+      desc: '비동기 이벤트 루프 및 정적 타입 시스템을 정밀 제어하는 번개같은 실행 속도'
     },
     {
-      id: 'SPEC_02',
-      name: 'TypeScript',
-      category: 'frontend',
-      level: 'ADVANCED',
-      scope: 'Strict Typings, Generics, AST, Interface Segregation',
-      desc: '정적 타입 시스템을 통한 대규모 애플리케이션의 런타임 안정성 보장'
+      id: 'BADGE_02',
+      name: '파이어 배지 (Fire)',
+      tech: 'React & Next.js',
+      color: '#F08030',
+      icon: 'fa-fire-flame-curved',
+      desc: '선언적 UI 컴포넌트 구조와 SSR/SSG 렌더링을 불태우는 강력한 프론트엔드 역량'
     },
     {
-      id: 'SPEC_03',
-      name: 'React & Next.js',
-      category: 'frontend',
-      level: 'CORE DISCIPLINE',
-      scope: 'Component Architecture, Custom Hooks, SSR/SSG, State Machines',
-      desc: '선언적 UI 컴포넌트 모델 및 상태 동기화 아키텍처 구현'
+      id: 'BADGE_03',
+      name: '워터 배지 (Water)',
+      tech: 'Node.js & Express',
+      color: '#6890F0',
+      icon: 'fa-water',
+      desc: '유연하게 흐르는 비동기 I/O 기반의 확장성 있는 서버 API 및 실시간 파이프라인'
     },
     {
-      id: 'SPEC_04',
-      name: 'HTML5 & Modern CSS',
-      category: 'frontend',
-      level: 'MASTERED',
-      scope: 'Semantic Standards, CSS Grid, Flexbox, Micro-Animations',
-      desc: '웹 표준 시맨틱 구조, 완벽한 반응형 레이아웃 및 60fps 인터랙션'
+      id: 'BADGE_04',
+      name: '리프 배지 (Leaf)',
+      tech: 'Green Smart City & Python',
+      color: '#78C850',
+      icon: 'fa-leaf',
+      desc: '상명대학교 그린스마트시티학과 전공 지식과 결합한 데이터 분석 및 자동화'
     },
     {
-      id: 'SPEC_05',
-      name: 'Node.js & Express',
-      category: 'backend',
-      level: 'EXPERIENCED',
-      scope: 'RESTful Endpoints, Middleware Chains, JWT Auth, Stream Processing',
-      desc: '비동기 I/O 기반의 확장성 있는 서버 API 구축 및 인증 파이프라인'
+      id: 'BADGE_05',
+      name: '에스퍼 배지 (Psychic)',
+      tech: 'PostgreSQL & MySQL',
+      color: '#F85888',
+      icon: 'fa-brain',
+      desc: '복잡한 데이터 관계를 꿰뚫어보는 정규화된 스키마 설계와 쿼리 최적화'
     },
     {
-      id: 'SPEC_06',
-      name: 'PostgreSQL & MySQL',
-      category: 'backend',
-      level: 'COMPETENT',
-      scope: 'Relational Modeling, Indexing, Query Optimization, ACID',
-      desc: '정규화된 관계형 스키마 설계 및 데이터 무결성 보장'
+      id: 'BADGE_06',
+      name: '스틸 배지 (Steel)',
+      tech: 'Git & CI/CD Pipeline',
+      color: '#B8B8D0',
+      icon: 'fa-shield-halved',
+      desc: '빈틈없는 브랜칭 전략과 자동화 배포 파이프라인으로 구축하는 강철같은 안정성'
     },
     {
-      id: 'SPEC_07',
-      name: 'Python',
-      category: 'backend',
-      level: 'INTERMEDIATE',
-      scope: 'Scripting, Data Parsing, Automation, Algorithmics',
-      desc: '데이터 전처리 및 자동화 스크립트 작성'
+      id: 'BADGE_07',
+      name: '록 배지 (Rock)',
+      tech: 'HTML5 & Modern CSS3',
+      color: '#B8A038',
+      icon: 'fa-gem',
+      desc: '흔들림 없는 웹 표준 시맨틱 마크업과 60fps 부드러운 반응형 레이아웃'
     },
     {
-      id: 'SPEC_08',
-      name: 'Git & GitHub Workflow',
-      category: 'tools',
-      level: 'DISCIPLINED',
-      scope: 'Branching Strategy, PR Reviews, Semantic Commits, CI Integration',
-      desc: '체계적인 버전 관리 및 협업 워크플로우 운영'
-    },
-    {
-      id: 'SPEC_09',
-      name: 'Vite & Webpack Build',
-      category: 'tools',
-      level: 'PRACTICED',
-      scope: 'Tree Shaking, Chunk Splitting, Fast HMR, Bundle Optimization',
-      desc: '초기 로딩 시간 단축을 위한 번들링 파이프라인 최적화'
-    },
-    {
-      id: 'SPEC_10',
-      name: 'Figma & Technical Specs',
-      category: 'tools',
-      level: 'INTERMEDIATE',
-      scope: 'Design Tokens, Wireframing, User Flow, Component Hierarchy',
-      desc: '엔지니어링 관점의 UI 프로토타이핑 및 디자인 시스템 협업'
+      id: 'BADGE_08',
+      name: '드래곤 배지 (Dragon)',
+      tech: 'System Architecture',
+      color: '#7038F8',
+      icon: 'fa-dragon',
+      desc: '단일 책임 원칙(SRP)과 모듈화를 관통하는 최상위 시스템 아키텍처 설계'
     }
   ];
 
-  const worksData = [
+  // ------------------------------------------------------------------------
+  // 2. Data Store: Code-Dex Archive (4 Flagship Projects)
+  // ------------------------------------------------------------------------
+  const dexProjectsData = [
     {
-      id: 'WORK_01',
-      index: '01',
+      dexNo: '#001',
       title: 'Nexus Campus',
-      subtitle: 'All-in-One Campus Lifecycle Platform',
-      category: 'fullstack',
-      categoryLabel: 'FULL-STACK PLATFORM',
+      subtitle: '천안 대학가 올인원 라이프사이클 플랫폼',
+      type: 'electric',
+      typeLabel: 'ELECTRIC / TYPE',
+      tags: ['React', 'Node.js', 'PostgreSQL', 'Express', 'Kakao Maps'],
       period: '2024.03 — 2024.07',
-      tags: ['React', 'Node.js', 'PostgreSQL', 'Express', 'Kakao Maps API'],
-      summary: '천안 안서동 대학가 라이프스타일에 맞춘 인터랙티브 시간표 빌더, 캠퍼스 맛집 큐레이션 및 팀원 모집 협업 플랫폼',
-      meta: {
-        role: 'Lead Full-Stack Engineer',
-        target: '천안 대학가 재학생 및 로컬 커뮤니티',
-        architecture: 'Client-Server REST Architecture with JWT State'
+      accentColor: '#F59E0B',
+      summary: '천안 안서동 대학가 라이프스타일에 맞춘 인터랙티브 시간표 빌더, 로컬 맛집 큐레이션 및 캠퍼스 팀원 모집 협업 플랫폼입니다.',
+      stats: {
+        attack: '95% (코드 품질 및 모듈화)',
+        defense: '92% (JWT 인증 및 안정성)',
+        speed: '98% (응답 지연 12ms 이내)'
       },
       details: {
-        problem: '학기 초 시간표 작성의 번거로움과 대학가 주변의 분산된 학업/생활 정보로 인한 학생들의 시간 소모 문제를 해결하고자 기획되었습니다.',
-        solution: '드래그 앤 드롭 기반의 인터랙티브 시간표 빌더와 위치 기반 지도 필터링을 결합하여 정보 탐색 시간을 70% 이상 단축시켰습니다.',
-        troubleshooting: '다중 강의 등록 시 발생하는 렌더링 지연을 가상 상태 트리와 메모이제이션 기법을 적용하여 UI 반응 지연을 12ms 이내로 단축했습니다.',
-        outcome: '교내 학생 대상 비공개 베타 테스트에서 DAU 200+ 달성 및 사용자 만족도 96% 기록'
+        background: '학기 초 복잡한 시간표 작성과 흩어져 있는 천안 안서동 대학가의 학업/생활 정보 탐색 비용을 획기적으로 절감하기 위해 기획되었습니다.',
+        solution: '드래그 앤 드롭 방식의 직관적인 시간표 빌더와 반경 기반 지도 필터링을 결합하여 탐색 소요 시간을 70% 이상 단축했습니다.',
+        performance: '가상 DOM 메모이제이션을 적용하여 다중 강의 등록 시 렌더링 랙을 완전히 해소하고 교내 베타 테스트 DAU 200+을 달성했습니다.'
       }
     },
     {
-      id: 'WORK_02',
-      index: '02',
+      dexNo: '#002',
       title: 'DevSync',
-      subtitle: 'Real-time Markdown Collaboration Engine',
-      category: 'webapp',
-      categoryLabel: 'COLLABORATIVE APP',
-      period: '2024.08 — 2024.11',
+      subtitle: '실시간 마크다운 & 코드 협업 엔진',
+      type: 'water',
+      typeLabel: 'WATER / TYPE',
       tags: ['TypeScript', 'React', 'WebSocket', 'CodeMirror', 'CRDT'],
-      summary: '브라우저 상에서 다수의 개발자가 코드 블록 런타임 및 실시간 동시 마크다운 편집을 수행할 수 있는 테크니컬 협업 에디터',
-      meta: {
-        role: 'Frontend & Sync Engine Engineer',
-        target: '원격 개발팀 및 기술 연구 스터디',
-        architecture: 'WebSocket Realtime Pipeline with CRDT Resolution'
+      period: '2024.08 — 2024.11',
+      accentColor: '#3B82F6',
+      summary: '다수의 개발자가 브라우저 상에서 실시간 동시 마크다운 편집과 코드 블록 실행을 동시에 수행할 수 있는 테크니컬 협업 에디터입니다.',
+      stats: {
+        attack: '98% (CRDT 충돌 해결 엔진)',
+        defense: '96% (WebSocket 연결 복구성)',
+        speed: '99% (지연시간 50ms 미만)'
       },
       details: {
-        problem: '원격 협업 시 문서 작성과 코드 테스트가 분리되어 발생하는 컨텍스트 스위칭 비용을 최소화하기 위한 통합 솔루션이 필요했습니다.',
-        solution: 'CRDT 기반 충돌 해결 알고리즘과 브라우저 내 코드 샌드박스를 통합하여 실시간 동시 편집과 코드 실행을 한 화면에서 처리했습니다.',
-        troubleshooting: '장문 문서 편집 시 잦은 DOM 리렌더링을 방지하기 위해 가상화 뷰포트 렌더링을 구축하여 메모리 점유율을 45% 절감했습니다.',
-        outcome: '실시간 데이터 전송 지연 시간(Latency) 50ms 미만 유지, Lighthouse 성능 점수 98점 달성'
+        background: '원격 협업 시 문서 편집과 코드 검증 도구가 분리되어 발생하는 잦은 화면 전환과 컨텍스트 손실을 해결하고자 제작했습니다.',
+        solution: 'CRDT 기반 무충돌 동기화 알고리즘과 브라우저 인-메모리 샌드박스를 결합하여 실시간 공동 편집과 결과 실행을 하나의 뷰에서 지원합니다.',
+        performance: '가상 뷰포트 렌더링을 적용하여 대용량 문서 편집 시 메모리 사용량을 45% 절감하고 Lighthouse 98점을 획득했습니다.'
       }
     },
     {
-      id: 'WORK_03',
-      index: '03',
+      dexNo: '#003',
+      title: 'Green City AI Hub',
+      subtitle: '스마트시티 센서 데이터 & 환경 분석 대시보드',
+      type: 'grass',
+      typeLabel: 'GRASS / TYPE',
+      tags: ['Python', 'React', 'FastAPI', 'Chart.js', 'GeoJSON'],
+      period: '2024.09 — 2025.01',
+      accentColor: '#10B981',
+      summary: '상명대 그린스마트시티학과 도메인 지식을 바탕으로 도시 기상 센서, 녹지 비율, 에너지 사용량을 시각화한 지능형 관제 대시보드입니다.',
+      stats: {
+        attack: '94% (시계열 데이터 모델링)',
+        defense: '95% (센서 데이터 무결성)',
+        speed: '93% (지도 렌더링 최적화)'
+      },
+      details: {
+        background: '스마트시티 환경 모니터링 과정에서 쏟아지는 방대한 다차원 센서 데이터를 직관적으로 한눈에 파악하고 이상 징후를 조기에 탐지하고자 구축했습니다.',
+        solution: 'GeoJSON 기반 구역별 열지도(Heatmap)와 시계열 인터랙티브 차트를 구축하여 복잡한 도시 환경 지표를 3초 안에 파악할 수 있도록 설계했습니다.',
+        performance: '데이터 캐싱 파이프라인 구축을 통해 10만 건 이상의 센서 로그 조회 시 초기 렌더링 속도를 65% 개선했습니다.'
+      }
+    },
+    {
+      dexNo: '#004',
       title: 'FlowTask',
-      subtitle: 'Smart Productivity & Kanban Dashboard',
-      category: 'productivity',
-      categoryLabel: 'PRODUCTIVITY SYSTEM',
+      subtitle: '스마트 우선순위 분석 칸반 보드',
+      type: 'psychic',
+      typeLabel: 'PSYCHIC / TYPE',
+      tags: ['JavaScript', 'HTML5 DnD', 'Chart.js', 'Local Storage'],
       period: '2024.12 — 2025.03',
-      tags: ['JavaScript', 'HTML5 Drag & Drop', 'Chart.js', 'Web Storage API'],
-      summary: '우선순위 자동 분석 알고리즘과 인터랙티브 칸반 보드를 결합하여 업무 몰입도를 극대화하는 생산성 대시보드',
-      meta: {
-        role: 'UI Interaction & Data Flow Engineer',
-        target: '개인 개발자 및 소규모 프로젝트 팀',
-        architecture: 'Offline-First Client Architecture with LocalStorage'
+      accentColor: '#EC4899',
+      summary: '아이젠하워 매트릭스 알고리즘과 인터랙티브 칸반 보드를 융합하여 업무 몰입도를 극대화하는 지능형 태스크 매니저입니다.',
+      stats: {
+        attack: '92% (우선순위 자동 분류)',
+        defense: '94% (로컬 저장소 자동 동기화)',
+        speed: '100% (네이티브 60fps 드래그앤드롭)'
       },
       details: {
-        problem: '기존 일정 관리 도구들의 무거운 로딩과 복잡한 설정을 탈피하여, 즉각적이고 직관적인 태스크 우선순위 재배치가 요구되었습니다.',
-        solution: '순수 HTML5 Drag & Drop API와 계산된 가중치 알고리즘을 결합하여 초경량 고성능 칸반 보드를 설계했습니다.',
-        troubleshooting: '모바일 터치 환경에서의 드래그 앤 드롭 미지원을 해결하기 위해 터치 이벤트 제스처 폴리필을 자체 구현했습니다.',
-        outcome: '초기 번들 사이즈 15KB 이하 유지 및 로컬 스토리지 데이터 무손실 동기화 달성'
-      }
-    },
-    {
-      id: 'WORK_04',
-      index: '04',
-      title: 'Artisan Engine',
-      subtitle: 'High-Performance Editorial Framework',
-      category: 'webapp',
-      categoryLabel: 'UI/UX SYSTEM',
-      period: '2025.04 — 2025.07',
-      tags: ['Vanilla JS', 'Modern CSS', 'Scramble Engine', 'Print Media'],
-      summary: '외부 프레임워크 의존성 없이 순수 Vanilla 기술만으로 구현된 하이엔드 에디토리얼 테크 포트폴리오 엔진',
-      meta: {
-        role: 'Sole Architect & Designer',
-        target: '기술 포트폴리오 & 크리에이티브 아카이브',
-        architecture: 'Zero-Dependency Vanilla Architecture'
-      },
-      details: {
-        problem: '무거운 서드파티 라이브러리로 인한 웹사이트 성능 저하와 전형적인 AI 생성형 템플릿의 미학적 한계를 극복하고자 했습니다.',
-        solution: 'CSS Design Awards 수상작의 타이포그래피 미학과 순수 JavaScript 기반의 텍스트 스크램블 효과를 결합했습니다.',
-        troubleshooting: '모든 기기 해상도에서 픽셀 완벽성을 보장하기 위해 rem 단위 기반의 정밀 레이아웃 시스템을 정립했습니다.',
-        outcome: '초기 로딩 속도 0.15초 달성 및 인쇄 시 A4 이력서 규격 완벽 대응'
+        background: '단순한 To-Do 목록의 한계를 넘어, 중요도와 긴급도를 기반으로 실시간 우선순위를 재계산해주는 스마트 업무 환경을 구현했습니다.',
+        solution: 'HTML5 네이티브 Drag & Drop API와 애니메이션 프레임을 최적화하여 별도의 라이브러리 없이 가볍고 부드러운 드래그 경험을 완성했습니다.',
+        performance: '100% 순수 Vanilla JS 경량 구조로 번들 크기 0KB, 완전 오프라인 지원을 달성했습니다.'
       }
     }
   ];
 
   // ------------------------------------------------------------------------
-  // 2. Scramble Text Engine (High-End Editorial Micro-Interaction)
+  // 3. Web Audio API: 8-Bit Retro Synthesizer Engine (Zero External Audio)
   // ------------------------------------------------------------------------
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~|}{[]';
+  let soundEnabled = true;
+  let audioCtx = null;
 
-  function runScramble(element) {
-    if (element.dataset.isScrambling === 'true') return;
-    element.dataset.isScrambling = 'true';
-
-    const originalText = element.dataset.scramble || element.textContent.trim();
-    let iteration = 0;
-    const maxIterations = originalText.length * 2;
-
-    const interval = setInterval(() => {
-      element.textContent = originalText
-        .split('')
-        .map((char, index) => {
-          if (char === ' ' || char === '\n' || char === '—' || char === '/' || char === '[' || char === ']' || char === '↑') {
-            return char;
-          }
-          if (index < iteration / 2) {
-            return originalText[index];
-          }
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join('');
-
-      if (iteration >= maxIterations) {
-        clearInterval(interval);
-        element.textContent = originalText;
-        element.dataset.isScrambling = 'false';
+  function initAudio() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        audioCtx = new AudioContext();
       }
-      iteration += 1;
-    }, 25);
+    }
   }
 
-  document.querySelectorAll('.scramble-hover').forEach(el => {
-    el.addEventListener('mouseenter', () => runScramble(el));
-  });
+  function play8BitTone(freq, type = 'square', duration = 0.08, delay = 0) {
+    if (!soundEnabled) return;
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
 
-  // ------------------------------------------------------------------------
-  // 3. Realtime KST Clock
-  // ------------------------------------------------------------------------
-  function updateKstClock() {
-    const clockEl = document.getElementById('kst-clock');
-    if (!clockEl) return;
-    const now = new Date();
-    // UTC+9 for KST
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const kstDate = new Date(utc + (3600000 * 9));
-    
-    const hours = String(kstDate.getHours()).padStart(2, '0');
-    const mins = String(kstDate.getMinutes()).padStart(2, '0');
-    const secs = String(kstDate.getSeconds()).padStart(2, '0');
-    clockEl.textContent = `KST ${hours}:${mins}:${secs}`;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + delay + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(audioCtx.currentTime + delay);
+      osc.stop(audioCtx.currentTime + delay + duration);
+    } catch (e) {
+      // Audio not permitted yet
+    }
   }
-  setInterval(updateKstClock, 1000);
-  updateKstClock();
 
-  // ------------------------------------------------------------------------
-  // 4. Render Specifications Matrix
-  // ------------------------------------------------------------------------
-  const specsContainer = document.getElementById('specs-matrix-container');
-  const specTabBtns = document.querySelectorAll('.specs-tab-btn');
+  // Predefined Pokémon Style Sound FX
+  const soundFX = {
+    click: () => {
+      play8BitTone(520, 'square', 0.04);
+    },
+    select: () => {
+      play8BitTone(440, 'square', 0.05);
+      play8BitTone(880, 'square', 0.08, 0.06);
+    },
+    openDex: () => {
+      play8BitTone(330, 'triangle', 0.06);
+      play8BitTone(440, 'triangle', 0.06, 0.06);
+      play8BitTone(660, 'square', 0.12, 0.12);
+    },
+    success: () => {
+      play8BitTone(523.25, 'triangle', 0.08); // C5
+      play8BitTone(659.25, 'triangle', 0.08, 0.08); // E5
+      play8BitTone(783.99, 'triangle', 0.08, 0.16); // G5
+      play8BitTone(1046.50, 'square', 0.20, 0.24); // C6
+    }
+  };
 
-  function renderSpecs(category = 'all') {
-    if (!specsContainer) return;
-    specsContainer.innerHTML = '';
+  // Sound Toggle Button
+  const btnSoundToggle = document.getElementById('btn-sound-toggle');
+  const soundIcon = document.getElementById('sound-icon');
 
-    const filtered = category === 'all'
-      ? specsData
-      : specsData.filter(s => s.category === category);
-
-    filtered.forEach(spec => {
-      const card = document.createElement('div');
-      card.className = 'spec-matrix-card';
-      card.innerHTML = `
-        <div class="matrix-card-top">
-          <div>
-            <h4 class="matrix-card-name">${spec.name}</h4>
-            <span class="matrix-card-index">${spec.id} // ${spec.level}</span>
-          </div>
-          <span class="tag-pill">${spec.category.toUpperCase()}</span>
-        </div>
-        <p class="matrix-card-desc">${spec.desc}</p>
-        <div class="matrix-card-footer">
-          <span>SCOPE: ${spec.scope}</span>
-        </div>
-      `;
-      specsContainer.appendChild(card);
+  if (btnSoundToggle && soundIcon) {
+    btnSoundToggle.addEventListener('click', () => {
+      initAudio();
+      soundEnabled = !soundEnabled;
+      if (soundEnabled) {
+        btnSoundToggle.classList.add('active-sound');
+        soundIcon.className = 'fa-solid fa-volume-high';
+        soundFX.success();
+        showToast('🔊 8비트 사운드 효과음이 켜졌습니다!');
+      } else {
+        btnSoundToggle.classList.remove('active-sound');
+        soundIcon.className = 'fa-solid fa-volume-xmark';
+        showToast('🔇 효과음이 음소거되었습니다.');
+      }
     });
   }
 
-  specTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      specTabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderSpecs(btn.dataset.specCat);
-    });
-  });
+  // ------------------------------------------------------------------------
+  // 4. Day / Night Route Theme Engine
+  // ------------------------------------------------------------------------
+  const btnThemeToggle = document.getElementById('btn-theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
 
-  renderSpecs('all');
+  // Load saved theme
+  const savedTheme = localStorage.getItem('poke_theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    if (themeIcon) themeIcon.className = 'fa-solid fa-sun';
+  }
+
+  if (btnThemeToggle) {
+    btnThemeToggle.addEventListener('click', () => {
+      soundFX.click();
+      document.body.classList.toggle('dark-theme');
+      const isDark = document.body.classList.contains('dark-theme');
+      
+      if (themeIcon) {
+        themeIcon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      }
+
+      localStorage.setItem('poke_theme', isDark ? 'dark' : 'light');
+      showToast(isDark ? '🌙 야간 모드로 전환되었습니다.' : '☀️ 주간 모드로 전환되었습니다.');
+    });
+  }
 
   // ------------------------------------------------------------------------
-  // 5. Render Works Archive & Modal
+  // 5. 3D Holographic Trainer Card Mouse Tilt Engine
   // ------------------------------------------------------------------------
-  const worksContainer = document.getElementById('works-archive-container');
-  const workFilterBtns = document.querySelectorAll('.work-filter-btn');
-  const modalOverlay = document.getElementById('work-modal-overlay');
-  const modalContent = document.getElementById('modal-content-container');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const trainerCard = document.getElementById('interactive-trainer-card');
+  if (trainerCard) {
+    const cardWrapper = trainerCard.parentElement;
 
-  function renderWorks(filter = 'all') {
-    if (!worksContainer) return;
-    worksContainer.innerHTML = '';
+    cardWrapper.addEventListener('mousemove', (e) => {
+      const rect = cardWrapper.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -12;
+      const rotateY = ((x - centerX) / centerX) * 12;
 
-    const filtered = filter === 'all'
-      ? worksData
-      : worksData.filter(w => w.category === filter);
-
-    filtered.forEach(work => {
-      const card = document.createElement('div');
-      card.className = 'work-entry-card';
-      card.innerHTML = `
-        <div class="work-entry-index">[${work.index}]</div>
-        <div class="work-entry-main">
-          <span class="work-entry-category">${work.categoryLabel} // ${work.period}</span>
-          <h3 class="work-entry-title">${work.title} <span class="serif-italic" style="font-size: 1.1rem; color: var(--text-muted); font-weight: normal;">— ${work.subtitle}</span></h3>
-          <p class="work-entry-desc">${work.summary}</p>
-          <div class="work-entry-tags">
-            ${work.tags.map(t => `<span class="work-entry-tech-tag">${t}</span>`).join('')}
-          </div>
-        </div>
-        <div class="work-entry-side">
-          <div class="work-side-meta">
-            <span>ROLE: ${work.meta.role}</span>
-            <span>TARGET: ${work.meta.target}</span>
-            <span>ARCH: ${work.meta.architecture}</span>
-          </div>
-          <div class="work-side-actions">
-            <button class="btn-work-detail" data-work-id="${work.id}">
-              [ VIEW CASE STUDY & SPECS ]
-            </button>
-          </div>
-        </div>
-      `;
-      worksContainer.appendChild(card);
+      trainerCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
     });
 
-    document.querySelectorAll('.btn-work-detail').forEach(btn => {
-      btn.addEventListener('click', () => {
-        openWorkModal(btn.dataset.workId);
+    cardWrapper.addEventListener('mouseleave', () => {
+      trainerCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+
+    cardWrapper.addEventListener('mouseenter', () => {
+      soundFX.click();
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 6. Render: 8 Gym Badges
+  // ------------------------------------------------------------------------
+  const badgesContainer = document.getElementById('badges-container');
+  if (badgesContainer) {
+    badgesContainer.innerHTML = badgesData.map((badge, idx) => `
+      <div class="badge-item-card" style="--badge-color: ${badge.color};" data-badge-id="${badge.id}">
+        <span class="badge-rank-tag">BADGE #0${idx + 1}</span>
+        <div class="badge-emblem">
+          <i class="fa-solid ${badge.icon}"></i>
+        </div>
+        <h4 class="badge-name">${badge.name}</h4>
+        <span class="badge-tech-label">${badge.tech}</span>
+        <p class="badge-desc">${badge.desc}</p>
+      </div>
+    `).join('');
+
+    // Badge click sound
+    badgesContainer.querySelectorAll('.badge-item-card').forEach(card => {
+      card.addEventListener('mouseenter', () => soundFX.click());
+      card.addEventListener('click', () => {
+        soundFX.select();
+        const badgeName = card.querySelector('.badge-name').textContent;
+        showToast(`🎖️ [${badgeName}] 스킬 배지를 확인했습니다!`);
       });
     });
   }
 
-  workFilterBtns.forEach(btn => {
+  // ------------------------------------------------------------------------
+  // 7. Render: Code-Dex Archive & Filtering Engine
+  // ------------------------------------------------------------------------
+  const dexContainer = document.getElementById('dex-container');
+  const dexFilterBtns = document.querySelectorAll('.dex-filter-btn');
+
+  function renderDexCards(filterType = 'all') {
+    if (!dexContainer) return;
+
+    const filtered = filterType === 'all' 
+      ? dexProjectsData 
+      : dexProjectsData.filter(p => p.type === filterType);
+
+    if (filtered.length === 0) {
+      dexContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+          <i class="fa-solid fa-circle-question" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--poke-yellow);"></i>
+          <p style="font-weight: 700;">해당 타입의 등록된 도감 데이터가 없습니다.</p>
+        </div>
+      `;
+      return;
+    }
+
+    dexContainer.innerHTML = filtered.map(item => `
+      <div class="dex-card" data-dex-no="${item.dexNo}" style="--card-accent: ${item.accentColor};">
+        <div class="dex-card-header">
+          <span class="dex-number">${item.dexNo}</span>
+          <div class="type-pills-wrap">
+            <span class="type-pill ${item.type}">
+              <i class="fa-solid fa-tag"></i> ${item.typeLabel}
+            </span>
+          </div>
+        </div>
+
+        <div class="dex-card-body">
+          <h3 class="dex-project-title">${item.title}</h3>
+          <p class="dex-project-subtitle">${item.subtitle}</p>
+          <p class="dex-project-summary">${item.summary}</p>
+
+          <div class="dex-tags-list">
+            ${item.tags.map(t => `<span class="dex-tech-tag">${t}</span>`).join('')}
+          </div>
+
+          <div class="dex-card-footer">
+            <span class="dex-period">${item.period}</span>
+            <span class="dex-view-btn">
+              <span>도감 데이터 열기</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Attach click events for modal
+    dexContainer.querySelectorAll('.dex-card').forEach(card => {
+      card.addEventListener('mouseenter', () => soundFX.click());
+      card.addEventListener('click', () => {
+        const dexNo = card.getAttribute('data-dex-no');
+        const project = dexProjectsData.find(p => p.dexNo === dexNo);
+        if (project) {
+          openPokedexModal(project);
+        }
+      });
+    });
+  }
+
+  // Initial Render
+  renderDexCards('all');
+
+  // Filter Buttons
+  dexFilterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      workFilterBtns.forEach(b => b.classList.remove('active'));
+      soundFX.select();
+      dexFilterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderWorks(btn.dataset.filter);
+      const filter = btn.getAttribute('data-filter');
+      renderDexCards(filter);
     });
   });
 
-  function openWorkModal(workId) {
-    const work = worksData.find(w => w.id === workId);
-    if (!work) return;
-
-    modalContent.innerHTML = `
-      <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-amber); margin-bottom: 0.75rem;">
-        SPEC_CASE_STUDY // ${work.id} — ${work.period}
-      </div>
-
-      <h2 style="font-size: 2.2rem; font-weight: 700; color: var(--text-pure); margin-bottom: 0.25rem;">
-        ${work.title}
-      </h2>
-      <p class="serif-italic" style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem;">
-        ${work.subtitle}
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 1px solid var(--border-main); border-bottom: 1px solid var(--border-main); padding: 1.25rem 0; margin-bottom: 2rem; font-family: var(--font-mono); font-size: 0.78rem;">
-        <div>
-          <span style="color: var(--text-dim); display: block; margin-bottom: 0.2rem;">ROLE</span>
-          <strong style="color: var(--text-pure);">${work.meta.role}</strong>
-        </div>
-        <div>
-          <span style="color: var(--text-dim); display: block; margin-bottom: 0.2rem;">CATEGORY</span>
-          <strong style="color: var(--text-pure);">${work.categoryLabel}</strong>
-        </div>
-        <div>
-          <span style="color: var(--text-dim); display: block; margin-bottom: 0.2rem;">TIMELINE</span>
-          <strong style="color: var(--text-pure);">${work.period}</strong>
-        </div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 1.75rem;">
-        <div>
-          <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem;">
-            01 // Problem Definition
-          </h4>
-          <p style="color: var(--text-main); font-size: 0.96rem; line-height: 1.7;">
-            ${work.details.problem}
-          </p>
-        </div>
-
-        <div>
-          <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem;">
-            02 // Engineered Solution
-          </h4>
-          <p style="color: var(--text-main); font-size: 0.96rem; line-height: 1.7;">
-            ${work.details.solution}
-          </p>
-        </div>
-
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-main); padding: 1.25rem; border-radius: var(--radius-xs);">
-          <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 0.4rem;">
-            03 // Troubleshooting & Technical Challenge
-          </h4>
-          <p style="color: var(--text-pure); font-size: 0.92rem; line-height: 1.65;">
-            ${work.details.troubleshooting}
-          </p>
-        </div>
-
-        <div>
-          <h4 style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem;">
-            04 // Measurable Impact
-          </h4>
-          <p style="color: var(--text-main); font-size: 0.96rem; line-height: 1.7;">
-            ${work.details.outcome}
-          </p>
-        </div>
-      </div>
-
-      <div style="margin-top: 2.5rem; display: flex; gap: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-editorial-primary" style="flex: 1; justify-content: center;">
-          <span>SOURCE REPOSITORY</span>
-          <i class="fa-brands fa-github"></i>
-        </a>
-      </div>
-    `;
-
-    modalOverlay.classList.add('active');
-  }
-
-  modalCloseBtn.addEventListener('click', () => {
-    modalOverlay.classList.remove('active');
-  });
-
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
-      modalOverlay.classList.remove('active');
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-      modalOverlay.classList.remove('active');
-    }
-  });
-
-  renderWorks('all');
-
   // ------------------------------------------------------------------------
-  // 6. Toast Notification
+  // 8. Pokedex Detail Screen Modal
   // ------------------------------------------------------------------------
-  function showToast(message) {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
+  const pokedexModal = document.getElementById('pokedex-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalProjectTitle = document.getElementById('modal-project-title');
+  const modalBodyContainer = document.getElementById('modal-body-container');
 
-    const toast = document.createElement('div');
-    toast.className = 'editorial-toast';
-    toast.innerHTML = `<span class="indicator-dot"></span><span>${message}</span>`;
-    container.appendChild(toast);
+  function openPokedexModal(project) {
+    soundFX.openDex();
+    if (modalProjectTitle) {
+      modalProjectTitle.textContent = `${project.dexNo} ${project.title}`;
+    }
 
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
+    if (modalBodyContainer) {
+      modalBodyContainer.innerHTML = `
+        <div style="margin-bottom: 1.5rem;">
+          <span class="type-pill ${project.type}" style="font-size: 0.82rem; padding: 0.35rem 0.8rem;">
+            ${project.typeLabel}
+          </span>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin: 0.6rem 0 0.2rem; color: var(--text-main);">
+            ${project.title}
+          </h2>
+          <p style="font-size: 1rem; font-weight: 700; color: ${project.accentColor};">
+            ${project.subtitle}
+          </p>
+        </div>
+
+        <div class="modal-meta-grid">
+          <div>
+            <span class="modal-meta-item-label">DEVELOPMENT PERIOD</span>
+            <div class="modal-meta-item-value">${project.period}</div>
+          </div>
+          <div>
+            <span class="modal-meta-item-label">CORE TECH STACK</span>
+            <div class="modal-meta-item-value">${project.tags.join(', ')}</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem; background: var(--bg-secondary); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--poke-red);">
+          <div class="modal-section-heading">
+            <i class="fa-solid fa-chart-simple" style="color: var(--poke-red);"></i>
+            <span>도감 스탯 지표 (STAT MATRIX)</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700;">
+            <div>⚔️ 공격력 (코드 설계 & 모듈성): <span style="color: var(--poke-red);">${project.stats.attack}</span></div>
+            <div>🛡️ 방어력 (안정성 & 무결성): <span style="color: var(--poke-blue);">${project.stats.defense}</span></div>
+            <div>⚡ 스피드 (성능 & 응답 속도): <span style="color: #D97706;">${project.stats.speed}</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="modal-section-heading">
+            <i class="fa-solid fa-bullseye" style="color: var(--poke-blue);"></i>
+            <span>프로젝트 기획 배경</span>
+          </div>
+          <p class="modal-narrative-text">${project.details.background}</p>
+
+          <div class="modal-section-heading">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--poke-yellow);"></i>
+            <span>핵심 문제 해결 및 구현</span>
+          </div>
+          <p class="modal-narrative-text">${project.details.solution}</p>
+
+          <div class="modal-section-heading">
+            <i class="fa-solid fa-trophy" style="color: #22C55E;"></i>
+            <span>최적화 성과 및 결과</span>
+          </div>
+          <p class="modal-narrative-text">${project.details.performance}</p>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <button class="btn-poke-primary" id="btn-modal-inner-close">
+            <span>확인 완료</span>
+          </button>
+        </div>
+      `;
+
+      const innerClose = document.getElementById('btn-modal-inner-close');
+      if (innerClose) {
+        innerClose.addEventListener('click', closePokedexModal);
       }
-    }, 3500);
+    }
+
+    if (pokedexModal) {
+      pokedexModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
   }
 
+  function closePokedexModal() {
+    soundFX.click();
+    if (pokedexModal) {
+      pokedexModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closePokedexModal);
+  }
+
+  if (pokedexModal) {
+    pokedexModal.addEventListener('click', (e) => {
+      if (e.target === pokedexModal) {
+        closePokedexModal();
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && pokedexModal && pokedexModal.classList.contains('active')) {
+      closePokedexModal();
+    }
+  });
+
   // ------------------------------------------------------------------------
-  // 7. Clipboard Copy
+  // 9. Instant Copy & Poke-Comms Form
   // ------------------------------------------------------------------------
-  function copyText(text, label = 'Information') {
+  function copyToClipboard(text, successMsg) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(`${label} copied to clipboard: ${text}`);
+      soundFX.success();
+      showToast(successMsg);
     }).catch(() => {
-      showToast(`Copy failed: ${text}`);
+      // Fallback
+      showToast(`📋 ${text}`);
     });
   }
 
   const heroCopyPhoneBtn = document.getElementById('btn-hero-copy-phone');
   if (heroCopyPhoneBtn) {
     heroCopyPhoneBtn.addEventListener('click', () => {
-      copyText('010-4677-2417', 'Direct Phone');
+      const phone = heroCopyPhoneBtn.getAttribute('data-phone') || '010-4677-2417';
+      copyToClipboard(phone, `⚡ 트레이너 연락처(${phone})가 복사되었습니다!`);
     });
   }
 
-  const termPhoneBtn = document.getElementById('terminal-phone-btn');
-  if (termPhoneBtn) {
-    termPhoneBtn.addEventListener('click', () => {
-      copyText('010-4677-2417', 'Phone Number');
+  const commsPhoneBtn = document.getElementById('comms-phone-btn');
+  if (commsPhoneBtn) {
+    commsPhoneBtn.addEventListener('click', () => {
+      const phone = commsPhoneBtn.getAttribute('data-phone') || '010-4677-2417';
+      copyToClipboard(phone, `⚡ 전화번호(${phone})가 클립보드에 복사되었습니다!`);
     });
   }
 
-  const termEmailBtn = document.getElementById('terminal-email-btn');
-  if (termEmailBtn) {
-    termEmailBtn.addEventListener('click', () => {
-      copyText('jejun.lee@example.com', 'Email Address');
+  const commsEmailBtn = document.getElementById('comms-email-btn');
+  if (commsEmailBtn) {
+    commsEmailBtn.addEventListener('click', () => {
+      const email = commsEmailBtn.getAttribute('data-email') || 'dvae1456@gmail.com';
+      copyToClipboard(email, `✉️ 이메일 주소(${email})가 클립보드에 복사되었습니다!`);
     });
   }
 
-  // ------------------------------------------------------------------------
-  // 8. Theme Engine (Obsidian Dark / Editorial Paper Light)
-  // ------------------------------------------------------------------------
-  const themeToggleBtn = document.getElementById('btn-theme-toggle');
-  const savedTheme = localStorage.getItem('nota_theme');
-
-  if (savedTheme === 'light') {
-    document.body.classList.add('light-theme');
-  }
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light-theme');
-      const isLight = document.body.classList.contains('light-theme');
-      localStorage.setItem('nota_theme', isLight ? 'light' : 'dark');
-      showToast(`Theme switched to ${isLight ? 'Editorial Paper (Light)' : 'Obsidian Carbon (Dark)'}`);
-    });
-  }
-
-  // ------------------------------------------------------------------------
-  // 9. Print Resume
-  // ------------------------------------------------------------------------
-  const printBtn = document.getElementById('btn-print-resume');
-  if (printBtn) {
-    printBtn.addEventListener('click', () => {
-      window.print();
-    });
-  }
-
-  // ------------------------------------------------------------------------
-  // 10. Contact Form Transmit
-  // ------------------------------------------------------------------------
-  const contactForm = document.getElementById('editorial-contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+  // Poké-PC Contact Form Transmit
+  const pokeContactForm = document.getElementById('poke-contact-form');
+  if (pokeContactForm) {
+    pokeContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('input-name').value;
-      const email = document.getElementById('input-email').value;
-      const subject = document.getElementById('input-subject').value;
-      const message = document.getElementById('input-message').value;
+      soundFX.success();
 
-      const logs = JSON.parse(localStorage.getItem('nota_messages') || '[]');
-      logs.push({ name, email, subject, message, timestamp: new Date().toISOString() });
-      localStorage.setItem('nota_messages', JSON.stringify(logs));
-
-      showToast(`Transmission received from ${name}. We will respond promptly.`);
-      contactForm.reset();
+      const name = document.getElementById('input-trainer-name')?.value || '트레이너';
+      showToast(`📡 [${name}] 님의 통신 메시지가 트레이너 본부로 성공적으로 전송되었습니다!`);
+      pokeContactForm.reset();
     });
   }
 
-  // Year
-  const yearEl = document.getElementById('current-year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+  // ------------------------------------------------------------------------
+  // 10. Toast Notification Engine
+  // ------------------------------------------------------------------------
+  const toastContainer = document.getElementById('toast-container');
+
+  function showToast(message) {
+    if (!toastContainer) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'poke-toast';
+    toast.innerHTML = `
+      <div class="pokeball-icon" style="width: 20px; height: 20px;"></div>
+      <span>${message}</span>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+      toast.style.transition = 'all 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
   }
+
+  // ------------------------------------------------------------------------
+  // 11. Smooth Navigation Links Audio
+  // ------------------------------------------------------------------------
+  document.querySelectorAll('.nav-link, .brand-trainer').forEach(link => {
+    link.addEventListener('click', () => {
+      soundFX.click();
+    });
+  });
+
 });
