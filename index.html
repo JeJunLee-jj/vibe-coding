@@ -14,11 +14,14 @@
 
   <title>TRAINER LEE JEJUN — Developer Dex & Portfolio</title>
 
-  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <!-- Google Fonts: Press Start 2P, Silkscreen, Outfit, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
   
+  <!-- Retro Korean Pixel Font: DungGeunMo (둥근모) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css">
+
   <!-- Pretendard (최고의 한글 가독성) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
@@ -36,15 +39,15 @@
       <div class="header-inner">
         
         <!-- Brand / Trainer Logo -->
-        <a href="#hero" class="brand-trainer" title="트레이너 이제준 홈으로">
+        <a href="#hero" class="brand-trainer" title="이제준 홈으로">
           <div class="pokeball-icon"></div>
-          <span class="brand-text-name">JEJUN.DEX</span>
-          <span class="brand-tag-lvl">Lv.24 TRAINER</span>
+          <span class="brand-text-name pixel-font">JEJUN.DEX</span>
+          <span class="brand-tag-lvl pixel-font">Lv.24</span>
         </a>
 
         <!-- Main Nav Links -->
         <nav class="poke-nav">
-          <a href="#hero" class="nav-link"><i class="fa-solid fa-id-card"></i> 트레이너 카드</a>
+          <a href="#hero" class="nav-link"><i class="fa-solid fa-id-card"></i> 프로필 카드</a>
           <a href="#badges" class="nav-link"><i class="fa-solid fa-award"></i> 체육관 배지</a>
           <a href="#dex" class="nav-link"><i class="fa-solid fa-book-bookmark"></i> 프로젝트 도감</a>
           <a href="#quests" class="nav-link"><i class="fa-solid fa-map-location-dot"></i> 모험 일지</a>
@@ -53,10 +56,10 @@
 
         <!-- Header Actions (Sound, Theme) -->
         <div class="header-actions">
-          <button class="icon-action-btn active-sound" id="btn-sound-toggle" title="8비트 효과음 On/Off">
+          <button class="icon-action-btn active-sound pixel-btn" id="btn-sound-toggle" title="8비트 효과음 On/Off">
             <i class="fa-solid fa-volume-high" id="sound-icon"></i>
           </button>
-          <button class="icon-action-btn" id="btn-theme-toggle" title="주간/야간 모드 전환">
+          <button class="icon-action-btn pixel-btn" id="btn-theme-toggle" title="주간/야간 모드 전환">
             <i class="fa-solid fa-moon" id="theme-icon"></i>
           </button>
         </div>
@@ -67,7 +70,7 @@
 
   <main>
     <!-- ==========================================
-         1. Hero Section: Trainer Profile & 3D Card
+         1. Hero Section: Profile & 3D Card
          ========================================== -->
     <section class="hero-trainer-section" id="hero">
       <div class="layout-container">
@@ -75,14 +78,14 @@
           
           <!-- Left: Hero Text & CTAs -->
           <div class="hero-text-content">
-            <div class="trainer-badge-pill">
+            <div class="trainer-badge-pill pixel-box">
               <span class="pulse-dot"></span>
-              <span>야생의 소프트웨어 엔지니어가 나타났다!</span>
+              <span class="pixel-korean">▶ 야생의 소프트웨어 엔지니어가 나타났다!</span>
             </div>
 
             <h1 class="hero-main-title">
               새로운 가치를 포획하는 <br>
-              <span class="highlight-red">트레이너 이제준</span>입니다.
+              <span class="highlight-red">이제준</span>입니다.
             </h1>
 
             <p class="hero-description">

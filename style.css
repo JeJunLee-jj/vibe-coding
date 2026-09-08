@@ -1,6 +1,6 @@
 /* ==========================================================================
-   LEE JEJUN (이제준) — POKÉ-INSPIRED DEVELOPER DEX & TRAINER PORTFOLIO
-   Theme: Vibrant Pokémon Style UI + Modern Neomorphic Glassmorphism
+   LEE JEJUN (이제준) — POKÉ-INSPIRED DEVELOPER DEX & PORTFOLIO
+   Theme: Vibrant Pokémon Style UI + Retro Pixel Aesthetics (Press Start 2P & DungGeunMo)
    Copyright-Safe Original Vector Graphics & Design Architecture
    ========================================================================== */
 
@@ -8,14 +8,17 @@
    1. Design Tokens & Variables (Pokémon Palettes & Types)
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Core Colors (Inspired by iconic creature adventure aesthetic) */
+  /* Brand Core Colors (Iconic adventure palette) */
   --poke-red: #EE1515;
   --poke-red-hover: #D01111;
+  --poke-red-dark: #9E0A0A;
   --poke-red-soft: rgba(238, 21, 21, 0.12);
   --poke-yellow: #FFCB05;
   --poke-yellow-glow: #FFE600;
+  --poke-yellow-dark: #C69B00;
   --poke-blue: #3B4CCA;
   --poke-blue-cyan: #0075BE;
+  --poke-blue-dark: #1E297B;
   --poke-dark: #1E2328;
   --poke-darker: #13171B;
 
@@ -37,57 +40,65 @@
   --type-rock: #B8A038;
   --type-rock-bg: rgba(184, 160, 56, 0.18);
 
-  /* Light Mode (Default: Pokémon Official Clean & Dynamic Look) */
+  /* Light Mode */
   --bg-primary: #F7F9FC;
   --bg-secondary: #EDF2F7;
   --bg-card: #FFFFFF;
-  --bg-card-glass: rgba(255, 255, 255, 0.85);
+  --bg-card-glass: rgba(255, 255, 255, 0.92);
   --border-color: #E2E8F0;
   --border-strong: #CBD5E1;
+  --border-pixel: #1E2328;
   
   --text-main: #1E293B;
   --text-muted: #64748B;
   --text-light: #94A3B8;
   --text-white: #FFFFFF;
 
+  /* Retro Pixel & Modern Shadows */
+  --pixel-shadow: 3px 3px 0px #1E2328;
+  --pixel-shadow-lg: 5px 5px 0px #1E2328;
+  --pixel-shadow-red: 4px 4px 0px #9E0A0A;
+  --pixel-shadow-yellow: 4px 4px 0px #C69B00;
+  --pixel-shadow-blue: 4px 4px 0px #1E297B;
+
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.12);
-  --shadow-red: 0 8px 24px rgba(238, 21, 21, 0.25);
-  --shadow-yellow: 0 8px 24px rgba(255, 203, 5, 0.35);
 
+  /* Typography Stack with Pixel Fonts */
   --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Outfit', 'Pretendard', sans-serif;
-  --font-pixel: 'Press Start 2P', 'JetBrains Mono', monospace;
+  --font-pixel: 'Press Start 2P', 'DungGeunMo', monospace;
+  --font-pixel-kr: 'DungGeunMo', 'Press Start 2P', monospace;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
   --radius-full: 9999px;
 
-  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-normal: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-bounce: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Dark Mode (Pokémon Night Route Theme) */
+/* Dark Mode */
 body.dark-theme {
   --bg-primary: #0F141C;
   --bg-secondary: #171F2C;
   --bg-card: #1D2636;
-  --bg-card-glass: rgba(29, 38, 54, 0.88);
+  --bg-card-glass: rgba(29, 38, 54, 0.92);
   --border-color: #2D3A4F;
   --border-strong: #3E4F6B;
+  --border-pixel: #FFFFFF;
   
   --text-main: #F1F5F9;
   --text-muted: #94A3B8;
   --text-light: #64748B;
   --text-white: #FFFFFF;
 
-  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --pixel-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
+  --pixel-shadow-lg: 5px 5px 0px rgba(0, 0, 0, 0.9);
 }
 
 /* --------------------------------------------------------------------------
@@ -115,8 +126,8 @@ body {
     radial-gradient(circle at 15% 15%, rgba(238, 21, 21, 0.04) 0%, transparent 40%),
     radial-gradient(circle at 85% 35%, rgba(255, 203, 5, 0.05) 0%, transparent 45%),
     radial-gradient(circle at 50% 80%, rgba(59, 76, 202, 0.04) 0%, transparent 50%),
-    radial-gradient(#CBD5E1 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+    radial-gradient(#CBD5E1 1.5px, transparent 1.5px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
 }
 
 body.dark-theme {
@@ -124,7 +135,34 @@ body.dark-theme {
     radial-gradient(circle at 15% 15%, rgba(238, 21, 21, 0.08) 0%, transparent 40%),
     radial-gradient(circle at 85% 35%, rgba(255, 203, 5, 0.07) 0%, transparent 45%),
     radial-gradient(circle at 50% 80%, rgba(59, 76, 202, 0.08) 0%, transparent 50%),
-    radial-gradient(#2D3A4F 1px, transparent 1px);
+    radial-gradient(#2D3A4F 1.5px, transparent 1.5px);
+}
+
+/* Pixel Helper Classes */
+.pixel-font {
+  font-family: var(--font-pixel) !important;
+  letter-spacing: -0.05em;
+}
+
+.pixel-korean {
+  font-family: var(--font-pixel-kr) !important;
+  letter-spacing: 0.02em;
+}
+
+.pixel-box {
+  border: 2.5px solid #1E2328 !important;
+  box-shadow: 3px 3px 0px #1E2328 !important;
+}
+
+.pixel-btn {
+  border: 2px solid #1E2328 !important;
+  box-shadow: 2px 2px 0px #1E2328 !important;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px #1E2328 !important;
 }
 
 a {
@@ -151,7 +189,7 @@ ul, ol {
 }
 
 /* --------------------------------------------------------------------------
-   3. Header Navigation (Pokémon Official Top Bar Style)
+   3. Header Navigation
    -------------------------------------------------------------------------- */
 .poke-header {
   position: sticky;
@@ -160,7 +198,8 @@ ul, ol {
   background: var(--bg-card-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 3px solid var(--border-color);
+  border-bottom: 3px solid #1E2328;
+  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.05);
   transition: all var(--transition-normal);
 }
 
@@ -181,15 +220,13 @@ ul, ol {
   height: 68px;
 }
 
-/* Brand Symbol with Animated Poké-Ball */
+/* Brand Symbol with Pixel Animated Poké-Ball */
 .brand-trainer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
+  font-size: 1.15rem;
 }
 
 .pokeball-icon {
@@ -199,9 +236,10 @@ ul, ol {
   background: linear-gradient(180deg, var(--poke-red) 46%, #1E2328 46%, #1E2328 54%, #FFFFFF 54%);
   border: 2.5px solid #1E2328;
   position: relative;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 0px #1E2328;
   transition: transform var(--transition-bounce);
   flex-shrink: 0;
+  image-rendering: pixelated;
 }
 
 .pokeball-icon::after {
@@ -215,7 +253,7 @@ ul, ol {
   border-radius: 50%;
   background: #FFFFFF;
   border: 2.5px solid #1E2328;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 .brand-trainer:hover .pokeball-icon {
@@ -224,24 +262,25 @@ ul, ol {
 
 .brand-text-name {
   color: var(--text-main);
+  font-size: 0.95rem;
 }
 
 .brand-tag-lvl {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   background: var(--poke-yellow);
   color: #1E2328;
   font-weight: 800;
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  box-shadow: var(--shadow-sm);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid #1E2328;
+  box-shadow: 2px 2px 0px #1E2328;
 }
 
 /* Header Nav Menu */
 .poke-nav {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .nav-link {
@@ -272,31 +311,30 @@ ul, ol {
 .icon-action-btn {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: var(--radius-md);
   background: var(--bg-secondary);
-  border: 1.5px solid var(--border-color);
+  border: 2px solid #1E2328;
+  box-shadow: 2px 2px 0px #1E2328;
   color: var(--text-main);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  transition: all var(--transition-bounce);
+  transition: all var(--transition-fast);
 }
 
 .icon-action-btn:hover {
-  transform: scale(1.12);
   border-color: var(--poke-red);
   color: var(--poke-red);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 
 .icon-action-btn.active-sound {
   color: var(--poke-blue);
-  border-color: var(--poke-blue);
 }
 
 /* --------------------------------------------------------------------------
-   4. Hero Section — Trainer Card & Starter Stacks
+   4. Hero Section — Profile & Starter Stacks
    -------------------------------------------------------------------------- */
 .hero-trainer-section {
   padding: 4.5rem 0 3.5rem;
@@ -310,41 +348,41 @@ ul, ol {
   align-items: center;
 }
 
-/* Left: Catchphrase & Trainer Intro */
+/* Left: Catchphrase & Intro */
 .trainer-badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 1rem;
+  gap: 0.6rem;
+  padding: 0.45rem 1.1rem;
   background: var(--bg-card);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  border: 2.5px solid #1E2328;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
   font-weight: 700;
-  color: var(--text-muted);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 1.25rem;
+  color: var(--text-main);
+  box-shadow: 3px 3px 0px #1E2328;
+  margin-bottom: 1.35rem;
 }
 
 .trainer-badge-pill .pulse-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #22C55E;
-  box-shadow: 0 0 10px #22C55E;
-  animation: pulse-green 2s infinite;
+  border: 1.5px solid #1E2328;
+  animation: pulse-green 1.8s infinite;
 }
 
 @keyframes pulse-green {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 0.7; }
 }
 
 .hero-main-title {
   font-family: var(--font-display);
   font-size: 3.2rem;
   font-weight: 900;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.03em;
   margin-bottom: 1.2rem;
   color: var(--text-main);
@@ -364,9 +402,9 @@ ul, ol {
   width: 100%;
   height: 8px;
   background: var(--poke-yellow);
-  opacity: 0.4;
+  opacity: 0.5;
   z-index: -1;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .hero-description {
@@ -377,7 +415,7 @@ ul, ol {
   line-height: 1.7;
 }
 
-/* Hero Action CTAs */
+/* Hero Action CTAs (Pixel 3D Pressed Buttons) */
 .hero-cta-group {
   display: flex;
   flex-wrap: wrap;
@@ -391,19 +429,25 @@ ul, ol {
   align-items: center;
   gap: 0.6rem;
   padding: 0.9rem 1.8rem;
-  background: linear-gradient(135deg, var(--poke-red) 0%, #D80F0F 100%);
+  background: var(--poke-red);
   color: #FFFFFF;
   font-weight: 800;
   font-size: 1rem;
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-red);
-  transition: all var(--transition-bounce);
-  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  border: 2.5px solid #1E2328;
+  box-shadow: 4px 4px 0px #1E2328;
+  transition: all 0.1s ease;
 }
 
 .btn-poke-primary:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 12px 28px rgba(238, 21, 21, 0.4);
+  background: var(--poke-red-hover);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #1E2328;
+}
+
+.btn-poke-primary:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #1E2328;
 }
 
 .btn-poke-secondary {
@@ -413,19 +457,23 @@ ul, ol {
   padding: 0.85rem 1.6rem;
   background: var(--bg-card);
   color: var(--text-main);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
-  border-radius: var(--radius-full);
-  border: 2px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
+  border-radius: var(--radius-md);
+  border: 2.5px solid #1E2328;
+  box-shadow: 4px 4px 0px #1E2328;
+  transition: all 0.1s ease;
 }
 
 .btn-poke-secondary:hover {
-  border-color: var(--poke-yellow);
-  background: var(--bg-secondary);
-  transform: translateY(-2px);
-  color: #B45309;
+  background: var(--poke-yellow);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #1E2328;
+}
+
+.btn-poke-secondary:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #1E2328;
 }
 
 .btn-poke-copy {
@@ -438,8 +486,8 @@ ul, ol {
   font-weight: 700;
   font-size: 0.92rem;
   font-family: var(--font-mono);
-  border-radius: var(--radius-full);
-  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  border: 2.5px dashed var(--border-strong);
   transition: all var(--transition-fast);
 }
 
@@ -455,7 +503,7 @@ ul, ol {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
   padding-top: 1.5rem;
-  border-top: 2px dashed var(--border-color);
+  border-top: 2.5px dashed var(--border-color);
 }
 
 .stat-box {
@@ -464,23 +512,23 @@ ul, ol {
 }
 
 .stat-label {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--text-light);
   letter-spacing: 0.05em;
-  font-family: var(--font-mono);
+  font-family: var(--font-pixel);
 }
 
 .stat-value {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--text-main);
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
 }
 
 /* --------------------------------------------------------------------------
-   5. Right Column: 3D Holographic Trainer Card
+   5. Right Column: 3D Holographic Profile Card
    -------------------------------------------------------------------------- */
 .trainer-card-wrapper {
   perspective: 1000px;
@@ -496,8 +544,8 @@ ul, ol {
   padding: 1.75rem;
   color: #FFFFFF;
   position: relative;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-  border: 3px solid rgba(255, 203, 5, 0.4);
+  box-shadow: 6px 6px 0px #1E2328, 0 20px 45px rgba(0, 0, 0, 0.25);
+  border: 3px solid var(--poke-yellow);
   transform-style: preserve-3d;
   transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
   overflow: hidden;
@@ -538,11 +586,11 @@ ul, ol {
 }
 
 .card-title-tag {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
   font-weight: 800;
   color: var(--poke-yellow);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
 }
 
 .card-id-num {
@@ -551,35 +599,35 @@ ul, ol {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* Trainer Avatar & Core Info */
+/* Profile Box */
 .trainer-profile-box {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   padding: 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   margin-bottom: 1.25rem;
 }
 
 .trainer-avatar-frame {
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
+  width: 74px;
+  height: 74px;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--poke-red) 0%, var(--poke-yellow) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #FFFFFF;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  font-size: 2.2rem;
+  border: 2.5px solid #FFFFFF;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+  font-size: 2rem;
   color: #FFFFFF;
   flex-shrink: 0;
 }
 
 .trainer-identity-info h3 {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 800;
   margin-bottom: 0.2rem;
   color: #FFFFFF;
@@ -591,7 +639,7 @@ ul, ol {
   line-height: 1.4;
 }
 
-/* Trainer Gauges (HP / EXP) */
+/* Gauges (HP / EXP) with Pixel Steps */
 .trainer-stat-bars {
   display: flex;
   flex-direction: column;
@@ -606,36 +654,48 @@ ul, ol {
 }
 
 .gauge-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
   font-weight: 800;
-  width: 32px;
+  width: 28px;
   color: var(--poke-yellow);
 }
 
 .gauge-track {
   flex: 1;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: var(--radius-full);
+  height: 10px;
+  background: #111418;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1.5px solid #FFFFFF;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .gauge-fill {
   height: 100%;
-  border-radius: var(--radius-full);
+  border-radius: 2px;
   transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 12px 12px;
 }
 
 .gauge-fill.hp-bar {
-  background: linear-gradient(90deg, #22C55E 0%, #10B981 100%);
+  background-color: #22C55E;
   width: 100%;
 }
 
 .gauge-fill.exp-bar {
-  background: linear-gradient(90deg, var(--poke-yellow) 0%, #F59E0B 100%);
+  background-color: var(--poke-yellow);
   width: 92%;
 }
 
@@ -643,24 +703,25 @@ ul, ol {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.7);
-  width: 55px;
+  width: 60px;
   text-align: right;
 }
 
-/* Starter Stacks (Mini Type Badges on Card) */
+/* Starter Stacks */
 .card-starter-stacks {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
   padding: 0.85rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
 }
 
 .starter-title {
-  font-size: 0.7rem;
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
   font-weight: 800;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -674,18 +735,19 @@ ul, ol {
 .starter-chip {
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.55rem;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* --------------------------------------------------------------------------
-   6. Section Headers (Pokémon Official Style)
+   6. Section Headers
    -------------------------------------------------------------------------- */
 .section {
   padding: 5rem 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 3px solid var(--border-color);
 }
 
 .section-header {
@@ -696,15 +758,16 @@ ul, ol {
 
 .section-tag {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
   font-weight: 800;
   color: var(--poke-red);
   background: var(--poke-red-soft);
-  padding: 0.3rem 0.9rem;
-  border-radius: var(--radius-full);
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.05em;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--poke-red);
+  box-shadow: 2px 2px 0px var(--poke-red);
+  margin-bottom: 0.85rem;
 }
 
 .section-title {
@@ -727,24 +790,24 @@ ul, ol {
    -------------------------------------------------------------------------- */
 .badges-case-box {
   background: var(--bg-card);
-  border: 3px solid var(--border-color);
+  border: 3px solid #1E2328;
   border-radius: var(--radius-lg);
   padding: 2.5rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--pixel-shadow-lg);
   position: relative;
   overflow: hidden;
 }
 
 .badges-case-box::before {
-  content: 'GYM BADGE COLLECTION';
+  content: 'GYM BADGES';
   position: absolute;
   top: 1rem;
   right: 1.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
   font-weight: 800;
   color: var(--text-light);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
 }
 
 .badges-grid {
@@ -755,30 +818,36 @@ ul, ol {
 
 .badge-item-card {
   background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
+  border: 2.5px solid #1E2328;
   border-radius: var(--radius-md);
   padding: 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: all var(--transition-bounce);
+  transition: all var(--transition-fast);
   position: relative;
   cursor: pointer;
+  box-shadow: 3px 3px 0px #1E2328;
 }
 
 .badge-item-card:hover {
-  transform: translateY(-6px) scale(1.02);
+  transform: translate(-2px, -2px);
   border-color: var(--badge-color, var(--poke-yellow));
-  box-shadow: var(--shadow-md);
+  box-shadow: 5px 5px 0px #1E2328;
   background: var(--bg-card);
+}
+
+.badge-item-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E2328;
 }
 
 /* Badge Metallic Icon Frame */
 .badge-emblem {
   width: 68px;
   height: 68px;
-  border-radius: 50%;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--badge-color, var(--poke-yellow)) 0%, #FFFFFF 100%);
   display: flex;
   align-items: center;
@@ -786,14 +855,14 @@ ul, ol {
   font-size: 1.8rem;
   color: #1E2328;
   margin-bottom: 1rem;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  border: 3px solid #FFFFFF;
+  box-shadow: 3px 3px 0px #1E2328;
+  border: 2.5px solid #1E2328;
   position: relative;
   transition: transform var(--transition-bounce);
 }
 
 .badge-item-card:hover .badge-emblem {
-  transform: rotate(15deg) scale(1.1);
+  transform: rotate(10deg) scale(1.08);
 }
 
 .badge-name {
@@ -819,10 +888,10 @@ ul, ol {
 
 .badge-rank-tag {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 0.68rem;
-  font-family: var(--font-mono);
+  top: 8px;
+  left: 8px;
+  font-size: 0.58rem;
+  font-family: var(--font-pixel);
   font-weight: 800;
   color: var(--text-light);
 }
@@ -840,25 +909,30 @@ ul, ol {
 }
 
 .dex-filter-btn {
-  padding: 0.6rem 1.25rem;
-  border-radius: var(--radius-full);
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-md);
   background: var(--bg-card);
-  border: 2px solid var(--border-color);
-  font-weight: 700;
+  border: 2px solid #1E2328;
+  box-shadow: 3px 3px 0px #1E2328;
+  font-weight: 800;
   font-size: 0.88rem;
-  color: var(--text-muted);
-  transition: all var(--transition-fast);
+  color: var(--text-main);
+  transition: all 0.1s ease;
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-.dex-filter-btn:hover, .dex-filter-btn.active {
+.dex-filter-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #1E2328;
+}
+
+.dex-filter-btn.active {
   background: var(--poke-red);
   color: #FFFFFF;
-  border-color: var(--poke-red);
-  box-shadow: var(--shadow-red);
-  transform: translateY(-2px);
+  box-shadow: 3px 3px 0px #9E0A0A;
+  transform: translate(2px, 2px);
 }
 
 /* Dex Cards Grid */
@@ -870,11 +944,11 @@ ul, ol {
 
 .dex-card {
   background: var(--bg-card);
-  border: 2px solid var(--border-color);
+  border: 3px solid #1E2328;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-bounce);
+  box-shadow: 5px 5px 0px #1E2328;
+  transition: all var(--transition-fast);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -882,26 +956,30 @@ ul, ol {
 }
 
 .dex-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--card-accent, var(--poke-blue));
-  box-shadow: var(--shadow-lg);
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px #1E2328;
 }
 
-/* Top Color Stripe of Dex Card */
+.dex-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1E2328;
+}
+
+/* Top Stripe of Dex Card */
 .dex-card-header {
-  padding: 1.5rem 1.75rem 1rem;
+  padding: 1.25rem 1.75rem 0.9rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  border-bottom: 2.5px solid #1E2328;
   background: var(--bg-secondary);
 }
 
 .dex-number {
-  font-family: var(--font-mono);
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: var(--text-light);
+  font-family: var(--font-pixel);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--poke-red);
 }
 
 /* Type Pill Badges */
@@ -911,23 +989,25 @@ ul, ol {
 }
 
 .type-pill {
-  font-size: 0.72rem;
+  font-size: 0.65rem;
+  font-family: var(--font-pixel);
   font-weight: 800;
   text-transform: uppercase;
-  padding: 0.25rem 0.65rem;
+  padding: 0.35rem 0.65rem;
   border-radius: var(--radius-sm);
-  letter-spacing: 0.05em;
+  border: 1.5px solid #1E2328;
+  box-shadow: 2px 2px 0px #1E2328;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 }
 
-.type-pill.electric { background: var(--type-electric-bg); color: #B45309; border: 1px solid rgba(248, 208, 48, 0.4); }
-.type-pill.water { background: var(--type-water-bg); color: #1D4ED8; border: 1px solid rgba(104, 144, 240, 0.4); }
-.type-pill.grass { background: var(--type-grass-bg); color: #15803D; border: 1px solid rgba(120, 200, 80, 0.4); }
-.type-pill.fire { background: var(--type-fire-bg); color: #C2410C; border: 1px solid rgba(240, 128, 48, 0.4); }
-.type-pill.psychic { background: var(--type-psychic-bg); color: #BE185D; border: 1px solid rgba(248, 88, 136, 0.4); }
-.type-pill.steel { background: var(--type-steel-bg); color: #475569; border: 1px solid rgba(184, 184, 208, 0.4); }
+.type-pill.electric { background: var(--type-electric); color: #1E2328; }
+.type-pill.water { background: var(--type-water); color: #FFFFFF; }
+.type-pill.grass { background: var(--type-grass); color: #FFFFFF; }
+.type-pill.fire { background: var(--type-fire); color: #FFFFFF; }
+.type-pill.psychic { background: var(--type-psychic); color: #FFFFFF; }
+.type-pill.steel { background: var(--type-steel); color: #1E2328; }
 
 /* Dex Body */
 .dex-card-body {
@@ -976,7 +1056,7 @@ ul, ol {
   color: var(--text-main);
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid #1E2328;
 }
 
 /* Dex Card Action Footer */
@@ -985,7 +1065,7 @@ ul, ol {
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 2px dashed var(--border-color);
 }
 
 .dex-view-btn {
@@ -1023,8 +1103,8 @@ ul, ol {
   top: 0;
   bottom: 0;
   left: 24px;
-  width: 4px;
-  background: linear-gradient(180deg, var(--poke-red) 0%, var(--poke-yellow) 50%, var(--poke-blue) 100%);
+  width: 5px;
+  background: #1E2328;
   border-radius: var(--radius-full);
 }
 
@@ -1041,34 +1121,33 @@ ul, ol {
 .quest-marker {
   position: absolute;
   top: 4px;
-  left: 9px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 3px solid var(--poke-red);
+  left: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--poke-yellow);
+  border: 2.5px solid #1E2328;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  color: var(--poke-red);
-  box-shadow: var(--shadow-sm);
+  font-size: 0.9rem;
+  color: #1E2328;
+  box-shadow: 2px 2px 0px #1E2328;
   z-index: 2;
 }
 
 .quest-card {
   background: var(--bg-card);
-  border: 2px solid var(--border-color);
+  border: 2.5px solid #1E2328;
   border-radius: var(--radius-md);
   padding: 1.5rem 1.75rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 4px 4px 0px #1E2328;
   transition: all var(--transition-fast);
 }
 
 .quest-card:hover {
-  transform: translateX(6px);
-  border-color: var(--poke-yellow);
-  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+  box-shadow: 6px 6px 0px #1E2328;
 }
 
 .quest-header {
@@ -1087,13 +1166,15 @@ ul, ol {
 }
 
 .quest-route-tag {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
   font-weight: 800;
   background: var(--poke-yellow);
   color: #1E2328;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-full);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #1E2328;
+  box-shadow: 2px 2px 0px #1E2328;
 }
 
 .quest-period {
@@ -1110,7 +1191,7 @@ ul, ol {
 }
 
 /* --------------------------------------------------------------------------
-   10. Trainer Comms Station (Contact & Pokémon Center PC)
+   10. Comms Station (Contact & Pokémon Center PC)
    -------------------------------------------------------------------------- */
 .comms-terminal-grid {
   display: grid;
@@ -1119,13 +1200,13 @@ ul, ol {
   align-items: stretch;
 }
 
-/* Left: Trainer Contact Channels */
+/* Left: Contact Channels */
 .comms-info-box {
   background: var(--bg-card);
-  border: 3px solid var(--border-color);
+  border: 3px solid #1E2328;
   border-radius: var(--radius-lg);
   padding: 2.25rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--pixel-shadow-lg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1136,12 +1217,11 @@ ul, ol {
 }
 
 .comms-channel-label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--text-light);
-  letter-spacing: 0.05em;
   margin-bottom: 0.4rem;
   display: block;
 }
@@ -1151,28 +1231,35 @@ ul, ol {
   align-items: center;
   justify-content: space-between;
   background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
+  border: 2px solid #1E2328;
   border-radius: var(--radius-md);
   padding: 0.85rem 1.15rem;
   font-weight: 700;
   color: var(--text-main);
+  box-shadow: 3px 3px 0px #1E2328;
   transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 .interactive-data-pill:hover {
-  border-color: var(--poke-red);
-  background: var(--poke-red-soft);
-  color: var(--poke-red);
+  background: var(--poke-yellow);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #1E2328;
+}
+
+.interactive-data-pill:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E2328;
 }
 
 .copy-badge {
-  font-size: 0.7rem;
-  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-family: var(--font-pixel);
   background: var(--poke-red);
   color: #FFFFFF;
-  padding: 0.2rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border-radius: var(--radius-sm);
+  border: 1px solid #1E2328;
   font-weight: 800;
 }
 
@@ -1182,7 +1269,7 @@ ul, ol {
   border: 3px solid var(--poke-blue);
   border-radius: var(--radius-lg);
   padding: 2.25rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: 5px 5px 0px var(--poke-blue-dark);
   position: relative;
 }
 
@@ -1192,7 +1279,7 @@ ul, ol {
   gap: 0.5rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid #1E2328;
 }
 
 .terminal-indicator-light {
@@ -1200,14 +1287,15 @@ ul, ol {
   height: 12px;
   border-radius: 50%;
   background: #22C55E;
-  box-shadow: 0 0 8px #22C55E;
+  border: 2px solid #1E2328;
+  box-shadow: 0 0 6px #22C55E;
 }
 
 .terminal-title-text {
-  font-family: var(--font-mono);
+  font-family: var(--font-pixel);
   font-weight: 800;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  font-size: 0.72rem;
+  color: var(--text-main);
 }
 
 .poke-input-group {
@@ -1226,7 +1314,7 @@ ul, ol {
   width: 100%;
   padding: 0.85rem 1rem;
   background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
+  border: 2px solid #1E2328;
   border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: inherit;
@@ -1238,7 +1326,7 @@ ul, ol {
   outline: none;
   border-color: var(--poke-blue);
   background: var(--bg-card);
-  box-shadow: 0 0 0 4px rgba(59, 76, 202, 0.15);
+  box-shadow: 3px 3px 0px var(--poke-blue);
 }
 
 .poke-textarea {
@@ -1289,7 +1377,7 @@ ul, ol {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 20, 28, 0.75);
+  background: rgba(15, 20, 28, 0.8);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 2000;
@@ -1312,9 +1400,9 @@ ul, ol {
   max-width: 680px;
   max-height: 90vh;
   background: var(--bg-card);
-  border: 4px solid var(--poke-red);
+  border: 4px solid #1E2328;
   border-radius: var(--radius-lg);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+  box-shadow: 8px 8px 0px #1E2328;
   overflow-y: auto;
   position: relative;
   transform: translateY(20px) scale(0.96);
@@ -1332,27 +1420,31 @@ ul, ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 3px solid #1E2328;
 }
 
 .modal-pokedex-title {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.35rem;
+  font-family: var(--font-pixel);
+  font-weight: 800;
+  font-size: 0.95rem;
 }
 
 .modal-close-btn {
-  background: rgba(0, 0, 0, 0.3);
+  background: #1E2328;
   color: #FFFFFF;
   font-weight: 800;
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 2px 2px 0px #000;
   transition: background var(--transition-fast);
 }
 
 .modal-close-btn:hover {
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--poke-yellow);
+  color: #1E2328;
 }
 
 .modal-body-content {
@@ -1367,21 +1459,22 @@ ul, ol {
   background: var(--bg-secondary);
   padding: 1.25rem;
   border-radius: var(--radius-md);
+  border: 2px solid #1E2328;
   margin-bottom: 1.5rem;
 }
 
 .modal-meta-item-label {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 800;
   color: var(--text-light);
-  font-family: var(--font-mono);
+  font-family: var(--font-pixel);
 }
 
 .modal-meta-item-value {
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--text-main);
-  margin-top: 0.15rem;
+  margin-top: 0.25rem;
 }
 
 .modal-section-heading {
@@ -1418,10 +1511,10 @@ ul, ol {
 .poke-toast {
   background: #1E2328;
   color: #FFFFFF;
-  border-left: 5px solid var(--poke-yellow);
+  border: 2.5px solid var(--poke-yellow);
   padding: 0.9rem 1.4rem;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
   font-weight: 700;
   font-size: 0.92rem;
   display: flex;
@@ -1471,7 +1564,7 @@ ul, ol {
     height: 60px;
   }
   .poke-nav {
-    display: none; /* Mobile menu can be toggled if needed */
+    display: none;
   }
   .hero-main-title {
     font-size: 2.3rem;
