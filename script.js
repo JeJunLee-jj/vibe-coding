@@ -1,4 +1,4 @@
-/**
+﻿/**
  * LEE JEJUN (이제준) — POKÉMON-INSPIRED DEVELOPER DEX & TRAINER PORTFOLIO
  * Features:
  *  - 8-Bit Web Audio Synthesizer (Retro Pokémon Sound Effects)
@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'BADGE_04',
       name: '리프 배지 (Leaf)',
-      tech: 'Green Smart City & Python',
+      tech: 'Landscape & Python',
       color: '#78C850',
       icon: 'fa-leaf',
-      desc: '상명대학교 그린스마트시티학과 전공 지식과 결합한 데이터 분석 및 자동화'
+      desc: '상명대학교 조경학과 전공 지식과 결합한 공간·환경 데이터 분석 및 자동화'
     },
     {
       id: 'BADGE_05',
@@ -130,20 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       dexNo: '#003',
       title: 'Green City AI Hub',
-      subtitle: '스마트시티 센서 데이터 & 환경 분석 대시보드',
+      subtitle: '도시 환경 센서 데이터 & 녹지 분석 대시보드',
       type: 'grass',
       typeLabel: 'GRASS / TYPE',
       tags: ['Python', 'React', 'FastAPI', 'Chart.js', 'GeoJSON'],
       period: '2024.09 — 2025.01',
       accentColor: '#10B981',
-      summary: '상명대 그린스마트시티학과 도메인 지식을 바탕으로 도시 기상 센서, 녹지 비율, 에너지 사용량을 시각화한 지능형 관제 대시보드입니다.',
+      summary: '상명대 조경학과 전공 지식을 바탕으로 도시 기상 센서, 녹지 비율, 에너지 사용량을 시각화한 지능형 관제 대시보드입니다.',
       stats: {
         attack: '94% (시계열 데이터 모델링)',
         defense: '95% (센서 데이터 무결성)',
         speed: '93% (지도 렌더링 최적화)'
       },
       details: {
-        background: '스마트시티 환경 모니터링 과정에서 쏟아지는 방대한 다차원 센서 데이터를 직관적으로 한눈에 파악하고 이상 징후를 조기에 탐지하고자 구축했습니다.',
+        background: '도시 환경 모니터링 과정에서 쏟아지는 방대한 다차원 센서 데이터를 직관적으로 한눈에 파악하고 이상 징후를 조기에 탐지하고자 구축했습니다.',
         solution: 'GeoJSON 기반 구역별 열지도(Heatmap)와 시계열 인터랙티브 차트를 구축하여 복잡한 도시 환경 지표를 3초 안에 파악할 수 있도록 설계했습니다.',
         performance: '데이터 캐싱 파이프라인 구축을 통해 10만 건 이상의 센서 로그 조회 시 초기 렌더링 속도를 65% 개선했습니다.'
       }
@@ -625,3 +625,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+

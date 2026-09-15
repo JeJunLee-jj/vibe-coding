@@ -1,0 +1,11 @@
+# 개인정보 — 공개 저장소에 올리지 않습니다
+내 정보.txt
+내 정보.hwp
+
+# 대용량 원본 (859MB) — Git으로 관리하지 않습니다
+*.ai
+
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
