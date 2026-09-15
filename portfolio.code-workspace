@@ -1,0 +1,9 @@
+{
+  "folders": [
+    { "path": "." }
+  ],
+  "settings": {
+    "files.encoding": "utf8",
+    "window.title": "이제준 포트폴리오 — ${activeEditorShort}"
+  }
+}

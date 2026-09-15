@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "포트폴리오 로컬 서버 (8931)",
+      "type": "shell",
+      "command": "C:/Users/user/AppData/Local/Programs/Python/Python312/python.exe",
+      "args": [
+        "-m",
+        "http.server",
+        "8931"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "http://localhost:8931/portfolio.html · http://localhost:8931/dashboard/"
+    },
+    {
+      "label": "데이터 재생성 (portfolio.html → data/portfolio.json)",
+      "type": "shell",
+      "command": "C:/Users/user/AppData/Local/Programs/Python/Python312/python.exe",
+      "args": [
+        "tools/build_data.py"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "detail": "포트폴리오 페이지를 고친 뒤 반드시 실행"
+    }
+  ]
+}
