@@ -3,356 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>방문 예약 · 이제준 포트폴리오</title>
-  <meta name="description" content="이제준에게 방문 예약을 신청하는 페이지입니다.">
+  <meta name="description" content="이제준에게 방문을 예약하는 페이지입니다. 날짜와 시간을 고르고 연락처를 남겨 주세요.">
+  <title>방문 예약 · TRAINER LEE JEJUN</title>
 
+  <!-- Google Fonts: Press Start 2P, Silkscreen, Outfit, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Retro Korean Pixel Font: DungGeunMo (둥근모) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css">
 
-  <style>
-    :root {
-      --bg: #FBFBF9;
-      --surface: #FFFFFF;
-      --ink: #1A1D1A;
-      --ink-2: #414741;
-      --muted: #6D746C;
-      --line: #E2E5DF;
-      --line-2: #EDEFEA;
-      --accent: #2E7D53;
-      --accent-bg: #EAF3EE;
-      color-scheme: light;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #101210;
-        --surface: #181B18;
-        --ink: #E9ECE8;
-        --ink-2: #C2C8C1;
-        --muted: #949B93;
-        --line: #282C28;
-        --line-2: #1F231F;
-        --accent: #63BE8E;
-        --accent-bg: #15251C;
-        color-scheme: dark;
-      }
-    }
+  <!-- Pretendard (최고의 한글 가독성) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-    * { box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-      line-height: 1.75;
-      -webkit-font-smoothing: antialiased;
-      margin: 0;
-    }
-    .wrap { max-width: 880px; margin: 0 auto; padding-inline: 24px; }
-    @media (max-width: 640px) { .wrap { padding-inline: 18px; } }
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    /* 상단 탭 네비게이션 */
-    .site-nav{
-      position:sticky;top:0;z-index:80;
-      background:var(--surface);border-bottom:1px solid var(--line);
-    }
-    .site-nav-inner{
-      max-width:880px;margin:0 auto;padding-inline:24px;
-      display:flex;align-items:center;gap:0;
-      overflow-x:auto;scrollbar-width:none;
-    }
-    .site-nav-inner::-webkit-scrollbar{display:none}
-    @media (max-width:640px){.site-nav-inner{padding-inline:18px}}
-    .site-nav-tab{
-      display:flex;align-items:center;gap:7px;
-      font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:500;
-      color:var(--muted);text-decoration:none;white-space:nowrap;
-      padding:14px 16px;border-bottom:2px solid transparent;
-      transition:color .15s,border-color .15s;
-    }
-    .site-nav-tab:hover{color:var(--ink);border-bottom-color:var(--line)}
-    .site-nav-tab.active{
-      color:var(--accent);border-bottom-color:var(--accent);font-weight:600;
-    }
-    .site-nav-tab svg{
-      width:13px;height:13px;fill:none;stroke:currentColor;
-      stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-      flex:none;
-    }
-    .site-nav-divider{
-      width:1px;height:16px;background:var(--line);flex:none;margin:0 4px;
-    }
-
-    /* 히어로 */
-    .page-header { padding-block: 56px 52px; }
-    .page-header .who {
-      font-family: "IBM Plex Mono", monospace; font-size: 12px;
-      color: var(--accent); margin: 0 0 14px; letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    .page-header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 700; line-height: 1.25;
-      margin: 0; letter-spacing: -.02em;
-    }
-    .page-header .desc {
-      font-size: clamp(.95rem, 2.4vw, 1.1rem); color: var(--ink-2);
-      margin: 18px 0 0; max-width: 44ch; line-height: 1.8;
-    }
-
-    /* 예약 양식 */
-    :root { --danger: #C0392B; --danger-bg: #FDF0EE; --disabled: #A9AEA8; }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --danger: #F0877B; --danger-bg: #2A1815; --disabled: #565B55; }
-    }
-    .booking {
-      border-top: 1px solid var(--line); padding-block: 36px 56px;
-      display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 36px;
-      align-items: start;
-    }
-    @media (max-width: 760px) { .booking { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
-    .panel-title {
-      font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
-      letter-spacing: .04em; color: var(--accent); margin: 0 0 12px; text-transform: uppercase;
-    }
-
-    .cal { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 14px; }
-    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .cal-head strong { font-size: 15px; }
-    .cal-nav {
-      width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 8px;
-      background: transparent; color: var(--ink); cursor: pointer; font-size: 16px; line-height: 1;
-    }
-    .cal-nav:hover:not(:disabled) { background: var(--accent-bg); }
-    .cal-nav:disabled { color: var(--disabled); cursor: not-allowed; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
-    .cal-dow { font-size: 11.5px; color: var(--muted); padding: 6px 0; font-family: "IBM Plex Mono", monospace; }
-    .cal-dow:first-child { color: var(--danger); }
-    .cal-day {
-      aspect-ratio: 1; border: 1px solid transparent; border-radius: 8px; background: transparent;
-      color: var(--ink); font: inherit; font-size: 13.5px; cursor: pointer; padding: 0;
-    }
-    .cal-day:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent); }
-    .cal-day:disabled { color: var(--disabled); cursor: not-allowed; text-decoration: line-through; text-decoration-color: transparent; }
-    .cal-day.holiday:disabled { color: var(--danger); opacity: .55; }
-    .cal-day[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
-    .cal-day.empty { visibility: hidden; }
-    .cal-legend { font-size: 12px; color: var(--muted); margin: 10px 2px 0; line-height: 1.6; }
-    .cal-status { font-size: 12px; color: var(--muted); margin: 6px 2px 0; min-height: 1.6em; }
-
-    .selected-box {
-      margin-top: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
-    }
-    .selected-box .lbl { font-size: 12px; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
-    .selected-box output { display: block; font-size: 16px; font-weight: 600; margin-top: 2px; }
-    .selected-box output.empty { color: var(--muted); font-weight: 400; font-size: 14px; }
-
-    .field { margin-bottom: 18px; }
-    .field label, .field .label-like { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
-    .req { color: var(--danger); margin-left: 3px; }
-    .field input, .field select, .field textarea {
-      width: 100%; padding: 11px 12px; font: inherit; font-size: 14.5px; color: var(--ink);
-      background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
-    }
-    .field textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
-    .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
-    .field.invalid input, .field.invalid select, .field.invalid textarea {
-      border-color: var(--danger); background: var(--danger-bg);
-    }
-    .field.invalid input:focus, .field.invalid textarea:focus { outline-color: var(--danger); }
-    .err { display: none; margin: 6px 2px 0; font-size: 12.5px; color: var(--danger); }
-    .field.invalid .err { display: block; }
-    .count { text-align: right; font-size: 11.5px; color: var(--muted); font-family: "IBM Plex Mono", monospace; margin-top: 4px; }
-
-    .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; margin: 6px 0 14px; cursor: pointer; }
-    .consent input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); flex: none; }
-    .submit-btn {
-      width: 100%; padding: 14px; font: inherit; font-size: 15px; font-weight: 700; color: #fff;
-      background: var(--accent); border: 0; border-radius: 8px; cursor: pointer;
-    }
-    .submit-btn:hover:not(:disabled) { filter: brightness(1.08); }
-    .submit-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
-    .submit-hint { font-size: 12px; color: var(--muted); margin: 8px 2px 0; }
-
-    /* 검토 팝업 */
-    dialog.review {
-      border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink);
-      padding: 0; width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 32px);
-    }
-    dialog.review::backdrop { background: rgba(0,0,0,.45); }
-    .review-body { padding: 22px; overflow-y: auto; max-height: calc(100vh - 140px); }
-    .review h2 { font-size: 1.15rem; margin: 0 0 4px; }
-    .review .sub { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
-    .review dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 10px 14px; font-size: 14px; }
-    .review dt { color: var(--muted); font-size: 12.5px; padding-top: 2px; }
-    .review dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
-    .review-actions { display: flex; gap: 10px; padding: 14px 22px 22px; }
-    .review-actions button { flex: 1; padding: 12px; font: inherit; font-weight: 700; border-radius: 8px; cursor: pointer; }
-    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-2); }
-    .btn-solid { background: var(--accent); border: 1px solid var(--accent); color: #fff; }
-
-    /* 완료 */
-    .done { display: none; border-top: 1px solid var(--line); padding-block: 48px 56px; text-align: center; }
-    .done.show { display: block; }
-    .done h2 { font-size: 1.4rem; margin: 0 0 8px; }
-    .done p { color: var(--ink-2); margin: 0 auto 6px; max-width: 46ch; font-size: 14.5px; }
-    .done .rid { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--muted); }
-    .done-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 22px; }
-
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 8px;
-      font-family: "IBM Plex Sans KR", sans-serif; font-size: 14px; font-weight: 600;
-      color: var(--accent); text-decoration: none;
-      padding: 11px 22px; border: 1px solid var(--accent); border-radius: 8px;
-      transition: background .15s, color .15s;
-    }
-    .back-btn:hover { background: var(--accent-bg); }
-    .back-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-    footer {
-      border-top: 1px solid var(--line); padding-block: 22px 40px;
-      font-size: 12px; color: var(--muted);
-      display: flex; flex-wrap: wrap; gap: 6px 18px;
-    }
-
-    a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
 </head>
 <body>
 
-  <!-- 상단 탭 네비게이션 -->
-  <nav class="site-nav" id="site-nav" aria-label="페이지 탐색">
-    <div class="site-nav-inner">
-      <a href="index.html" class="site-nav-tab" id="nav-tab-portfolio">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        포트폴리오
-      </a>
-      <div class="site-nav-divider" aria-hidden="true"></div>
-      <a href="visit.html" class="site-nav-tab" id="nav-tab-visit">
-        <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-        찾아오는 길
-      </a>
-      <div class="site-nav-divider" aria-hidden="true"></div>
-      <a href="reservation.html" class="site-nav-tab active" id="nav-tab-reserve" aria-current="page">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        방문 예약
-      </a>
+  <!-- 메인과 동일한 상단 네비게이션 -->
+  <header class="poke-header">
+    <div class="poke-header-stripe"></div>
+    <div class="layout-container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-trainer" title="이제준 포트폴리오 홈으로">
+          <div class="pokeball-icon"></div>
+          <span class="brand-text-name pixel-font">JEJUN.DEX</span>
+          <span class="brand-tag-lvl pixel-font">Lv.24</span>
+        </a>
+
+        <nav class="poke-nav" aria-label="페이지 탐색">
+          <a href="index.html#hero" class="nav-link"><i class="fa-solid fa-id-card"></i> 프로필 카드</a>
+          <a href="index.html#badges" class="nav-link"><i class="fa-solid fa-award"></i> 체육관 배지</a>
+          <a href="index.html#dex" class="nav-link"><i class="fa-solid fa-book-bookmark"></i> 프로젝트 도감</a>
+          <a href="index.html#quests" class="nav-link"><i class="fa-solid fa-map-location-dot"></i> 모험 일지</a>
+          <a href="index.html#comms" class="nav-link"><i class="fa-solid fa-satellite-dish"></i> 통신 센터</a>
+          <a href="visit.html" class="nav-link" id="nav-visit"><i class="fa-solid fa-location-dot"></i> 찾아오는 길</a>
+          <a href="reservation.html" class="nav-link current" id="nav-reserve" aria-current="page"><i class="fa-solid fa-calendar-check"></i> 방문 예약</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="icon-action-btn pixel-btn" id="btn-theme-toggle" title="주간/야간 모드 전환" aria-label="주간/야간 모드 전환">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 모바일용 빠른 이동 -->
+  <nav class="page-subnav" aria-label="빠른 이동">
+    <div class="page-subnav-inner">
+      <a href="index.html">포트폴리오</a>
+      <a href="visit.html">찾아오는 길</a>
+      <a href="reservation.html" class="active" aria-current="page">방문 예약</a>
     </div>
   </nav>
 
-  <div class="wrap">
-
-    <!-- 히어로 -->
-    <header class="page-header">
-      <p class="who">RESERVATION</p>
-      <h1>방문 예약하기</h1>
-      <p class="desc">
-        포트폴리오를 보시고 연락 주시거나 방문을 예약하실 수 있습니다. 확인 후 이메일로 답장드립니다.
-      </p>
-    </header>
-
-    <!-- 예약 양식 -->
-    <form class="booking" id="booking-form" novalidate autocomplete="on">
-      <!-- 왼쪽: 날짜·시간 -->
-      <section aria-labelledby="cal-title">
-        <h2 class="panel-title" id="cal-title">1 · 날짜와 시간</h2>
-        <div class="cal" id="calendar">
-          <div class="cal-head">
-            <button type="button" class="cal-nav" id="cal-prev" aria-label="이전 달">&#8249;</button>
-            <strong id="cal-month" aria-live="polite"></strong>
-            <button type="button" class="cal-nav" id="cal-next" aria-label="다음 달">&#8250;</button>
-          </div>
-          <div class="cal-grid" id="cal-grid" role="group" aria-label="방문 날짜 선택"></div>
-          <p class="cal-legend">평일만 선택할 수 있습니다. 주말·공휴일과 지난 날짜는 선택할 수 없습니다.</p>
-          <p class="cal-status" id="cal-status"></p>
-        </div>
-
-        <div class="selected-box">
-          <span class="lbl">선택한 날짜</span>
-          <output id="date-output" class="empty" for="cal-grid">캘린더에서 날짜를 선택하세요</output>
-        </div>
-
-        <div class="field" style="margin-top:14px;">
-          <label for="time-select">희망 시간<span class="req" aria-hidden="true">*</span></label>
-          <select id="time-select" required>
-            <option value="">시간을 선택하세요</option>
-          </select>
-        </div>
-      </section>
-
-      <!-- 오른쪽: 신청자 정보 -->
-      <section aria-labelledby="info-title">
-        <h2 class="panel-title" id="info-title">2 · 신청자 정보</h2>
-
-        <div class="field" id="f-name">
-          <label for="name">이름<span class="req" aria-hidden="true">*</span></label>
-          <input id="name" name="name" type="text" maxlength="40" autocomplete="name" required aria-describedby="name-err">
-          <p class="err" id="name-err">이름을 입력해 주세요.</p>
-        </div>
-
-        <div class="field" id="f-email">
-          <label for="email">답장받을 이메일<span class="req" aria-hidden="true">*</span></label>
-          <input id="email" name="email" type="email" inputmode="email" maxlength="120" autocomplete="email" placeholder="example@email.com" required aria-describedby="email-err">
-          <p class="err" id="email-err" role="alert">이메일 형식이 올바르지 않습니다. 예: example@email.com</p>
-        </div>
-
-        <div class="field" id="f-purpose">
-          <label for="purpose">방문 목적<span class="req" aria-hidden="true">*</span></label>
-          <textarea id="purpose" name="purpose" maxlength="1000" required aria-describedby="purpose-err" placeholder="방문하려는 이유와 나누고 싶은 이야기를 자유롭게 적어 주세요."></textarea>
-          <div class="count"><span id="purpose-count">0</span> / 1000</div>
-          <p class="err" id="purpose-err">방문 목적을 입력해 주세요.</p>
-        </div>
-
-        <label class="consent" for="consent">
-          <input type="checkbox" id="consent">
-          <span>입력 정보를 예약 상담 목적으로 운영자에게 전달하는 것에 동의합니다.</span>
-        </label>
-
-        <button type="submit" class="submit-btn" id="submit-btn" disabled>예약하기</button>
-        <p class="submit-hint" id="submit-hint"></p>
-      </section>
-    </form>
-
-    <!-- 완료 -->
-    <section class="done" id="done" aria-live="polite">
-      <h2>예약 신청이 저장되었습니다</h2>
-      <p>아래 버튼으로 예약 내용을 이메일로 보내거나 파일로 보관할 수 있습니다. 확인 후 입력하신 이메일로 답장드립니다.</p>
-      <p class="rid" id="done-id"></p>
-      <div class="done-actions">
-        <a class="back-btn" id="done-mail" href="#">이메일로 보내기</a>
-        <button type="button" class="back-btn" id="done-download" style="background:transparent;cursor:pointer;">예약 내용 파일로 저장</button>
-        <button type="button" class="back-btn" id="done-new" style="background:transparent;cursor:pointer;border-color:var(--line);color:var(--ink-2);">새 예약 작성</button>
+  <main class="page-main">
+    <div class="layout-container">
+      <div class="section-header">
+        <span class="section-tag">RESERVATION</span>
+        <h1 class="section-title">방문 예약하기</h1>
+        <p class="section-subtitle">포트폴리오를 보시고 연락 주시거나 방문을 예약하실 수 있습니다. 확인 후 이메일로 답장드립니다.</p>
       </div>
-    </section>
 
-    <!-- 최종 검토 팝업 -->
-    <dialog class="review" id="review" aria-labelledby="review-title">
-      <div class="review-body">
-        <h2 id="review-title">예약 내용을 확인해 주세요</h2>
-        <p class="sub">내용이 맞다면 &lsquo;예약 확정&rsquo;을 눌러 주세요.</p>
-        <dl>
-          <dt>날짜</dt><dd id="r-date"></dd>
-          <dt>희망 시간</dt><dd id="r-time"></dd>
-          <dt>이름</dt><dd id="r-name"></dd>
-          <dt>이메일</dt><dd id="r-email"></dd>
-          <dt>방문 목적</dt><dd id="r-purpose"></dd>
-          <dt>정보 전달 동의</dt><dd>동의함</dd>
-        </dl>
+<!-- 예약 양식 -->
+<form class="booking" id="booking-form" novalidate autocomplete="on">
+  <!-- 왼쪽: 날짜·시간 -->
+  <section aria-labelledby="cal-title">
+    <h2 class="panel-title" id="cal-title">1 · 날짜와 시간</h2>
+    <div class="cal" id="calendar">
+      <div class="cal-head">
+        <button type="button" class="cal-nav" id="cal-prev" aria-label="이전 달">&#8249;</button>
+        <strong id="cal-month" aria-live="polite"></strong>
+        <button type="button" class="cal-nav" id="cal-next" aria-label="다음 달">&#8250;</button>
       </div>
-      <div class="review-actions">
-        <button type="button" class="btn-ghost" id="review-back">수정하기</button>
-        <button type="button" class="btn-solid" id="review-confirm">예약 확정</button>
-      </div>
-    </dialog>
+      <div class="cal-grid" id="cal-grid" role="group" aria-label="방문 날짜 선택"></div>
+      <p class="cal-legend">평일만 선택할 수 있습니다. 주말·공휴일과 지난 날짜는 선택할 수 없습니다.</p>
+      <p class="cal-status" id="cal-status"></p>
+    </div>
 
+    <div class="selected-box">
+      <span class="lbl">선택한 날짜</span>
+      <output id="date-output" class="empty" for="cal-grid">캘린더에서 날짜를 선택하세요</output>
+    </div>
+
+    <div class="field" style="margin-top:14px;">
+      <label for="time-select">희망 시간<span class="req" aria-hidden="true">*</span></label>
+      <select id="time-select" required>
+        <option value="">시간을 선택하세요</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 오른쪽: 신청자 정보 -->
+  <section aria-labelledby="info-title">
+    <h2 class="panel-title" id="info-title">2 · 신청자 정보</h2>
+
+    <div class="field" id="f-name">
+      <label for="name">이름<span class="req" aria-hidden="true">*</span></label>
+      <input id="name" name="name" type="text" maxlength="40" autocomplete="name" required aria-describedby="name-err">
+      <p class="err" id="name-err">이름을 입력해 주세요.</p>
+    </div>
+
+    <div class="field" id="f-email">
+      <label for="email">답장받을 이메일<span class="req" aria-hidden="true">*</span></label>
+      <input id="email" name="email" type="email" inputmode="email" maxlength="120" autocomplete="email" placeholder="example@email.com" required aria-describedby="email-err">
+      <p class="err" id="email-err" role="alert">이메일 형식이 올바르지 않습니다. 예: example@email.com</p>
+    </div>
+
+    <div class="field" id="f-purpose">
+      <label for="purpose">방문 목적<span class="req" aria-hidden="true">*</span></label>
+      <textarea id="purpose" name="purpose" maxlength="1000" required aria-describedby="purpose-err" placeholder="방문하려는 이유와 나누고 싶은 이야기를 자유롭게 적어 주세요."></textarea>
+      <div class="count"><span id="purpose-count">0</span> / 1000</div>
+      <p class="err" id="purpose-err">방문 목적을 입력해 주세요.</p>
+    </div>
+
+    <label class="consent" for="consent">
+      <input type="checkbox" id="consent">
+      <span>입력 정보를 예약 상담 목적으로 운영자에게 전달하는 것에 동의합니다.</span>
+    </label>
+
+    <button type="submit" class="submit-btn" id="submit-btn" disabled><i class="fa-solid fa-calendar-check"></i> 예약하기</button>
+    <p class="submit-hint" id="submit-hint"></p>
+  </section>
+</form>
+
+<!-- 완료 -->
+<section class="done" id="done" aria-live="polite">
+  <h2>예약 신청이 저장되었습니다</h2>
+  <p>아래 버튼으로 예약 내용을 이메일로 보내거나 파일로 보관할 수 있습니다. 확인 후 입력하신 이메일로 답장드립니다.</p>
+  <p class="rid" id="done-id"></p>
+  <div class="done-actions">
+    <a class="btn-poke-primary" id="done-mail" href="#">이메일로 보내기</a>
+    <button type="button" class="btn-poke-secondary" id="done-download">예약 내용 파일로 저장</button>
+    <button type="button" class="btn-poke-secondary" id="done-new">새 예약 작성</button>
   </div>
+</section>
 
-  <footer class="wrap">
-    <span>© 2025 이제준 · 상명대학교 조경학과</span>
-    <a href="index.html" style="color:inherit;text-decoration:none;">← 포트폴리오로 돌아가기</a>
+<!-- 최종 검토 팝업 -->
+<dialog class="review" id="review" aria-labelledby="review-title">
+  <div class="review-head"><h2 id="review-title">▶ 예약 내용을 확인해 주세요</h2></div>
+  <div class="review-body">
+    <p class="sub">내용이 맞다면 &lsquo;예약 확정&rsquo;을 눌러 주세요.</p>
+    <dl>
+      <dt>날짜</dt><dd id="r-date"></dd>
+      <dt>희망 시간</dt><dd id="r-time"></dd>
+      <dt>이름</dt><dd id="r-name"></dd>
+      <dt>이메일</dt><dd id="r-email"></dd>
+      <dt>방문 목적</dt><dd id="r-purpose"></dd>
+      <dt>정보 전달 동의</dt><dd>동의함</dd>
+    </dl>
+  </div>
+  <div class="review-actions">
+    <button type="button" class="btn-ghost" id="review-back">수정하기</button>
+    <button type="button" class="btn-solid" id="review-confirm">예약 확정</button>
+  </div>
+</dialog>
+
+
+    </div>
+  </main>
+
+  <footer class="poke-footer">
+    <div class="layout-container">
+      <div class="footer-content">
+        <div class="footer-copy">
+          <p>© 2026 <strong>TRAINER LEE JEJUN (이제준)</strong>. All Rights Reserved.</p>
+          <p style="font-size: 0.78rem; margin-top: 0.25rem; color: rgba(255, 255, 255, 0.5);">
+            Inspired by Pokémon creature adventure aesthetic. 100% Original Fan-Made Craftsmanship.
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">포트폴리오 홈</a>
+          <a href="visit.html">찾아오는 길</a>
+          <a href="reservation.html">방문 예약</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <script src="pages.js"></script>
   <script>
   (function () {
     'use strict';
