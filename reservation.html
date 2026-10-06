@@ -98,29 +98,105 @@
       margin: 18px 0 0; max-width: 44ch; line-height: 1.8;
     }
 
-    /* 준비중 영역 */
-    .coming-soon {
-      border-top: 1px solid var(--line);
-      padding-block: 72px;
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 16px;
+    /* 예약 양식 */
+    :root { --danger: #C0392B; --danger-bg: #FDF0EE; --disabled: #A9AEA8; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --danger: #F0877B; --danger-bg: #2A1815; --disabled: #565B55; }
     }
-    .coming-icon {
-      font-size: 48px; line-height: 1;
+    .booking {
+      border-top: 1px solid var(--line); padding-block: 36px 56px;
+      display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 36px;
+      align-items: start;
     }
-    .coming-soon h2 {
-      font-size: 1.4rem; font-weight: 700; margin: 0; letter-spacing: -.02em;
+    @media (max-width: 760px) { .booking { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+    .panel-title {
+      font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; color: var(--accent); margin: 0 0 12px; text-transform: uppercase;
     }
-    .coming-soon p {
-      margin: 0; font-size: 14px; color: var(--muted); max-width: 36ch; line-height: 1.8;
+
+    .cal { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 14px; }
+    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .cal-head strong { font-size: 15px; }
+    .cal-nav {
+      width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 8px;
+      background: transparent; color: var(--ink); cursor: pointer; font-size: 16px; line-height: 1;
     }
-    .coming-tag {
-      display: inline-block;
-      font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 500;
-      padding: 4px 10px; border-radius: 20px;
-      background: var(--accent-bg); color: var(--accent);
-      letter-spacing: .04em;
+    .cal-nav:hover:not(:disabled) { background: var(--accent-bg); }
+    .cal-nav:disabled { color: var(--disabled); cursor: not-allowed; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+    .cal-dow { font-size: 11.5px; color: var(--muted); padding: 6px 0; font-family: "IBM Plex Mono", monospace; }
+    .cal-dow:first-child { color: var(--danger); }
+    .cal-day {
+      aspect-ratio: 1; border: 1px solid transparent; border-radius: 8px; background: transparent;
+      color: var(--ink); font: inherit; font-size: 13.5px; cursor: pointer; padding: 0;
     }
+    .cal-day:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent); }
+    .cal-day:disabled { color: var(--disabled); cursor: not-allowed; text-decoration: line-through; text-decoration-color: transparent; }
+    .cal-day.holiday:disabled { color: var(--danger); opacity: .55; }
+    .cal-day[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+    .cal-day.empty { visibility: hidden; }
+    .cal-legend { font-size: 12px; color: var(--muted); margin: 10px 2px 0; line-height: 1.6; }
+    .cal-status { font-size: 12px; color: var(--muted); margin: 6px 2px 0; min-height: 1.6em; }
+
+    .selected-box {
+      margin-top: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+    }
+    .selected-box .lbl { font-size: 12px; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+    .selected-box output { display: block; font-size: 16px; font-weight: 600; margin-top: 2px; }
+    .selected-box output.empty { color: var(--muted); font-weight: 400; font-size: 14px; }
+
+    .field { margin-bottom: 18px; }
+    .field label, .field .label-like { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
+    .req { color: var(--danger); margin-left: 3px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 11px 12px; font: inherit; font-size: 14.5px; color: var(--ink);
+      background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    }
+    .field textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+    .field.invalid input, .field.invalid select, .field.invalid textarea {
+      border-color: var(--danger); background: var(--danger-bg);
+    }
+    .field.invalid input:focus, .field.invalid textarea:focus { outline-color: var(--danger); }
+    .err { display: none; margin: 6px 2px 0; font-size: 12.5px; color: var(--danger); }
+    .field.invalid .err { display: block; }
+    .count { text-align: right; font-size: 11.5px; color: var(--muted); font-family: "IBM Plex Mono", monospace; margin-top: 4px; }
+
+    .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; margin: 6px 0 14px; cursor: pointer; }
+    .consent input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); flex: none; }
+    .submit-btn {
+      width: 100%; padding: 14px; font: inherit; font-size: 15px; font-weight: 700; color: #fff;
+      background: var(--accent); border: 0; border-radius: 8px; cursor: pointer;
+    }
+    .submit-btn:hover:not(:disabled) { filter: brightness(1.08); }
+    .submit-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+    .submit-hint { font-size: 12px; color: var(--muted); margin: 8px 2px 0; }
+
+    /* 검토 팝업 */
+    dialog.review {
+      border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink);
+      padding: 0; width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 32px);
+    }
+    dialog.review::backdrop { background: rgba(0,0,0,.45); }
+    .review-body { padding: 22px; overflow-y: auto; max-height: calc(100vh - 140px); }
+    .review h2 { font-size: 1.15rem; margin: 0 0 4px; }
+    .review .sub { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
+    .review dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 10px 14px; font-size: 14px; }
+    .review dt { color: var(--muted); font-size: 12.5px; padding-top: 2px; }
+    .review dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .review-actions { display: flex; gap: 10px; padding: 14px 22px 22px; }
+    .review-actions button { flex: 1; padding: 12px; font: inherit; font-weight: 700; border-radius: 8px; cursor: pointer; }
+    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-2); }
+    .btn-solid { background: var(--accent); border: 1px solid var(--accent); color: #fff; }
+
+    /* 완료 */
+    .done { display: none; border-top: 1px solid var(--line); padding-block: 48px 56px; text-align: center; }
+    .done.show { display: block; }
+    .done h2 { font-size: 1.4rem; margin: 0 0 8px; }
+    .done p { color: var(--ink-2); margin: 0 auto 6px; max-width: 46ch; font-size: 14.5px; }
+    .done .rid { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--muted); }
+    .done-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 22px; }
+
     .back-btn {
       display: inline-flex; align-items: center; gap: 8px;
       margin-top: 8px;
@@ -172,28 +248,103 @@
       <p class="who">RESERVATION</p>
       <h1>방문 예약하기</h1>
       <p class="desc">
-        방문 일정을 예약해 주시면 확인 후 이메일로 안내드립니다.
+        포트폴리오를 보시고 연락 주시거나 방문을 예약하실 수 있습니다. 확인 후 이메일로 답장드립니다.
       </p>
     </header>
 
-    <!-- 준비중 -->
-    <section class="coming-soon" id="coming-soon-section">
-      <div class="coming-icon">📅</div>
-      <span class="coming-tag">COMING SOON</span>
-      <h2>예약 기능 준비 중입니다</h2>
-      <p>
-        방문 예약 양식은 현재 개발 중입니다.<br>
-        그 전까지는 이메일로 방문 의사를 알려주시면 안내해 드리겠습니다.
-      </p>
-      <a href="mailto:dvae1456@gmail.com" class="back-btn" id="email-contact-btn">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        이메일로 문의하기
-      </a>
-      <a href="visit.html" class="back-btn" id="back-to-visit-btn" style="border-color:var(--line);color:var(--ink-2);background:transparent;">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        찾아오는 길로 돌아가기
-      </a>
+    <!-- 예약 양식 -->
+    <form class="booking" id="booking-form" novalidate autocomplete="on">
+      <!-- 왼쪽: 날짜·시간 -->
+      <section aria-labelledby="cal-title">
+        <h2 class="panel-title" id="cal-title">1 · 날짜와 시간</h2>
+        <div class="cal" id="calendar">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="cal-prev" aria-label="이전 달">&#8249;</button>
+            <strong id="cal-month" aria-live="polite"></strong>
+            <button type="button" class="cal-nav" id="cal-next" aria-label="다음 달">&#8250;</button>
+          </div>
+          <div class="cal-grid" id="cal-grid" role="group" aria-label="방문 날짜 선택"></div>
+          <p class="cal-legend">평일만 선택할 수 있습니다. 주말·공휴일과 지난 날짜는 선택할 수 없습니다.</p>
+          <p class="cal-status" id="cal-status"></p>
+        </div>
+
+        <div class="selected-box">
+          <span class="lbl">선택한 날짜</span>
+          <output id="date-output" class="empty" for="cal-grid">캘린더에서 날짜를 선택하세요</output>
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+          <label for="time-select">희망 시간<span class="req" aria-hidden="true">*</span></label>
+          <select id="time-select" required>
+            <option value="">시간을 선택하세요</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- 오른쪽: 신청자 정보 -->
+      <section aria-labelledby="info-title">
+        <h2 class="panel-title" id="info-title">2 · 신청자 정보</h2>
+
+        <div class="field" id="f-name">
+          <label for="name">이름<span class="req" aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" maxlength="40" autocomplete="name" required aria-describedby="name-err">
+          <p class="err" id="name-err">이름을 입력해 주세요.</p>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="email">답장받을 이메일<span class="req" aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" inputmode="email" maxlength="120" autocomplete="email" placeholder="example@email.com" required aria-describedby="email-err">
+          <p class="err" id="email-err" role="alert">이메일 형식이 올바르지 않습니다. 예: example@email.com</p>
+        </div>
+
+        <div class="field" id="f-purpose">
+          <label for="purpose">방문 목적<span class="req" aria-hidden="true">*</span></label>
+          <textarea id="purpose" name="purpose" maxlength="1000" required aria-describedby="purpose-err" placeholder="방문하려는 이유와 나누고 싶은 이야기를 자유롭게 적어 주세요."></textarea>
+          <div class="count"><span id="purpose-count">0</span> / 1000</div>
+          <p class="err" id="purpose-err">방문 목적을 입력해 주세요.</p>
+        </div>
+
+        <label class="consent" for="consent">
+          <input type="checkbox" id="consent">
+          <span>입력 정보를 예약 상담 목적으로 운영자에게 전달하는 것에 동의합니다.</span>
+        </label>
+
+        <button type="submit" class="submit-btn" id="submit-btn" disabled>예약하기</button>
+        <p class="submit-hint" id="submit-hint"></p>
+      </section>
+    </form>
+
+    <!-- 완료 -->
+    <section class="done" id="done" aria-live="polite">
+      <h2>예약 신청이 저장되었습니다</h2>
+      <p>아래 버튼으로 예약 내용을 이메일로 보내거나 파일로 보관할 수 있습니다. 확인 후 입력하신 이메일로 답장드립니다.</p>
+      <p class="rid" id="done-id"></p>
+      <div class="done-actions">
+        <a class="back-btn" id="done-mail" href="#">이메일로 보내기</a>
+        <button type="button" class="back-btn" id="done-download" style="background:transparent;cursor:pointer;">예약 내용 파일로 저장</button>
+        <button type="button" class="back-btn" id="done-new" style="background:transparent;cursor:pointer;border-color:var(--line);color:var(--ink-2);">새 예약 작성</button>
+      </div>
     </section>
+
+    <!-- 최종 검토 팝업 -->
+    <dialog class="review" id="review" aria-labelledby="review-title">
+      <div class="review-body">
+        <h2 id="review-title">예약 내용을 확인해 주세요</h2>
+        <p class="sub">내용이 맞다면 &lsquo;예약 확정&rsquo;을 눌러 주세요.</p>
+        <dl>
+          <dt>날짜</dt><dd id="r-date"></dd>
+          <dt>희망 시간</dt><dd id="r-time"></dd>
+          <dt>이름</dt><dd id="r-name"></dd>
+          <dt>이메일</dt><dd id="r-email"></dd>
+          <dt>방문 목적</dt><dd id="r-purpose"></dd>
+          <dt>정보 전달 동의</dt><dd>동의함</dd>
+        </dl>
+      </div>
+      <div class="review-actions">
+        <button type="button" class="btn-ghost" id="review-back">수정하기</button>
+        <button type="button" class="btn-solid" id="review-confirm">예약 확정</button>
+      </div>
+    </dialog>
 
   </div>
 
@@ -202,5 +353,240 @@
     <a href="index.html" style="color:inherit;text-decoration:none;">← 포트폴리오로 돌아가기</a>
   </footer>
 
+  <script>
+  (function () {
+    'use strict';
+    var CONTACT_EMAIL = 'dvae1456@gmail.com';
+    var STORE_KEY = 'reservations.v1';
+    var MAX_DAYS_AHEAD = 90;
+    var DOW = ['일', '월', '화', '수', '목', '금', '토'];
+
+    // 공휴일: 공개 API 우선, 실패 시 내장 목록(2026) + 매년 고정 공휴일로 대체
+    var FIXED = { '01-01': '신정', '03-01': '삼일절', '05-05': '어린이날', '06-06': '현충일', '08-15': '광복절', '10-03': '개천절', '10-09': '한글날', '12-25': '성탄절' };
+    var FALLBACK_2026 = {
+      '2026-02-16': '설날 연휴', '2026-02-17': '설날', '2026-02-18': '설날 연휴',
+      '2026-03-02': '삼일절 대체공휴일', '2026-05-24': '부처님오신날', '2026-05-25': '부처님오신날 대체공휴일',
+      '2026-06-03': '전국동시지방선거', '2026-08-17': '광복절 대체공휴일',
+      '2026-09-24': '추석 연휴', '2026-09-25': '추석', '2026-09-26': '추석 연휴',
+      '2026-10-05': '개천절 대체공휴일'
+    };
+    var holidays = {};   // 'YYYY-MM-DD' -> 이름
+    var holidayYears = {};
+    var holidayNote = '';
+
+    var $ = function (id) { return document.getElementById(id); };
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    var key = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var minDate = new Date(today); minDate.setDate(minDate.getDate() + 1);       // 내일부터
+    var maxDate = new Date(today); maxDate.setDate(maxDate.getDate() + MAX_DAYS_AHEAD);
+    var view = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+    var selected = null;  // 'YYYY-MM-DD'
+
+    function applyFallback(year) {
+      Object.keys(FIXED).forEach(function (md) { if (!holidays[year + '-' + md]) holidays[year + '-' + md] = FIXED[md]; });
+      if (year === 2026) Object.keys(FALLBACK_2026).forEach(function (k) { holidays[k] = FALLBACK_2026[k]; });
+    }
+    function loadHolidays(year) {
+      if (holidayYears[year]) return Promise.resolve();
+      holidayYears[year] = true;
+      var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 5000) : null;
+      return fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/KR', ctrl ? { signal: ctrl.signal } : undefined)
+        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(function (list) {
+          list.forEach(function (h) { holidays[h.date] = h.localName || h.name; });
+          applyFallback(year);   // API에 없는 항목은 내장 목록으로 보충
+        })
+        .catch(function () {
+          applyFallback(year);
+          holidayNote = '공휴일 정보를 불러오지 못해 내장 목록으로 표시 중입니다. 공휴일에 해당하면 별도로 안내드립니다.';
+        })
+        .then(function () { if (timer) clearTimeout(timer); });
+    }
+
+    function isSelectable(d) {
+      var w = d.getDay();
+      return d >= minDate && d <= maxDate && w !== 0 && w !== 6 && !holidays[key(d)];
+    }
+
+    function dateLabel(k) {
+      var p = k.split('-').map(Number), d = new Date(p[0], p[1] - 1, p[2]);
+      return p[0] + '년 ' + p[1] + '월 ' + p[2] + '일 (' + DOW[d.getDay()] + ')';
+    }
+
+    function renderCalendar() {
+      var y = view.getFullYear(), m = view.getMonth();
+      $('cal-month').textContent = y + '년 ' + (m + 1) + '월';
+      var grid = $('cal-grid');
+      grid.textContent = '';
+      DOW.forEach(function (n) {
+        var c = document.createElement('div'); c.className = 'cal-dow'; c.textContent = n; grid.appendChild(c);
+      });
+      var first = new Date(y, m, 1).getDay();
+      var days = new Date(y, m + 1, 0).getDate();
+      for (var i = 0; i < first; i++) {
+        var e = document.createElement('span'); e.className = 'cal-day empty'; grid.appendChild(e);
+      }
+      for (var day = 1; day <= days; day++) {
+        var d = new Date(y, m, day), k = key(d);
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'cal-day'; b.textContent = day; b.dataset.date = k;
+        var h = holidays[k];
+        if (h) { b.classList.add('holiday'); b.title = h; b.setAttribute('aria-label', (m + 1) + '월 ' + day + '일 ' + h + ', 선택 불가'); }
+        else b.setAttribute('aria-label', (m + 1) + '월 ' + day + '일 ' + DOW[d.getDay()] + '요일');
+        b.disabled = !isSelectable(d);
+        b.setAttribute('aria-pressed', k === selected ? 'true' : 'false');
+        grid.appendChild(b);
+      }
+      var minIdx = minDate.getFullYear() * 12 + minDate.getMonth();
+      var maxIdx = maxDate.getFullYear() * 12 + maxDate.getMonth();
+      var curIdx = y * 12 + m;
+      $('cal-prev').disabled = curIdx <= minIdx;
+      $('cal-next').disabled = curIdx >= maxIdx;
+      $('cal-status').textContent = holidayNote;
+    }
+
+    function showMonth() {
+      renderCalendar();
+      loadHolidays(view.getFullYear()).then(function () {
+        // 선택한 날짜가 새로 확인된 공휴일이면 선택 해제
+        if (selected && !isSelectable(new Date(selected + 'T00:00:00'))) clearDate();
+        renderCalendar(); refresh();
+      });
+    }
+    function clearDate() {
+      selected = null;
+      var out = $('date-output'); out.textContent = '캘린더에서 날짜를 선택하세요'; out.classList.add('empty');
+    }
+
+    $('cal-prev').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); showMonth(); });
+    $('cal-next').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); showMonth(); });
+    $('cal-grid').addEventListener('click', function (ev) {
+      var b = ev.target.closest && ev.target.closest('button.cal-day');
+      if (!b || b.disabled) return;
+      selected = b.dataset.date;
+      var out = $('date-output');
+      out.textContent = dateLabel(selected);
+      out.classList.remove('empty');
+      renderCalendar(); refresh();
+    });
+
+    // 시간: 13:00 ~ 18:00, 30분 단위
+    (function () {
+      var sel = $('time-select');
+      for (var mins = 13 * 60; mins <= 18 * 60; mins += 30) {
+        var t = pad(Math.floor(mins / 60)) + ':' + pad(mins % 60);
+        var o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o);
+      }
+    })();
+
+    // 입력 검증
+    var EMAIL_RE = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+    var touched = {};
+    function val(id) { return $(id).value.trim(); }
+    function validity() {
+      return {
+        name: val('name').length > 0,
+        email: EMAIL_RE.test(val('email')),
+        purpose: val('purpose').length > 0,
+        date: !!selected && isSelectable(new Date(selected + 'T00:00:00')),
+        time: !!$('time-select').value,
+        consent: $('consent').checked
+      };
+    }
+    function paintField(id) {
+      var bad = !!touched[id] && !validity()[id];
+      $('f-' + id).classList.toggle('invalid', bad);
+      $(id).setAttribute('aria-invalid', bad ? 'true' : 'false');
+    }
+    function refresh() {
+      ['name', 'email', 'purpose'].forEach(paintField);
+      var v = validity();
+      var ok = Object.keys(v).every(function (k) { return v[k]; });
+      $('submit-btn').disabled = !ok;
+      var missing = [];
+      if (!v.date) missing.push('날짜');
+      if (!v.time) missing.push('희망 시간');
+      if (!v.name) missing.push('이름');
+      if (!v.email) missing.push('이메일');
+      if (!v.purpose) missing.push('방문 목적');
+      if (!v.consent) missing.push('정보 전달 동의');
+      $('submit-hint').textContent = ok ? '' : '필요한 항목: ' + missing.join(', ');
+      $('purpose-count').textContent = $('purpose').value.length;
+    }
+    ['name', 'email', 'purpose'].forEach(function (id) {
+      $(id).addEventListener('input', function () {
+        if (id === 'email' && $(id).value) touched.email = true;   // 이메일은 입력 중에도 형식 검사
+        refresh();
+      });
+      $(id).addEventListener('blur', function () { touched[id] = true; refresh(); });
+    });
+    $('time-select').addEventListener('change', refresh);
+    $('consent').addEventListener('change', refresh);
+
+    // 최종 검토 팝업
+    var dlg = $('review');
+    $('booking-form').addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      touched = { name: true, email: true, purpose: true };
+      refresh();
+      if ($('submit-btn').disabled) return;
+      $('r-date').textContent = dateLabel(selected);
+      $('r-time').textContent = $('time-select').value;
+      $('r-name').textContent = val('name');
+      $('r-email').textContent = val('email');
+      $('r-purpose').textContent = val('purpose');
+      if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    });
+    $('review-back').addEventListener('click', function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
+
+    // 저장: 이 브라우저(localStorage) + 파일/이메일로 내보내기
+    var lastRecord = null;
+    function readStore() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } }
+    function writeStore(list) { try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); return true; } catch (e) { return false; } }
+
+    function recordText(r) {
+      return ['[방문 예약 신청]', '예약번호: ' + r.id, '날짜: ' + dateLabel(r.date), '희망 시간: ' + r.time,
+        '이름: ' + r.name, '이메일: ' + r.email, '방문 목적:', r.purpose, '', '정보 전달 동의: 동의함 (' + r.consentAt + ')'].join('\n');
+    }
+
+    $('review-confirm').addEventListener('click', function () {
+      var now = new Date();
+      var rec = {
+        id: 'R' + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + '-' + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds()),
+        createdAt: now.toISOString(), date: selected, time: $('time-select').value,
+        name: val('name'), email: val('email'), purpose: val('purpose'),
+        consent: true, consentAt: now.toISOString()
+      };
+      var list = readStore(); list.push(rec);
+      var saved = writeStore(list);
+      lastRecord = rec;
+      if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
+      $('booking-form').style.display = 'none';
+      $('done').classList.add('show');
+      $('done-id').textContent = '예약번호 ' + rec.id + (saved ? '' : ' · 브라우저 저장에 실패했습니다. 파일로 저장해 주세요.');
+      $('done-mail').href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('[방문 예약] ' + rec.name + ' · ' + dateLabel(rec.date) + ' ' + rec.time) + '&body=' + encodeURIComponent(recordText(rec));
+      $('done').scrollIntoView({ block: 'start' });
+    });
+
+    $('done-download').addEventListener('click', function () {
+      if (!lastRecord) return;
+      var blob = new Blob([JSON.stringify(lastRecord, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'reservation-' + lastRecord.id + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+    $('done-new').addEventListener('click', function () {
+      $('booking-form').reset(); touched = {}; clearDate();
+      $('done').classList.remove('show'); $('booking-form').style.display = '';
+      renderCalendar(); refresh();
+    });
+
+    showMonth(); refresh();
+  })();
+  </script>
 </body>
 </html>
