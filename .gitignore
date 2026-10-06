@@ -22,3 +22,7 @@ backend/.env
 # 로그 및 임시 파일
 *.log
 npm-debug.log*
+
+# 방문 예약 목록 (방문자 개인정보 포함 — 공개 저장소에 올리지 않습니다)
+data/reservations.json
+data/reservations.json.tmp

@@ -406,6 +406,7 @@
           name: rec.name,
           email: rec.email,           // Formspree가 답장 주소(Reply-To)로 사용
           date: dateLabel(rec.date),
+          date_iso: rec.date,         // 관리자 화면 가져오기용 (YYYY-MM-DD)
           time: rec.time,
           purpose: rec.purpose,
           consent: '정보 전달 동의함 (' + rec.consentAt + ')',

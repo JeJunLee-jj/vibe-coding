@@ -26,6 +26,9 @@ module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   corsOrigin: process.env.CORS_ORIGIN || '*',
   dataPath: resolveDataPath(),
+  reservationsPath: process.env.RESERVATIONS_FILE_PATH
+    ? path.resolve(__dirname, '../../', process.env.RESERVATIONS_FILE_PATH)
+    : path.resolve(__dirname, '../../../data/reservations.json'),
   dbType: process.env.DB_TYPE || 'file',
   adminPasswordHash: process.env.ADMIN_PASSWORD_HASH || '',
   adminSalt: process.env.ADMIN_SALT || '',

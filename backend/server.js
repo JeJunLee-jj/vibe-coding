@@ -12,9 +12,9 @@ const app = express();
 // 미들웨어
 app.use(cors({
   origin: config.corsOrigin,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 
 // 로깅 미들웨어
 app.use((req, res, next) => {

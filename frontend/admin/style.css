@@ -450,3 +450,75 @@ textarea.form-control {
 .toast-box.err {
   background: #DC2626;
 }
+
+/* ── 예약하기 관리 (reservations.html) ── */
+.auth-check { text-align: center; color: var(--muted); padding: 80px 20px; font-size: 14px; }
+.admin-actions { flex-wrap: wrap; }
+.btn[aria-current="page"] { cursor: default; }
+
+.rv-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; }
+.rv-total { color: var(--ink-2); margin-right: 6px; }
+
+.rv-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.rv-table-wrap { overflow-x: auto; }
+.rv-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 860px; }
+.rv-table th {
+  text-align: left; font-size: 12px; font-weight: 600; color: var(--muted);
+  padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--line-2); white-space: nowrap;
+}
+.rv-table th:first-child { border-top-left-radius: 10px; }
+.rv-table th:last-child { border-top-right-radius: 10px; }
+.rv-table td { padding: 14px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+.rv-table tbody tr:last-child td { border-bottom: 0; }
+.rv-table tbody tr:hover { background: var(--line-2); }
+.rv-empty { text-align: center; color: var(--muted); padding: 48px 14px !important; }
+
+.rv-no { font-weight: 600; white-space: nowrap; }
+.rv-name { font-weight: 600; }
+.rv-mail { font-size: 12px; color: var(--muted); text-decoration: none; overflow-wrap: anywhere; }
+.rv-mail:hover { color: var(--accent); text-decoration: underline; }
+.rv-purpose { max-width: 320px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink-2); max-height: 7.2em; overflow-y: auto; }
+
+.rv-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; border: 1px solid transparent;
+}
+/* 상태색: 접수=회색, 확정=초록, 변경요청=주황, 취소=빨강 */
+.st-new    { --st: #475569; --st-bg: #F1F5F9; }
+.st-ok     { --st: #065F46; --st-bg: #D1FAE5; }
+.st-change { --st: #92400E; --st-bg: #FEF3C7; }
+.st-cancel { --st: #991B1B; --st-bg: #FEE2E2; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .st-new    { --st: #CBD5E1; --st-bg: #1E293B; }
+  :root:not([data-theme="light"]) .st-ok     { --st: #A7F3D0; --st-bg: #064E3B; }
+  :root:not([data-theme="light"]) .st-change { --st: #FDE68A; --st-bg: #422006; }
+  :root:not([data-theme="light"]) .st-cancel { --st: #FECACA; --st-bg: #451212; }
+}
+.rv-badge.st-new, .rv-badge.st-ok, .rv-badge.st-change, .rv-badge.st-cancel { color: var(--st); background: var(--st-bg); }
+
+.rv-actions { display: flex; flex-wrap: wrap; gap: 6px; min-width: 210px; }
+.rv-act {
+  font-family: inherit; font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 6px; cursor: pointer;
+  background: var(--surface); color: var(--st); border: 1px solid var(--st); transition: all .12s ease;
+}
+.rv-act:hover:not(:disabled) { background: var(--st-bg); }
+.rv-act.on, .rv-act:disabled.on { background: var(--st); color: var(--surface); cursor: default; }
+.rv-act:disabled:not(.on) { opacity: .5; cursor: wait; }
+.rv-act:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.rv-import { margin-top: 22px; }
+.rv-import summary { cursor: pointer; padding: 14px 18px; font-size: 14px; font-weight: 600; }
+.rv-import-body { padding: 4px 18px 18px; display: grid; gap: 10px; }
+.rv-hint { font-size: 12.5px; color: var(--muted); }
+.rv-import-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rv-import textarea { width: 100%; resize: vertical; }
+
+@media (max-width: 760px) {
+  .rv-table { min-width: 0; }
+  .rv-table thead { display: none; }
+  .rv-table, .rv-table tbody, .rv-table tr, .rv-table td { display: block; width: 100%; }
+  .rv-table tr { padding: 10px 4px; border-bottom: 1px solid var(--line); }
+  .rv-table td { border: 0; padding: 6px 14px; }
+  .rv-table td::before { content: attr(data-label); display: block; font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .rv-purpose { max-width: none; }
+}
