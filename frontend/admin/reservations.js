@@ -14,6 +14,7 @@ const STATUS_HELP = {
 };
 
 let reservations = [];
+let currentFilter = '전체';   // '전체' | 접수 | 확정 | 변경요청 | 취소
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -46,6 +47,7 @@ async function init() {
 
   document.getElementById('btn-logout').addEventListener('click', backToLogin);
   document.getElementById('rv-body').addEventListener('click', onStatusClick);
+  document.getElementById('rv-filter').addEventListener('click', onFilterClick);
   document.getElementById('rv-file').addEventListener('change', onFilePicked);
   document.getElementById('rv-import-btn').addEventListener('click', onImport);
   loadReservations();
@@ -76,17 +78,37 @@ function fmtWhen(r) {
 
 function render() {
   // 방문 희망 시간이 빠른 순
-  const rows = [...reservations].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time) || a.no - b.no);
+  const sorted = [...reservations].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time) || a.no - b.no);
 
   const counts = Object.fromEntries(STATUSES.map((s) => [s, 0]));
   reservations.forEach((r) => { if (counts[r.status] !== undefined) counts[r.status]++; });
-  document.getElementById('rv-summary').innerHTML =
-    `<span class="rv-total">전체 <b class="mono">${reservations.length}</b>건</span>` +
-    STATUSES.map((s) => `<span class="rv-badge ${STATUS_CLASS[s]}">${s} <b class="mono">${counts[s]}</b></span>`).join('');
+
+  // 1) 요약 문장: 전체 n건 / 접수 n건 / 확정 n건 / 변경요청 n건 / 취소 n건
+  document.getElementById('rv-summary-text').innerHTML =
+    [`전체 <b class="mono">${reservations.length}</b>건`]
+      .concat(STATUSES.map((s) => `${s} <b class="mono">${counts[s]}</b>건`))
+      .join('<span class="rv-sep"> / </span>');
+
+  // 2) 상태 필터 (선택한 상태만 표에 표시)
+  document.getElementById('rv-filter').innerHTML = ['전체', ...STATUSES].map((s) => {
+    const n = s === '전체' ? reservations.length : counts[s];
+    const cls = s === '전체' ? 'st-all' : STATUS_CLASS[s];
+    const on = currentFilter === s;
+    return `<button type="button" class="rv-chip ${cls}${on ? ' on' : ''}" data-filter="${s}" aria-pressed="${on}">${s} <b class="mono">${n}</b></button>`;
+  }).join('');
+
+  const rows = currentFilter === '전체' ? sorted : sorted.filter((r) => r.status === currentFilter);
+  document.getElementById('rv-filter-note').textContent = currentFilter === '전체'
+    ? ''
+    : `"${currentFilter}" 상태 ${rows.length}건만 표시 중 (전체 ${reservations.length}건)`;
 
   const body = document.getElementById('rv-body');
-  if (!rows.length) {
+  if (!reservations.length) {
     body.innerHTML = '<tr><td colspan="6" class="rv-empty">아직 접수된 예약이 없습니다. 아래 "예약 가져오기"로 Formspree 내보내기 파일을 불러올 수 있습니다.</td></tr>';
+    return;
+  }
+  if (!rows.length) {
+    body.innerHTML = `<tr><td colspan="6" class="rv-empty">"${esc(currentFilter)}" 상태의 예약이 없습니다.</td></tr>`;
     return;
   }
   body.innerHTML = rows.map((r) => `
@@ -108,6 +130,14 @@ function render() {
         </div>
       </td>
     </tr>`).join('');
+}
+
+/* ── 상태 필터 ─────────────────────────────────────────── */
+function onFilterClick(e) {
+  const btn = e.target.closest('button.rv-chip');
+  if (!btn) return;
+  currentFilter = btn.dataset.filter;
+  render();
 }
 
 /* ── 상태 변경 ─────────────────────────────────────────── */

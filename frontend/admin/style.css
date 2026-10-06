@@ -522,3 +522,18 @@ textarea.form-control {
   .rv-table td::before { content: attr(data-label); display: block; font-size: 11px; color: var(--muted); margin-bottom: 2px; }
   .rv-purpose { max-width: none; }
 }
+
+/* 요약 문장 + 상태 필터 */
+.rv-summary-text { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 12px; }
+.rv-summary-text b { font-weight: 700; }
+.rv-sep { color: var(--muted); margin: 0 2px; }
+.rv-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.rv-chip {
+  font-family: inherit; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  background: var(--surface); color: var(--st, var(--ink-2)); border: 1px solid var(--st, var(--line)); transition: all .12s ease;
+}
+.rv-chip.st-all { --st: var(--accent); }
+.rv-chip:hover:not(.on) { background: var(--st-bg, var(--accent-bg)); }
+.rv-chip.on { background: var(--st); color: var(--surface); }
+.rv-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rv-filter-note { font-size: 12.5px; color: var(--muted); min-height: 1.4em; margin-bottom: 8px; }
