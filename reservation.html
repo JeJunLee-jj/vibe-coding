@@ -74,6 +74,11 @@
 
 <!-- 예약 양식 -->
 <form class="booking" id="booking-form" novalidate autocomplete="on">
+  <!-- 스팸 방지용 숨김 칸 (사람에게는 보이지 않음) -->
+  <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+    <label for="website">웹사이트</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+  </div>
   <!-- 왼쪽: 날짜·시간 -->
   <section aria-labelledby="cal-title">
     <h2 class="panel-title" id="cal-title">1 · 날짜와 시간</h2>
@@ -136,8 +141,8 @@
 
 <!-- 완료 -->
 <section class="done" id="done" aria-live="polite">
-  <h2>예약 신청이 저장되었습니다</h2>
-  <p>아래 버튼으로 예약 내용을 이메일로 보내거나 파일로 보관할 수 있습니다. 확인 후 입력하신 이메일로 답장드립니다.</p>
+  <h2>예약 신청이 접수되었습니다</h2>
+  <p>예약 내용이 전달되었습니다. 확인 후 입력하신 이메일로 답장드립니다. 아래 버튼으로 내용을 따로 보관할 수도 있습니다.</p>
   <p class="rid" id="done-id"></p>
   <div class="done-actions">
     <a class="btn-poke-primary" id="done-mail" href="#">이메일로 보내기</a>
@@ -159,6 +164,7 @@
       <dt>방문 목적</dt><dd id="r-purpose"></dd>
       <dt>정보 전달 동의</dt><dd>동의함</dd>
     </dl>
+    <p class="err" id="review-error" role="alert" hidden style="display:block;margin-top:1rem;"></p>
   </div>
   <div class="review-actions">
     <button type="button" class="btn-ghost" id="review-back">수정하기</button>
@@ -193,6 +199,7 @@
   (function () {
     'use strict';
     var CONTACT_EMAIL = 'dvae1456@gmail.com';
+    var FORMSPREE_URL = 'https://formspree.io/f/mnpjnnpg';
     var STORE_KEY = 'reservations.v1';
     var MAX_DAYS_AHEAD = 90;
     var DOW = ['일', '월', '화', '수', '목', '금', '토'];
@@ -388,7 +395,36 @@
         '이름: ' + r.name, '이메일: ' + r.email, '방문 목적:', r.purpose, '', '정보 전달 동의: 동의함 (' + r.consentAt + ')'].join('\n');
     }
 
+    // Formspree로 전송 (받는 이메일은 Formspree 폼 설정에서 지정)
+    function sendToFormspree(rec) {
+      return fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: '[방문 예약] ' + rec.name + ' · ' + dateLabel(rec.date) + ' ' + rec.time,
+          reservation_id: rec.id,
+          name: rec.name,
+          email: rec.email,           // Formspree가 답장 주소(Reply-To)로 사용
+          date: dateLabel(rec.date),
+          time: rec.time,
+          purpose: rec.purpose,
+          consent: '정보 전달 동의함 (' + rec.consentAt + ')',
+          _gotcha: ''
+        })
+      }).then(function (r) {
+        if (r.ok) return;
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          var msg = d && d.errors && d.errors.length ? d.errors.map(function (e) { return e.message; }).join(' ') : 'HTTP ' + r.status;
+          throw new Error(msg);
+        });
+      });
+    }
+
+    var sending = false;
     $('review-confirm').addEventListener('click', function () {
+      if (sending) return;
+      if ($('website').value) { return; }   // 스팸 봇이 숨김 칸을 채운 경우 전송하지 않음
+      var btn = $('review-confirm'), err = $('review-error');
       var now = new Date();
       var rec = {
         id: 'R' + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + '-' + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds()),
@@ -396,16 +432,30 @@
         name: val('name'), email: val('email'), purpose: val('purpose'),
         consent: true, consentAt: now.toISOString()
       };
+      sending = true; btn.disabled = true; $('review-back').disabled = true;
+      btn.textContent = '전송 중…'; err.hidden = true;
+      sendToFormspree(rec).then(function () {
+        rec.sent = true;
+        finish(rec);
+      }).catch(function () {
+        err.hidden = false;
+        err.textContent = '전송에 실패했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요. 계속 실패하면 ' + CONTACT_EMAIL + ' 로 직접 연락해 주세요.';
+      }).then(function () {
+        sending = false; btn.disabled = false; $('review-back').disabled = false; btn.textContent = '예약 확정';
+      });
+    });
+
+    function finish(rec) {
       var list = readStore(); list.push(rec);
       var saved = writeStore(list);
       lastRecord = rec;
       if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
       $('booking-form').style.display = 'none';
       $('done').classList.add('show');
-      $('done-id').textContent = '예약번호 ' + rec.id + (saved ? '' : ' · 브라우저 저장에 실패했습니다. 파일로 저장해 주세요.');
+      $('done-id').textContent = '예약번호 ' + rec.id + (saved ? '' : ' · 브라우저 저장에 실패했습니다.');
       $('done-mail').href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('[방문 예약] ' + rec.name + ' · ' + dateLabel(rec.date) + ' ' + rec.time) + '&body=' + encodeURIComponent(recordText(rec));
       $('done').scrollIntoView({ block: 'start' });
-    });
+    }
 
     $('done-download').addEventListener('click', function () {
       if (!lastRecord) return;
