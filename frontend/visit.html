@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>찾아오는 길 · 이제준 포트폴리오</title>
+  <meta name="description" content="이제준의 포트폴리오를 보고 연락하거나 방문 예약을 하실 수 있습니다. 상명대학교 천안캠퍼스 위치 안내 및 날씨 정보를 제공합니다.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+
+  <style>
+    :root {
+      --bg: #FBFBF9;
+      --surface: #FFFFFF;
+      --ink: #1A1D1A;
+      --ink-2: #414741;
+      --muted: #6D746C;
+      --line: #E2E5DF;
+      --line-2: #EDEFEA;
+      --accent: #2E7D53;
+      --accent-bg: #EAF3EE;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #101210;
+        --surface: #181B18;
+        --ink: #E9ECE8;
+        --ink-2: #C2C8C1;
+        --muted: #949B93;
+        --line: #282C28;
+        --line-2: #1F231F;
+        --accent: #63BE8E;
+        --accent-bg: #15251C;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #101210;
+      --surface: #181B18;
+      --ink: #E9ECE8;
+      --ink-2: #C2C8C1;
+      --muted: #949B93;
+      --line: #282C28;
+      --line-2: #1F231F;
+      --accent: #63BE8E;
+      --accent-bg: #15251C;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding-inline: 24px; }
+    @media (max-width: 640px) { .wrap { padding-inline: 18px; } }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+    /* 상단 내비게이션 */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      padding-block: 14px;
+    }
+    .nav-inner {
+      max-width: 880px; margin: 0 auto; padding-inline: 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    @media (max-width: 640px) { .nav-inner { padding-inline: 18px; } }
+    .nav-back {
+      display: flex; align-items: center; gap: 7px;
+      font-family: "IBM Plex Mono", monospace; font-size: 12.5px;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 11px; border: 1px solid var(--line); border-radius: 6px;
+      background: var(--surface); transition: border-color .15s, color .15s;
+    }
+    .nav-back:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-back svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .nav-title { font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+
+    /* 히어로 헤더 */
+    .page-header { padding-block: 56px 0; }
+    .page-header .who {
+      font-family: "IBM Plex Mono", monospace; font-size: 12px;
+      color: var(--accent); margin: 0 0 14px; letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .page-header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 700; line-height: 1.25;
+      margin: 0; letter-spacing: -.02em;
+    }
+    .page-header .desc {
+      font-size: clamp(.95rem, 2.4vw, 1.1rem); color: var(--ink-2);
+      margin: 18px 0 0; max-width: 44ch; line-height: 1.8;
+    }
+
+    /* 섹션 공통 */
+    .section { padding-block: 52px; border-top: 1px solid var(--line); }
+    .section:first-of-type { border-top: 0; }
+    .sh {
+      font-size: 13px; font-weight: 600; letter-spacing: .02em;
+      color: var(--accent); margin: 0 0 24px;
+      font-family: "IBM Plex Mono", monospace; text-transform: uppercase;
+    }
+
+    /* 지도 + 주소 */
+    .location-grid {
+      display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start;
+    }
+    @media (max-width: 720px) { .location-grid { grid-template-columns: 1fr; } }
+
+    .map-wrap {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--line-2);
+    }
+    .map-wrap iframe {
+      display: block; width: 100%; height: 340px; border: 0;
+    }
+    .map-source {
+      font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5;
+    }
+    .map-source a { color: var(--muted); text-decoration: underline; }
+    .map-source a:hover { color: var(--accent); }
+
+    /* 주소 카드 */
+    .address-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      padding: 24px 22px;
+    }
+    .address-card .label {
+      font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+      color: var(--muted); letter-spacing: .04em; text-transform: uppercase;
+      margin: 0 0 6px;
+    }
+    .address-card .place {
+      font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--ink);
+      letter-spacing: -.01em;
+    }
+    .address-card .addr {
+      font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-2);
+      margin: 0 0 18px; line-height: 1.65;
+    }
+    .address-divider { border: none; border-top: 1px solid var(--line-2); margin: 16px 0; }
+
+    .address-row {
+      display: flex; gap: 10px; align-items: flex-start; margin-bottom: 13px;
+    }
+    .address-row:last-child { margin-bottom: 0; }
+    .address-row svg {
+      width: 16px; height: 16px; flex: none; margin-top: 3px;
+      fill: none; stroke: var(--accent); stroke-width: 1.8;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .row-label {
+      font-size: 11px; font-family: "IBM Plex Mono", monospace; color: var(--muted);
+      margin: 0 0 2px; letter-spacing: .02em;
+    }
+    .row-val { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin: 0; }
+
+    /* 날씨 */
+    .weather-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 600px) { .weather-grid { grid-template-columns: 1fr 1fr; } }
+
+    .weather-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 18px 16px; transition: border-color .2s;
+    }
+    .weather-card:hover { border-color: var(--accent); }
+    .wc-label {
+      font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+      color: var(--muted); margin: 0 0 8px; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .wc-val {
+      font-family: "IBM Plex Mono", monospace; font-weight: 600;
+      font-size: clamp(1.5rem, 3.5vw, 2rem); color: var(--accent);
+      line-height: 1; margin: 0 0 4px;
+    }
+    .wc-val em { font-style: normal; font-size: .55em; color: var(--muted); }
+    .wc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    .weather-status-bar {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .weather-icon { font-size: 24px; flex: none; }
+    .weather-summary { font-size: 13.5px; color: var(--ink-2); }
+    .weather-time {
+      margin-left: auto; font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; color: var(--muted);
+    }
+
+    .weather-loading {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--muted); font-size: 13.5px; padding: 20px 0;
+    }
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid var(--line);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin .8s linear infinite; flex: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .weather-error {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 20px 18px; color: var(--muted); font-size: 13.5px;
+    }
+    .weather-source { font-size: 11px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+    .weather-source a { color: var(--muted); text-decoration: underline; }
+    .weather-source a:hover { color: var(--accent); }
+
+    /* 방문 예약 */
+    .reserve-section { padding-block: 52px 72px; border-top: 1px solid var(--line); }
+    .reserve-box {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      padding: 36px 32px;
+      display: flex; gap: 32px; align-items: center;
+    }
+    @media (max-width: 640px) {
+      .reserve-box { flex-direction: column; gap: 20px; padding: 26px 22px; }
+    }
+    .reserve-text { flex: 1; }
+    .reserve-text h2 {
+      font-size: 1.25rem; font-weight: 700; margin: 0 0 10px; letter-spacing: -.02em;
+    }
+    .reserve-text p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 40ch; }
+    .reserve-btn {
+      flex: none;
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--accent); color: #fff;
+      font-family: "IBM Plex Sans KR", sans-serif; font-size: 15px; font-weight: 600;
+      padding: 14px 28px; border-radius: 10px; border: none; cursor: pointer;
+      text-decoration: none;
+      transition: opacity .15s, transform .15s, box-shadow .15s;
+      box-shadow: 0 2px 12px rgba(46,125,83,.28);
+      white-space: nowrap;
+    }
+    .reserve-btn:hover {
+      opacity: .88; transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(46,125,83,.36);
+    }
+    .reserve-btn:active { transform: translateY(0); }
+    .reserve-btn svg {
+      width: 18px; height: 18px; fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* 푸터 */
+    footer {
+      border-top: 1px solid var(--line); padding-block: 22px 40px;
+      font-size: 12px; color: var(--muted);
+      display: flex; flex-wrap: wrap; gap: 6px 18px;
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 내비게이션 -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-back" id="nav-back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        포트폴리오로 돌아가기
+      </a>
+      <span class="nav-title">찾아오는 길 · 방문 예약</span>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- 히어로 -->
+    <header class="page-header">
+      <p class="who">VISIT · CONTACT</p>
+      <h1>찾아오는 길</h1>
+      <p class="desc">
+        포트폴리오를 보시고 연락·방문을 원하신다면 아래 위치와 날씨 정보를 참고해 주세요.
+        방문 전에 미리 예약해 두시면 좋습니다.
+      </p>
+    </header>
+
+    <!-- 1. 지도 + 주소 -->
+    <section class="section" id="location">
+      <p class="sh">01 · 찾아오는 길</p>
+
+      <div class="location-grid">
+        <!-- 카카오맵 임베드 -->
+        <div>
+          <div class="map-wrap">
+            <iframe
+              src="https://map.kakao.com/link/embed/MAP/상명대학교 천안,36.808974,127.149847,5,1"
+              title="상명대학교 천안캠퍼스 지도"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+          <p class="map-source">
+            지도 제공 :
+            <a href="https://map.kakao.com/?q=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90+%EC%B2%9C%EC%95%88" target="_blank" rel="noopener">카카오맵</a>
+            · 지도 데이터 © 카카오
+          </p>
+        </div>
+
+        <!-- 주소 카드 -->
+        <div class="address-card">
+          <p class="label">주소 안내</p>
+          <p class="place">상명대학교 천안캠퍼스</p>
+          <p class="addr">충청남도 천안시 동남구<br>상명대길 31, B306</p>
+
+          <hr class="address-divider">
+
+          <div class="address-row">
+            <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <p class="row-label">도로명 주소</p>
+              <p class="row-val">충청남도 천안시 동남구 상명대길 31</p>
+            </div>
+          </div>
+
+          <div class="address-row">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            <div>
+              <p class="row-label">건물 · 호실</p>
+              <p class="row-val">B동 306호</p>
+            </div>
+          </div>
+
+          <div class="address-row">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+              <p class="row-label">운영 시간</p>
+              <p class="row-val">방문 전 예약 권장<br>평일 10:00 – 18:00</p>
+            </div>
+          </div>
+
+          <hr class="address-divider">
+
+          <div class="address-row">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <p class="row-label">이메일</p>
+              <p class="row-val">dvae1456@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 날씨 -->
+    <section class="section" id="weather">
+      <p class="sh">02 · 현재 날씨 — 천안시</p>
+
+      <!-- 로딩 -->
+      <div class="weather-loading" id="weather-loading">
+        <div class="spinner"></div>
+        날씨 정보를 불러오는 중…
+      </div>
+
+      <!-- 날씨 데이터 -->
+      <div id="weather-data" hidden>
+        <div class="weather-grid">
+          <div class="weather-card">
+            <p class="wc-label">🌡 기온</p>
+            <p class="wc-val" id="w-temp">–<em>°C</em></p>
+            <p class="wc-desc" id="w-feels">체감 –°C</p>
+          </div>
+          <div class="weather-card">
+            <p class="wc-label">💧 습도</p>
+            <p class="wc-val" id="w-humi">–<em>%</em></p>
+            <p class="wc-desc" id="w-humi-desc">–</p>
+          </div>
+          <div class="weather-card">
+            <p class="wc-label">💨 풍속</p>
+            <p class="wc-val" id="w-wind">–<em>m/s</em></p>
+            <p class="wc-desc" id="w-wind-desc">–</p>
+          </div>
+        </div>
+        <div class="weather-status-bar">
+          <span class="weather-icon" id="weather-icon">🌤</span>
+          <span class="weather-summary" id="weather-summary">–</span>
+          <span class="weather-time mono" id="weather-time">–</span>
+        </div>
+      </div>
+
+      <!-- 에러 -->
+      <div id="weather-error" hidden class="weather-error">
+        ⚠️ 날씨 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.
+      </div>
+
+      <p class="weather-source" id="weather-source-note" hidden>
+        날씨 데이터 제공 :
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+        (무료 오픈소스 날씨 API) · 위치 기준 : 충청남도 천안시 (위도 36.81, 경도 127.15)
+      </p>
+    </section>
+
+    <!-- 3. 방문 예약 -->
+    <section class="reserve-section" id="reserve">
+      <p class="sh">03 · 방문 예약</p>
+      <div class="reserve-box">
+        <div class="reserve-text">
+          <h2>방문 예약하기</h2>
+          <p>
+            포트폴리오를 보고 직접 만나고 싶으신 분께서는 아래 버튼을 눌러
+            방문 일정을 예약해 주세요. 확인 후 이메일로 안내드립니다.
+          </p>
+        </div>
+        <a href="reservation.html" class="reserve-btn" id="go-reserve-btn">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          방문 예약하기
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="wrap">
+    <span>© 2025 이제준 · 상명대학교 조경학과</span>
+    <a href="index.html" style="color:inherit;text-decoration:none;">← 포트폴리오로 돌아가기</a>
+  </footer>
+
+  <script>
+    (function () {
+      var LAT = 36.81;
+      var LON = 127.15;
+
+      var WMO_CODES = {
+        0:  { label: '맑음',         icon: '☀️' },
+        1:  { label: '대체로 맑음',   icon: '🌤' },
+        2:  { label: '부분 흐림',     icon: '⛅' },
+        3:  { label: '흐림',          icon: '☁️' },
+        45: { label: '안개',          icon: '🌫' },
+        48: { label: '짙은 안개',     icon: '🌫' },
+        51: { label: '이슬비 (약)',    icon: '🌦' },
+        53: { label: '이슬비',        icon: '🌦' },
+        55: { label: '이슬비 (강)',    icon: '🌧' },
+        61: { label: '비 (약)',        icon: '🌧' },
+        63: { label: '비',             icon: '🌧' },
+        65: { label: '비 (강)',        icon: '🌧' },
+        71: { label: '눈 (약)',        icon: '🌨' },
+        73: { label: '눈',             icon: '❄️' },
+        75: { label: '눈 (강)',        icon: '❄️' },
+        80: { label: '소나기 (약)',    icon: '⛈' },
+        81: { label: '소나기',         icon: '⛈' },
+        82: { label: '강한 소나기',    icon: '⛈' },
+        95: { label: '뇌우',           icon: '⛈' }
+      };
+
+      function humiLabel(h) {
+        if (h < 30) return '건조함';
+        if (h < 50) return '쾌적함';
+        if (h < 70) return '보통';
+        if (h < 85) return '약간 습함';
+        return '매우 습함';
+      }
+
+      function windLabel(w) {
+        if (w < 1)  return '고요함';
+        if (w < 3)  return '실바람';
+        if (w < 6)  return '산들바람';
+        if (w < 10) return '약한 바람';
+        if (w < 14) return '보통 바람';
+        return '강한 바람';
+      }
+
+      function nowKST() {
+        return new Date().toLocaleString('ko-KR', {
+          month: 'numeric', day: 'numeric',
+          hour: '2-digit', minute: '2-digit', hour12: false
+        }) + ' 기준';
+      }
+
+      var url =
+        'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=' + LAT +
+        '&longitude=' + LON +
+        '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m' +
+        '&timezone=Asia%2FSeoul' +
+        '&forecast_days=1';
+
+      fetch(url)
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var c = data.current;
+          var wmo = WMO_CODES[c.weather_code] || { label: '날씨 정보 없음', icon: '🌡' };
+          var humi = Math.round(c.relative_humidity_2m);
+          var wind = Math.round(c.wind_speed_10m * 10) / 10;
+
+          document.getElementById('w-temp').innerHTML =
+            Math.round(c.temperature_2m) + '<em>°C</em>';
+          document.getElementById('w-feels').textContent =
+            '체감 ' + Math.round(c.apparent_temperature) + '°C';
+          document.getElementById('w-humi').innerHTML = humi + '<em>%</em>';
+          document.getElementById('w-humi-desc').textContent = humiLabel(humi);
+          document.getElementById('w-wind').innerHTML = wind + '<em>m/s</em>';
+          document.getElementById('w-wind-desc').textContent = windLabel(c.wind_speed_10m);
+
+          document.getElementById('weather-icon').textContent = wmo.icon;
+          document.getElementById('weather-summary').textContent =
+            '현재 천안시 날씨 : ' + wmo.label;
+          document.getElementById('weather-time').textContent = nowKST();
+
+          document.getElementById('weather-loading').hidden = true;
+          document.getElementById('weather-data').hidden = false;
+          document.getElementById('weather-source-note').hidden = false;
+        })
+        .catch(function () {
+          document.getElementById('weather-loading').hidden = true;
+          document.getElementById('weather-error').hidden = false;
+          document.getElementById('weather-source-note').hidden = false;
+        });
+    })();
+  </script>
+
+</body>
+</html>

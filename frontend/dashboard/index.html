@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>포트폴리오 관리 · 점검 대시보드 — 이제준</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard-container" id="content-area">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-title">
+        <h1>포트폴리오 관리 · 점검 대시보드</h1>
+        <p>지원 서류 제출 전 무결성 및 누락 요소를 실시간 점검합니다.</p>
+      </div>
+      <div class="dash-meta">
+        <div class="api-badge mono" id="api-status">
+          <span class="dot"></span> 연결 확인 중...
+        </div>
+        <a href="../index.html" class="nav-link" target="_blank">포트폴리오 보기 ↗</a>
+      </div>
+    </header>
+
+    <!-- 3-1. 상태 요약 타일 -->
+    <section class="tiles-grid">
+      <div class="tile-card">
+        <span class="tile-label">프로젝트 수</span>
+        <span class="tile-val mono" id="tile-projects">-</span>
+      </div>
+      <div class="tile-card">
+        <span class="tile-label">수치 지표 (Results)</span>
+        <span class="tile-val mono" id="tile-metrics">-</span>
+      </div>
+      <div class="tile-card">
+        <span class="tile-label">스택 기술 수</span>
+        <span class="tile-val mono" id="tile-tech">-</span>
+      </div>
+      <div class="tile-card">
+        <span class="tile-label">점검 경고 건수</span>
+        <span class="tile-val mono" id="tile-warnings">-</span>
+      </div>
+    </section>
+
+    <!-- 3-2. 프로젝트 보드 -->
+    <section class="section-block">
+      <div class="section-head">
+        <h2>3-2. 프로젝트 완성도 보드</h2>
+        <span style="font-size:12px;color:var(--muted)">카드를 클릭하면 상세 섹션을 확인합니다.</span>
+      </div>
+      <div class="projects-grid" id="projects-board">
+        <!-- JS 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 3-3. 타임라인 -->
+    <section class="section-block">
+      <div class="section-head">
+        <h2>3-3. 타임라인 (2024.03 — 2025.12)</h2>
+      </div>
+      <div class="timeline-box">
+        <div class="timeline-labels mono">
+          <span>2024.03</span>
+          <span>2024.08</span>
+          <span>2025.01</span>
+          <span>2025.06</span>
+          <span>2025.12</span>
+        </div>
+        <div class="timeline-rows" id="timeline-rows">
+          <!-- JS 렌더링 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-4. 기술 스택 현황 -->
+    <section class="section-block">
+      <div class="section-head">
+        <h2>3-4. 기술 스택 현황 및 프로젝트 매칭</h2>
+      </div>
+      <div class="stack-tiers" id="stack-tiers">
+        <!-- JS 렌더링 -->
+      </div>
+      <div id="unused-stack-box" style="margin-top:16px;display:none;background:var(--surface);border:1px solid var(--status-warn);border-radius:8px;padding:16px;">
+        <!-- 미사용 기술 목록 -->
+      </div>
+    </section>
+
+    <!-- 3-5. 점검 결과 -->
+    <section class="section-block">
+      <div class="section-head">
+        <h2>3-5. 무결성 점검 결과 (Audit)</h2>
+      </div>
+      <div class="audit-list" id="audit-list">
+        <!-- JS 렌더링 -->
+      </div>
+    </section>
+  </div>
+
+  <!-- 상세 보기 모달 -->
+  <div class="modal-backdrop" id="project-modal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal-window">
+      <div class="modal-head">
+        <h2 id="modal-title" style="font-size:18px">프로젝트 상세</h2>
+        <button class="modal-close-btn" onclick="document.getElementById('project-modal').classList.remove('active')">✕</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 백엔드 통신 모듈 및 대시보드 로직 -->
+  <script src="../js/api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

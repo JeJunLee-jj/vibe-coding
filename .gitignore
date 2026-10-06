@@ -9,3 +9,16 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+
+# Node.js 및 의존성
+node_modules/
+backend/node_modules/
+package-lock.json
+
+# 환경 변수 (보안)
+.env
+backend/.env
+
+# 로그 및 임시 파일
+*.log
+npm-debug.log*

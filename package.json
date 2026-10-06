@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-workspace",
+  "version": "1.0.0",
+  "description": "이제준 포트폴리오 - 프론트엔드/백엔드 분리 아키텍처",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "backend": "node backend/server.js",
+    "backend:dev": "node --watch backend/server.js",
+    "build:data": "python tools/build_data.py",
+    "db:seed": "node -e \"console.log('DB 시드 스크립트: data/portfolio.json 데이터를 데이터베이스로 마이그레이션할 때 사용합니다.')\""
+  },
+  "keywords": ["portfolio", "landscape-architecture", "spatial-data"],
+  "author": "이제준 (상명대학교 천안캠퍼스 조경학과)",
+  "license": "ISC"
+}
