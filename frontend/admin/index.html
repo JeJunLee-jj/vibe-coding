@@ -26,7 +26,7 @@
             id="admin-password"
             class="form-control"
             placeholder="관리자 비밀번호를 입력하세요"
-            autocomplete="current-password"
+            autocomplete="off"
             required
           />
         </div>
@@ -201,6 +201,9 @@
           </div>
           <button type="button" class="btn btn-outline btn-sm" id="btn-refresh">새로고침</button>
         </div>
+
+        <!-- 중복 의심 프로젝트 안내 (제목이 같은 항목) -->
+        <div id="dup-banner" class="dup-banner" hidden></div>
 
         <div class="items-stack" id="projects-container">
           <!-- JS 렌더링 -->

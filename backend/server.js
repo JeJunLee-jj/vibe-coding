@@ -16,6 +16,13 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '1mb' }));
 
+// 기본 보안 헤더
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('Referrer-Policy', 'no-referrer');
+  next();
+});
+
 // 로깅 미들웨어
 app.use((req, res, next) => {
   const start = Date.now();

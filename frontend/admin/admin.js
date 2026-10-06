@@ -46,9 +46,15 @@ function initAuth() {
       showAdminScreen();
       loadProjects();
     } catch (err) {
+      pwInput.value = '';
       showToast(err.message, true);
     }
   });
+
+  // 페이지를 떠나거나 뒤로가기로 복원될 때 비밀번호 입력칸에 값이 남지 않게 비움
+  const clearPw = () => { document.getElementById('admin-password').value = ''; };
+  window.addEventListener('pagehide', clearPw);
+  window.addEventListener('pageshow', clearPw);
 
   // 로그아웃 버튼
   document.getElementById('btn-logout').addEventListener('click', () => {
@@ -109,6 +115,7 @@ async function loadProjects() {
 
     currentProjects = result.data || [];
     renderProjectsList(currentProjects);
+    renderDuplicates();
 
     const pubCount = currentProjects.filter(p => p.status !== 'draft').length;
     const draftCount = currentProjects.filter(p => p.status === 'draft').length;
@@ -368,6 +375,13 @@ async function saveProjectWithStatus(targetStatus) {
   };
 
   const isEditing = Boolean(editingProjectId);
+
+  // 같은 제목의 프로젝트가 이미 있으면 한 번 더 확인
+  const sameTitle = currentProjects.find(p => p.id !== editingProjectId && isRealTitle(p.title) && isRealTitle(title) && normTitle(p.title) === normTitle(title));
+  if (sameTitle && !confirm(`"${sameTitle.title}"와(과) 제목이 같은 프로젝트가 이미 있습니다.\n그래도 저장할까요? (저장 후 목록 위쪽에서 삭제·통합할 수 있습니다)`)) {
+    return;
+  }
+
   const url = isEditing
     ? `${API_BASE}/api/admin/projects/${encodeURIComponent(editingProjectId)}`
     : `${API_BASE}/api/admin/projects`;
@@ -398,6 +412,97 @@ async function saveProjectWithStatus(targetStatus) {
   } catch (err) {
     showToast(err.message, true);
   }
+}
+
+/* ── 중복 확인: 제목이 같으면(공백·기호·대소문자 무시) 중복 의심 ───────── */
+function normTitle(t) {
+  return String(t || '').toLowerCase().replace(/[\s\-_.,:;·ㆍ—–()\[\]"'`]+/g, '');
+}
+// 제목 없는 초안의 자동 제목은 중복 검사에서 제외
+function isRealTitle(t) {
+  return Boolean(t) && !String(t).startsWith('임시저장 초안') && !String(t).startsWith('제목 없는 초안');
+}
+
+function findDuplicateGroups(projects) {
+  const groups = {};
+  projects.forEach(p => {
+    if (!isRealTitle(p.title)) return;
+    (groups[normTitle(p.title)] = groups[normTitle(p.title)] || []).push(p);
+  });
+  return Object.values(groups).filter(g => g.length > 1);
+}
+
+function fieldsOf(p) {
+  return {
+    title: p.title || '',
+    role: p.role || (p.meta && p.meta['역할']) || '',
+    description: p.description || (p.sections && p.sections[0]?.paragraphs?.[0]) || '',
+    period: p.period || (p.meta && p.meta['기간']) || '',
+    teamSize: String(p.teamSize || (p.meta && p.meta['참여인원']) || '').replace(/명/g, '').trim(),
+    notes: p.notes || ''
+  };
+}
+
+function renderDuplicates() {
+  const box = document.getElementById('dup-banner');
+  const groups = findDuplicateGroups(currentProjects);
+  if (!groups.length) { box.hidden = true; box.innerHTML = ''; return; }
+
+  box.hidden = false;
+  box.innerHTML = `<b>⚠ 중복 의심 ${groups.length}건</b>
+    <span class="dup-sub">제목이 같은 프로젝트입니다. 하나로 통합하거나 불필요한 항목을 삭제하세요.</span>` +
+    groups.map((g, gi) => `
+      <div class="dup-group">
+        <div class="dup-title">"${esc(g[0].title)}" · ${g.length}개</div>
+        <ul>${g.map(p => `
+          <li>
+            <span class="badge ${p.status === 'draft' ? 'badge-draft' : 'badge-pub'}">${p.status === 'draft' ? '초안' : '공개'}</span>
+            <span class="mono dup-date">${p.updatedAt ? new Date(p.updatedAt).toLocaleDateString() : '-'}</span>
+            <button type="button" class="btn btn-danger btn-sm" data-del="${esc(p.id)}" data-title="${esc(p.title)}">삭제</button>
+          </li>`).join('')}
+        </ul>
+        <button type="button" class="btn btn-primary btn-sm" data-merge="${gi}">통합하기 (가장 내용이 많은 항목에 합치기)</button>
+      </div>`).join('');
+
+  box.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => deleteProject(b.dataset.del, b.dataset.title)));
+  box.querySelectorAll('[data-merge]').forEach(b => b.addEventListener('click', () => mergeGroup(groups[Number(b.dataset.merge)])));
+}
+
+// 통합: 공개 > 채워진 칸이 많은 순으로 남길 항목을 고르고, 빈 칸만 다른 항목 값으로 채운 뒤 나머지는 삭제
+async function mergeGroup(group) {
+  const token = sessionStorage.getItem('admin_token');
+  if (!token) return;
+  const score = p => Object.values(fieldsOf(p)).filter(Boolean).length + (p.status === 'draft' ? 0 : 10);
+  const sorted = [...group].sort((a, b) => score(b) - score(a));
+  const keep = sorted[0];
+  const others = sorted.slice(1);
+
+  const merged = fieldsOf(keep);
+  others.forEach(o => {
+    const f = fieldsOf(o);
+    ['title', 'role', 'description', 'period', 'teamSize'].forEach(k => { if (!merged[k]) merged[k] = f[k]; });
+    if (f.notes && !merged.notes.includes(f.notes)) merged.notes = merged.notes ? `${merged.notes}\n${f.notes}` : f.notes;
+  });
+
+  if (!confirm(`"${keep.title}" ${group.length}개를 1개로 통합합니다.\n남는 항목: ${keep.status === 'draft' ? '초안' : '공개'} (빈 칸은 다른 항목 내용으로 채움)\n나머지 ${others.length}개는 삭제됩니다. 계속할까요?`)) return;
+
+  try {
+    const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+    let res = await fetch(`${API_BASE}/api/admin/projects/${encodeURIComponent(keep.id)}`, {
+      method: 'PUT', headers, body: JSON.stringify({ ...merged, status: keep.status })
+    });
+    let data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.message || '통합에 실패했습니다.');
+    for (const o of others) {
+      res = await fetch(`${API_BASE}/api/admin/projects/${encodeURIComponent(o.id)}`, { method: 'DELETE', headers });
+      data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || '중복 항목 삭제에 실패했습니다.');
+    }
+    showToast('중복 프로젝트를 하나로 통합했습니다.');
+  } catch (err) {
+    showToast(err.message, true);
+  }
+  loadProjects();
 }
 
 /* ── 5. 프로젝트 삭제 ───────────────────────────────────────── */

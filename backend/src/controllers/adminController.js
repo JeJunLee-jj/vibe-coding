@@ -1,12 +1,28 @@
 const portfolioRepository = require('../repositories/portfolioRepository');
 const { verifyPassword, generateToken } = require('../middleware/authMiddleware');
 
+// 로그인 시도 제한: 같은 IP에서 5번 틀리면 5분간 잠금 (무차별 대입 방지, 서버 메모리에만 보관)
+const MAX_FAILS = 5;
+const LOCK_MS = 5 * 60 * 1000;
+const TOKEN_HOURS = 2;   // 로그인 유지 시간 (짧게 유지)
+const failures = new Map();   // ip -> { count, lockedUntil }
+
 class AdminController {
   /**
    * 관리자 로그인
    */
   async login(req, res, next) {
     try {
+      const ip = req.ip;
+      const rec = failures.get(ip) || { count: 0, lockedUntil: 0 };
+      if (rec.lockedUntil > Date.now()) {
+        const min = Math.ceil((rec.lockedUntil - Date.now()) / 60000);
+        return res.status(429).json({
+          success: false,
+          message: `비밀번호를 여러 번 틀려 잠겼습니다. ${min}분 뒤에 다시 시도해 주세요.`
+        });
+      }
+
       const { password } = req.body;
       if (!password) {
         return res.status(400).json({
@@ -16,13 +32,17 @@ class AdminController {
       }
 
       if (!verifyPassword(password)) {
+        rec.count += 1;
+        if (rec.count >= MAX_FAILS) { rec.lockedUntil = Date.now() + LOCK_MS; rec.count = 0; }
+        failures.set(ip, rec);
         return res.status(401).json({
           success: false,
           message: '관리자 비밀번호가 일치하지 않습니다.'
         });
       }
 
-      const token = generateToken({ role: 'admin' }, 24);
+      failures.delete(ip);
+      const token = generateToken({ role: 'admin' }, TOKEN_HOURS);
       res.status(200).json({
         success: true,
         message: '관리자로 로그인되었습니다.',

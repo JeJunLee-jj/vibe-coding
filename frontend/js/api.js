@@ -149,7 +149,12 @@ class PortfolioApiClient {
     for (const p of paths) {
       try {
         const res = await fetch(p);
-        if (res.ok) return await res.json();
+        if (res.ok) {
+          const json = await res.json();
+          // 초안(draft)은 방문자 화면에 절대 노출하지 않음
+          if (Array.isArray(json.projects)) json.projects = json.projects.filter(p => p.status !== 'draft');
+          return json;
+        }
       } catch { }
     }
     throw new Error('로컬 data/portfolio.json 파일을 찾을 수 없습니다.');

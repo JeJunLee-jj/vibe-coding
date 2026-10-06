@@ -4,6 +4,12 @@ const adminController = require('../controllers/adminController');
 const reservationController = require('../controllers/reservationController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
+// 관리자 응답은 브라우저·프록시에 캐시되지 않게 한다
+router.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+
 // 로그인 (공개 엔드포인트)
 router.post('/login', adminController.login);
 
