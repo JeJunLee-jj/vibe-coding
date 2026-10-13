@@ -39,6 +39,10 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/external', externalRoutes);
 app.use('/api/admin', adminRoutes);
 
+// 관리자 화면이 메인 포트폴리오와 같은 디자인을 쓰도록 공용 CSS 한 개만 제공한다.
+// (저장소 루트 폴더 전체를 공개하지 않는다: .env, data 등이 노출되면 안 됨)
+app.get('/style.css', (req, res) => res.sendFile(path.resolve(__dirname, '../style.css')));
+
 // 프론트엔드 정적 파일 서빙 (통합 구동 지원)
 const frontendPath = path.resolve(__dirname, '../frontend');
 app.use(express.static(frontendPath));

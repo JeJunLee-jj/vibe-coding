@@ -4,12 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>예약하기 관리 — 이제준</title>
+  <!-- Google Fonts: Press Start 2P, Silkscreen, Outfit, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Retro Korean Pixel Font: DungGeunMo (둥근모) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@latest/neodgm/style.css">
+
+  <!-- Pretendard (최고의 한글 가독성) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- 메인 디자인(../../style.css) → 관리자 레이아웃 → 테마 덮어쓰기 -->
+  <link rel="stylesheet" href="../../style.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin-poke.css">
 </head>
 <body>
+
+  <!-- 메인 포트폴리오와 같은 상단 네비게이션 -->
+  <header class="poke-header">
+    <div class="poke-header-stripe"></div>
+    <div class="layout-container">
+      <div class="header-inner">
+        <a href="../../index.html" class="brand-trainer" title="이제준 포트폴리오로">
+          <div class="pokeball-icon"></div>
+          <span class="brand-text-name pixel-font">JEJUN.DEX</span>
+          <span class="brand-tag-lvl pixel-font">ADMIN</span>
+        </a>
+
+        <nav class="poke-nav" aria-label="관리자 메뉴">
+          <a href="../../index.html" class="nav-link"><i class="fa-solid fa-id-card"></i> 포트폴리오</a>
+          <a href="index.html" class="nav-link"><i class="fa-solid fa-folder-open"></i> 프로젝트 관리</a>
+          <a href="reservations.html" class="nav-link current" aria-current="page"><i class="fa-solid fa-calendar-check"></i> 예약하기 관리</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="icon-action-btn pixel-btn" id="btn-theme-toggle" title="주간/야간 모드 전환" aria-label="주간/야간 모드 전환">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="page-subnav" aria-label="빠른 이동">
+    <div class="page-subnav-inner">
+      <a href="../../index.html">포트폴리오</a>
+      <a href="index.html">프로젝트 관리</a>
+      <a href="reservations.html" class="active" aria-current="page">예약하기 관리</a>
+    </div>
+  </nav>
+
 
   <!-- 로그인 확인 중 (토큰이 없으면 로그인 화면으로 이동) -->
   <p class="auth-check" id="auth-check">관리자 인증을 확인하는 중…</p>
@@ -74,7 +123,23 @@
     </details>
   </main>
 
+  <footer class="poke-footer">
+    <div class="layout-container">
+      <div class="footer-content">
+        <div class="footer-copy">
+          <p>© 2026 <strong>TRAINER LEE JEJUN (이제준)</strong>. 관리자 전용 화면입니다.</p>
+        </div>
+        <div class="footer-links">
+          <a href="../../index.html">포트폴리오 홈</a>
+          <a href="index.html">프로젝트 관리</a>
+          <a href="reservations.html">예약하기 관리</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <div class="toast-box" id="toast"></div>
+  <script src="theme.js"></script>
   <script src="reservations.js"></script>
 </body>
 </html>

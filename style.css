@@ -1576,3 +1576,18 @@ ul, ol {
     padding: 1.5rem;
   }
 }
+
+
+/* 상단 메뉴가 늘어나도 글자가 두 줄로 꺾이지 않게 (찾아오는 길·방문 예약·관리자 버튼 추가에 따른 보정) */
+.nav-link { white-space: nowrap; }
+@media (max-width: 1300px) {
+  .poke-nav { gap: 0.1rem; }
+  .nav-link { padding: 0.5rem 0.55rem; font-size: 0.84rem; }
+}
+@media (max-width: 1120px) {
+  .nav-link i { display: none; }
+}
+@media (max-width: 1000px) {
+  .brand-text-name, .brand-tag-lvl { display: none; }
+  .nav-link { padding: 0.4rem 0.4rem; font-size: 0.8rem; }
+}

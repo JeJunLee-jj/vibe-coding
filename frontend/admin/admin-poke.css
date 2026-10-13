@@ -1,0 +1,136 @@
+/* ==========================================================================
+   관리자 화면 — 메인 포트폴리오(포켓몬 테마)와 같은 디자인
+   불러오는 순서: ../../style.css(메인 디자인) → style.css(관리자 레이아웃) → 이 파일(테마 덮어쓰기)
+   색·그림자·서체는 메인 style.css 의 디자인 토큰(--poke-*, --bg-*, --text-* 등)을 그대로 사용한다.
+   주간/야간 전환은 메인과 같은 body.dark-theme + localStorage('poke_theme') 방식.
+   ========================================================================== */
+
+/* 관리자 CSS 의 변수 이름을 메인 디자인 토큰에 연결 (body 에 선언해 :root 값을 덮어씀) */
+body {
+  --bg: var(--bg-primary);
+  --surface: var(--bg-card);
+  --ink: var(--text-main);
+  --ink-2: var(--text-main);
+  --muted: var(--text-muted);
+  --placeholder: var(--text-light);
+  --line: var(--border-color);
+  --line-2: var(--bg-secondary);
+  --accent: var(--poke-red);
+  --accent-hover: var(--poke-red-hover);
+  --accent-bg: var(--poke-red-soft);
+  --danger: var(--poke-red);
+  --danger-bg: var(--poke-red-soft);
+  --badge-draft-bg: var(--type-electric-bg);
+  --badge-draft-text: #92400E;
+  --badge-pub-bg: rgba(34, 197, 94, 0.18);
+  --badge-pub-text: #166534;
+
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-main);
+}
+body.dark-theme {
+  --badge-draft-text: #FDE68A;
+  --badge-pub-text: #A7F3D0;
+}
+
+/* 접수 상태 색 (밝은/어두운 테마) */
+.st-new    { --st: #475569; --st-bg: #E2E8F0; }
+.st-ok     { --st: #166534; --st-bg: #DCFCE7; }
+.st-change { --st: #92400E; --st-bg: #FEF3C7; }
+.st-cancel { --st: #991B1B; --st-bg: #FEE2E2; }
+body.dark-theme .st-new    { --st: #CBD5E1; --st-bg: #1E293B; }
+body.dark-theme .st-ok     { --st: #A7F3D0; --st-bg: #064E3B; }
+body.dark-theme .st-change { --st: #FDE68A; --st-bg: #422006; }
+body.dark-theme .st-cancel { --st: #FECACA; --st-bg: #451212; }
+
+/* 모바일 빠른 이동 (메인과 같은 방식) */
+.page-subnav { display: none; background: var(--bg-card); border-bottom: 3px solid #1E2328; }
+.page-subnav-inner { display: flex; max-width: 1200px; margin: 0 auto; }
+.page-subnav a { flex: 1; text-align: center; padding: 0.7rem 0.4rem; font-weight: 800; font-size: 0.85rem; color: var(--text-muted); border-right: 2px solid var(--border-color); }
+.page-subnav a:last-child { border-right: 0; }
+.page-subnav a.active { color: var(--poke-red); background: var(--poke-red-soft); }
+@media (max-width: 768px) { .page-subnav { display: block; } }
+.nav-link.current { color: var(--poke-red); background: var(--poke-red-soft); }
+
+/* 레이아웃 */
+.login-screen { min-height: calc(100vh - 230px); }
+.admin-container { padding-top: 40px; }
+.auth-check { color: var(--text-muted); }
+.admin-title-wrap h1 { font-family: var(--font-display); font-weight: 900; font-size: 1.8rem; letter-spacing: -0.02em; }
+.admin-header { border-bottom: 3px solid var(--border-color); }
+
+/* 카드: 메인의 픽셀 테두리 + 그림자 */
+.login-card, .editor-card, .list-card, .rv-card {
+  background: var(--bg-card);
+  border: 3px solid #1E2328;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--pixel-shadow-lg);
+}
+.proj-item, .dup-group {
+  background: var(--bg-secondary);
+  border: 2.5px solid #1E2328;
+  border-radius: var(--radius-md);
+}
+.login-header h1 { font-family: var(--font-display); font-weight: 900; }
+.editor-head h2, .list-head h2 { font-family: var(--font-display); font-weight: 900; }
+
+/* 버튼: 메인 버튼(btn-poke-*)과 같은 눌리는 느낌 */
+.btn {
+  font-family: inherit; font-weight: 800;
+  border: 2.5px solid #1E2328; border-radius: var(--radius-md);
+  box-shadow: 3px 3px 0 #1E2328;
+  transition: all 0.1s ease;
+}
+.btn:hover:not(:disabled) { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #1E2328; }
+.btn:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #1E2328; }
+.btn-sm { box-shadow: 2px 2px 0 #1E2328; border-width: 2px; }
+.btn-primary { background: var(--poke-red); color: #fff; border-color: #1E2328; }
+.btn-primary:hover:not(:disabled) { background: var(--poke-red-hover); }
+.btn-outline { background: var(--bg-card); color: var(--text-main); border-color: #1E2328; }
+.btn-outline:hover:not(:disabled) { background: var(--poke-yellow); color: #1E2328; border-color: #1E2328; }
+.btn-danger { background: var(--bg-card); color: var(--poke-red); border-color: #1E2328; }
+.btn-danger:hover:not(:disabled) { background: var(--poke-red); color: #fff; }
+.btn-draft { background: var(--poke-yellow); color: #1E2328; border-color: #1E2328; }
+.btn-draft:hover:not(:disabled) { background: var(--poke-yellow-glow); }
+.btn-publish { background: var(--poke-blue); color: #fff; border-color: #1E2328; }
+.btn-publish:hover:not(:disabled) { background: var(--poke-blue-dark); }
+.btn:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+
+/* 입력칸: 메인 폼(poke-input)과 같은 스타일 */
+.form-control {
+  background: var(--bg-secondary); color: var(--text-main);
+  border: 2px solid #1E2328; border-radius: var(--radius-md);
+}
+.form-control::placeholder { color: var(--text-light); }
+.form-control:focus {
+  outline: none; border-color: var(--poke-blue); background: var(--bg-card);
+  box-shadow: 3px 3px 0 var(--poke-blue);
+}
+.form-group label { font-weight: 800; }
+
+/* 공개/초안 선택, 배지, 안내 상자 */
+.radio-chip { border: 2px solid #1E2328; border-radius: var(--radius-md); background: var(--bg-secondary); }
+.radio-chip.selected-pub { border-color: var(--poke-blue); background: rgba(59, 76, 202, 0.12); box-shadow: 3px 3px 0 var(--poke-blue); }
+.radio-chip.selected-draft { border-color: var(--poke-yellow-dark); background: var(--type-electric-bg); box-shadow: 3px 3px 0 var(--poke-yellow-dark); }
+.badge { border: 2px solid #1E2328; font-weight: 800; }
+.edit-banner, .form-notice { border: 2px solid #1E2328; border-radius: var(--radius-md); }
+.dup-banner { border: 2.5px solid #1E2328; border-radius: var(--radius-md); }
+
+/* 토스트 */
+.toast-box { border: 2.5px solid #1E2328; box-shadow: 4px 4px 0 #1E2328; font-weight: 800; border-radius: var(--radius-md); }
+
+/* 예약 관리 표·필터 */
+.rv-table th { background: var(--bg-secondary); color: var(--text-main); border-bottom: 3px solid #1E2328; font-weight: 800; }
+.rv-table td { border-bottom: 2px solid var(--border-color); }
+.rv-table tbody tr:hover { background: var(--type-electric-bg); }
+.rv-badge { border: 2px solid #1E2328; font-weight: 800; }
+.rv-act, .rv-chip { border-width: 2px; font-weight: 800; border-color: #1E2328; color: var(--text-main); }
+.rv-act.on, .rv-chip.on { color: var(--bg-card); background: var(--st, var(--poke-red)); }
+.rv-act:hover:not(:disabled):not(.on), .rv-chip:hover:not(.on) { background: var(--st-bg, var(--type-electric-bg)); }
+.rv-chip.st-all { --st: var(--poke-red); }
+.rv-summary-text { font-family: var(--font-display); font-weight: 800; }
+.rv-import summary { font-weight: 800; }
+
+/* 표 안의 읽기 어려운 링크색 보정 */
+.rv-mail { color: var(--text-muted); }

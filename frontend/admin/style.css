@@ -22,32 +22,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #101210;
-    --surface: #181B18;
-    --ink: #E9ECE8;
-    --ink-2: #C2C8C1;
-    --muted: #949B93;
-    --placeholder: #6B7280;
-    --line: #282C28;
-    --line-2: #1F231F;
-    --accent: #63BE8E;
-    --accent-hover: #75CE9E;
-    --accent-bg: #15251C;
-
-    --badge-draft-bg: #422006;
-    --badge-draft-text: #FDE68A;
-    --badge-pub-bg: #064E3B;
-    --badge-pub-text: #A7F3D0;
-
-    --danger: #EF4444;
-    --danger-bg: #451212;
-
-    color-scheme: dark;
-  }
-}
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--bg);
@@ -488,12 +462,6 @@ textarea.form-control {
 .st-ok     { --st: #065F46; --st-bg: #D1FAE5; }
 .st-change { --st: #92400E; --st-bg: #FEF3C7; }
 .st-cancel { --st: #991B1B; --st-bg: #FEE2E2; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .st-new    { --st: #CBD5E1; --st-bg: #1E293B; }
-  :root:not([data-theme="light"]) .st-ok     { --st: #A7F3D0; --st-bg: #064E3B; }
-  :root:not([data-theme="light"]) .st-change { --st: #FDE68A; --st-bg: #422006; }
-  :root:not([data-theme="light"]) .st-cancel { --st: #FECACA; --st-bg: #451212; }
-}
 .rv-badge.st-new, .rv-badge.st-ok, .rv-badge.st-change, .rv-badge.st-cancel { color: var(--st); background: var(--st-bg); }
 
 .rv-actions { display: flex; flex-wrap: wrap; gap: 6px; min-width: 210px; }
