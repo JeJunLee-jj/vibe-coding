@@ -7,6 +7,20 @@ const healthRoutes = require('./src/routes/healthRoutes');
 const externalRoutes = require('./src/routes/externalRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 
+// Supabase 모드(기본)인데 접속 정보가 없으면 시작 단계에서 분명하게 알려 준다.
+if (process.env.NODE_ENV !== 'test' && config.dbType === 'supabase') {
+  const missing = [
+    ['SUPABASE_URL', config.supabaseUrl],
+    ['SUPABASE_ANON_KEY', config.supabaseAnonKey],
+    ['SUPABASE_SERVICE_ROLE_KEY', config.supabaseServiceKey]
+  ].filter(([, v]) => !v).map(([k]) => k);
+  if (missing.length) {
+    console.error(`\n[설정 오류] DB_TYPE=supabase 인데 다음 값이 비어 있습니다: ${missing.join(', ')}`);
+    console.error('backend/.env (Render 는 Environment 탭)에 값을 넣어 주세요. 파일 데이터로 임시 실행하려면 DB_TYPE=file 로 설정하세요.\n');
+    process.exit(1);
+  }
+}
+
 const app = express();
 
 // Render 같은 호스팅은 앞단에 프록시가 있어 모든 요청이 같은 주소로 보인다.

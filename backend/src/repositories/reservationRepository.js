@@ -105,10 +105,13 @@ class FileReservationRepository {
   }
 }
 
-// DB_TYPE=supabase 이면 Supabase 저장소를, 아니면(기본) 파일 저장소를 사용한다.
-const repository = config.dbType === 'supabase'
-  ? require('./supabaseReservationRepository')
-  : new FileReservationRepository(config.reservationsPath);
+// 기본은 Supabase 저장소. DB_TYPE=file 로 명시했을 때만 파일(data/reservations.json) 저장소를 쓴다.
+function createRepository() {
+  if (config.dbType === 'supabase') return require('./supabaseReservationRepository');
+  if (config.dbType === 'file') return new FileReservationRepository(config.reservationsPath);
+  throw new Error(`지원하지 않는 DB_TYPE 입니다: "${config.dbType}" (supabase 또는 file)`);
+}
+const repository = createRepository();
 
 module.exports = repository;
 module.exports.STATUSES = STATUSES;

@@ -25,7 +25,7 @@ Antigravity·Cursor·Claude Code가 자동으로 읽습니다.
 - GitHub 주소는 `https://github.com/JeJunLee-jj` 입니다. `jejun-lee`는 존재하지 않는 계정(404)입니다.
 
 ### 2-2. 내용 무결성
-- **없는 프로젝트·기술·수치를 만들지 마세요.** 모든 콘텐츠의 출처는 `data/portfolio.json`입니다.
+- **없는 프로젝트·기술·수치를 만들지 마세요.** 모든 콘텐츠의 출처는 Supabase DB(최초 이전 원본·백업: `data/portfolio.json`)입니다.
 - **수치(ms, %, KB, DAU, 점수, 기간, 면적)는 한 글자도 바꾸지 마세요.** 채용 서류에 쓰이는 값입니다.
 - 화답숲의 `ownWork: true` 표시(패널 구성 · 식재 계획)는 팀 작업 중 **본인 담당 파트**라는 뜻입니다. 다른 파트를 본인 것으로 표기하지 마세요.
 
@@ -62,7 +62,13 @@ script.js / style.css   구 포트폴리오 자산
 
 ## 4. 데이터 다루는 법
 
-`data/portfolio.json`이 **단일 진실 공급원**입니다. 대시보드는 이 파일을 읽습니다.
+**현재 단일 진실 공급원은 Supabase DB입니다.** 백엔드 기본 설정이 `DB_TYPE=supabase`이며 프로젝트·연락처·배지 등 콘텐츠와 예약이 DB 테이블에 있습니다.
+`data/portfolio.json`은 최초 이전(시드) 원본이자 백업이고, `DB_TYPE=file`로 명시했을 때만 읽습니다.
+
+- 콘텐츠 수정은 관리자 화면(또는 Supabase)에서 합니다. JSON 파일을 고쳐도 DB에는 반영되지 않습니다.
+- 테이블 설계는 `supabase/schema.sql`, 이전 스크립트는 `backend/scripts/seed-supabase.js` 입니다.
+  (`--reset` 은 내용 테이블을 비우고 JSON 으로 되돌리므로 관리자 화면에서 고친 내용이 사라집니다. 예약은 유지.)
+- 아래 키 설명은 API 응답 모양이며, DB 모드에서도 같은 모양으로 돌려줍니다.
 
 주요 키:
 

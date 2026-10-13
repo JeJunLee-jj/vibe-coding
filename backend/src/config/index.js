@@ -29,7 +29,7 @@ module.exports = {
   reservationsPath: process.env.RESERVATIONS_FILE_PATH
     ? path.resolve(__dirname, '../../', process.env.RESERVATIONS_FILE_PATH)
     : path.resolve(__dirname, '../../../data/reservations.json'),
-  dbType: process.env.DB_TYPE || 'file',   // 'file'(기본) | 'supabase'
+  dbType: process.env.DB_TYPE || 'supabase',   // 'supabase'(기본) | 'file'(data/portfolio.json, 오프라인·시험용)
   supabaseUrl: process.env.SUPABASE_URL || '',
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
   supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',

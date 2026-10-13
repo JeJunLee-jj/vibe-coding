@@ -281,9 +281,12 @@ class FilePortfolioRepository {
 }
 
 // 기본 Repository 인스턴스 생성 및 내보내기
-// DB_TYPE=supabase 이면 Supabase 저장소를, 아니면(기본) 파일 저장소를 사용한다.
-const repository = config.dbType === 'supabase'
-  ? require('./supabasePortfolioRepository')
-  : new FilePortfolioRepository(config.dataPath);
+// 기본은 Supabase 저장소. DB_TYPE=file 로 명시했을 때만 파일(data/portfolio.json) 저장소를 쓴다.
+function createRepository() {
+  if (config.dbType === 'supabase') return require('./supabasePortfolioRepository');
+  if (config.dbType === 'file') return new FilePortfolioRepository(config.dataPath);
+  throw new Error(`지원하지 않는 DB_TYPE 입니다: "${config.dbType}" (supabase 또는 file)`);
+}
+const repository = createRepository();
 
 module.exports = repository;
