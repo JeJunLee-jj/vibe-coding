@@ -149,7 +149,8 @@ class AdminController {
         teamSize: teamSize ? String(teamSize).trim() : '',
         notes: notes ? notes.trim() : '',
         status: isPublished ? 'published' : 'draft',
-        featured: Boolean(featured)
+        // 폼이 보내지 않은 경우(undefined)에는 기존 대표작 표시를 지우지 않는다
+        featured: featured === undefined ? undefined : Boolean(featured)
       });
 
       res.status(200).json({

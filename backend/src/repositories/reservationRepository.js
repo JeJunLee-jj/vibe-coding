@@ -105,6 +105,11 @@ class FileReservationRepository {
   }
 }
 
-module.exports = new FileReservationRepository(config.reservationsPath);
+// DB_TYPE=supabase 이면 Supabase 저장소를, 아니면(기본) 파일 저장소를 사용한다.
+const repository = config.dbType === 'supabase'
+  ? require('./supabaseReservationRepository')
+  : new FileReservationRepository(config.reservationsPath);
+
+module.exports = repository;
 module.exports.STATUSES = STATUSES;
 module.exports.makeKey = makeKey;

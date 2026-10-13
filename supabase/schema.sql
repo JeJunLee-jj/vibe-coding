@@ -166,7 +166,7 @@ create table if not exists project_sections (
   own_work boolean not null default false,         -- true = 팀 프로젝트 중 본인 담당 파트
   paragraphs text[] not null default '{}',
   steps      text[] not null default '{}',
-  results    text[] not null default '{}',
+  results    jsonb  not null default '[]',        -- 성과 수치: [{ "value": "24ms", "label": "..." }, ...]
   sort_order int not null default 0,
   is_public boolean not null default false,
   updated_at timestamptz not null default now()

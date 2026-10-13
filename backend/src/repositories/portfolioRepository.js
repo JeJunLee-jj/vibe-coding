@@ -281,6 +281,9 @@ class FilePortfolioRepository {
 }
 
 // 기본 Repository 인스턴스 생성 및 내보내기
-const repository = new FilePortfolioRepository(config.dataPath);
+// DB_TYPE=supabase 이면 Supabase 저장소를, 아니면(기본) 파일 저장소를 사용한다.
+const repository = config.dbType === 'supabase'
+  ? require('./supabasePortfolioRepository')
+  : new FilePortfolioRepository(config.dataPath);
 
 module.exports = repository;
