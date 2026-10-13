@@ -202,6 +202,10 @@
     'use strict';
     var CONTACT_EMAIL = 'dvae1456@gmail.com';
     var FORMSPREE_URL = 'https://formspree.io/f/mnpjnnpg';
+    // Supabase: 예약을 DB에 직접 저장한다. 공개용(publishable) 키라서 코드에 있어도 안전하다.
+    // 보호는 DB 규칙(RLS)이 한다: 방문자는 예약 '넣기'만 가능하고 읽기·수정·삭제는 불가.
+    var SUPABASE_URL = 'https://bimrjpllinoqwtrrdpfy.supabase.co';
+    var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_olF7FO3yS1-2n2zgrkTNFg_r4MdikUb';
     var STORE_KEY = 'reservations.v1';
     var MAX_DAYS_AHEAD = 90;
     var DOW = ['일', '월', '화', '수', '목', '금', '토'];
@@ -423,6 +427,28 @@
       });
     }
 
+    // Supabase 에 예약 저장. 'saved' | 'duplicate'(같은 신청자·같은 시간) 를 돌려주고, 그 외 실패는 예외.
+    function saveToSupabase(rec) {
+      var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 10000) : null;
+      return fetch(SUPABASE_URL + '/rest/v1/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_PUBLISHABLE_KEY, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({
+          name: rec.name, email: rec.email, visit_date: rec.date, visit_time: rec.time,
+          purpose: rec.purpose, consented_at: rec.consentAt
+        }),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (r) {
+        if (timer) clearTimeout(timer);
+        if (r.ok) return 'saved';
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          if (d && d.code === '23505') return 'duplicate';
+          throw new Error((d && d.message) || 'HTTP ' + r.status);
+        });
+      }, function (e) { if (timer) clearTimeout(timer); throw e; });
+    }
+
     var sending = false;
     $('review-confirm').addEventListener('click', function () {
       if (sending) return;
@@ -437,9 +463,19 @@
       };
       sending = true; btn.disabled = true; $('review-back').disabled = true;
       btn.textContent = '전송 중…'; err.hidden = true;
-      sendToFormspree(rec).then(function () {
-        rec.sent = true;
+      // 1) DB 저장이 기준. 성공하면 이메일 알림(Formspree)은 부가 기능이라 실패해도 예약은 유효하다.
+      // 2) 같은 시간 중복이면 안내하고 멈춘다. 3) DB 저장이 안 되면 Formspree 이메일로라도 전달한다.
+      saveToSupabase(rec).then(function (result) {
+        if (result === 'duplicate') {
+          err.hidden = false;
+          err.textContent = '같은 이름·이메일로 이미 같은 날짜·시간에 신청하셨습니다. 다른 시간을 선택하거나, 변경이 필요하면 ' + CONTACT_EMAIL + ' 로 연락해 주세요.';
+          return;
+        }
+        rec.saved = true;
+        sendToFormspree(rec).catch(function () { /* 이메일 알림 실패는 무시 */ });
         finish(rec);
+      }, function () {
+        return sendToFormspree(rec).then(function () { rec.sent = true; finish(rec); });
       }).catch(function () {
         err.hidden = false;
         err.textContent = '전송에 실패했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요. 계속 실패하면 ' + CONTACT_EMAIL + ' 로 직접 연락해 주세요.';
