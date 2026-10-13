@@ -9,6 +9,10 @@ const adminRoutes = require('./src/routes/adminRoutes');
 
 const app = express();
 
+// Render 같은 호스팅은 앞단에 프록시가 있어 모든 요청이 같은 주소로 보인다.
+// TRUST_PROXY=1 이면 프록시가 알려 준 실제 방문자 IP를 사용한다. (로컬에서는 꺼 둠: 헤더 위조 방지)
+if (process.env.TRUST_PROXY) app.set('trust proxy', parseInt(process.env.TRUST_PROXY, 10) || 1);
+
 // 미들웨어
 app.use(cors({
   origin: config.corsOrigin,

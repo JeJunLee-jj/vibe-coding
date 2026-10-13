@@ -1,0 +1,39 @@
+# Render 배포 설정 (Blueprint)
+# 사용법: Render 대시보드 → New → Blueprint → 이 저장소 선택 → 아래 '값 입력' 칸 4개만 채우고 Apply
+#
+#  - 비밀 값(마스터 키, 관리자 비밀번호 해시·솔트, 토큰 시크릿)은 이 파일에 적지 않는다. (sync: false → 대시보드에서 직접 입력)
+#  - SUPABASE_URL 과 공개 키(sb_publishable_...)는 이미 방문자 화면 코드에 공개되어 있는 값이라 적어 둔다.
+services:
+  - type: web
+    name: jejun-portfolio-api
+    runtime: node
+    plan: free
+    region: singapore          # 한국에서 가장 가까운 지역
+    branch: main
+    rootDir: backend           # package.json 이 backend 폴더 안에 있다
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    autoDeploy: true           # main 에 push 하면 자동 재배포
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_TYPE
+        value: supabase
+      - key: TRUST_PROXY       # Render 프록시 뒤에서 실제 방문자 IP 로 로그인 시도를 제한
+        value: "1"
+      - key: CORS_ORIGIN       # 사이트 주소(도메인을 바꾸면 이 값도 바꾼다)
+        value: https://vibe-coding-five.vercel.app
+      - key: SUPABASE_URL
+        value: https://bimrjpllinoqwtrrdpfy.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: sb_publishable_olF7FO3yS1-2n2zgrkTNFg_r4MdikUb
+      # ↓ 비밀 값: 대시보드에서 직접 입력 (backend/.env.render 파일 참고)
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+      - key: ADMIN_SALT
+        sync: false
+      - key: ADMIN_TOKEN_SECRET
+        sync: false

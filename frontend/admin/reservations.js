@@ -3,7 +3,9 @@
  * 로그인 토큰은 프로젝트 관리 화면(admin.js)과 같은 sessionStorage('admin_token')를 사용합니다.
  */
 
-const API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
+// 백엔드가 직접 보여 주는 화면(주소가 /admin/ 으로 시작: 로컬 5000번 포트, Render 등)은 같은 서버로 요청한다.
+// 그 밖(정적 서버·Vercel 등)에서 열면 내 컴퓨터의 백엔드(localhost:5000)로 요청한다.
+const API_BASE = window.location.pathname.startsWith('/admin/') ? '' : 'http://localhost:5000';
 const STATUSES = ['접수', '확정', '변경요청', '취소'];
 const STATUS_CLASS = { '접수': 'st-new', '확정': 'st-ok', '변경요청': 'st-change', '취소': 'st-cancel' };
 const STATUS_HELP = {

@@ -7,6 +7,12 @@ const LOCK_MS = 5 * 60 * 1000;
 const TOKEN_HOURS = 2;   // 로그인 유지 시간 (짧게 유지)
 const failures = new Map();   // ip -> { count, lockedUntil }
 
+// 전체 제한: IP를 바꿔 가며 시도해도 15분 동안 전체 실패가 GLOBAL_MAX 번을 넘으면 모두 잠근다.
+// (비밀번호가 4자리라 IP별 제한만으로는 부족하다. 대신 공격 중에는 본인도 잠시 로그인이 막힌다.)
+const GLOBAL_WINDOW_MS = 15 * 60 * 1000;
+const GLOBAL_MAX = 20;
+let globalFails = [];   // 실패 시각 목록
+
 class AdminController {
   /**
    * 관리자 로그인
@@ -15,6 +21,14 @@ class AdminController {
     try {
       const ip = req.ip;
       const rec = failures.get(ip) || { count: 0, lockedUntil: 0 };
+      globalFails = globalFails.filter((t) => Date.now() - t < GLOBAL_WINDOW_MS);
+      if (globalFails.length >= GLOBAL_MAX) {
+        const min = Math.ceil((globalFails[0] + GLOBAL_WINDOW_MS - Date.now()) / 60000);
+        return res.status(429).json({
+          success: false,
+          message: `로그인 시도가 너무 많아 잠시 막았습니다. ${min}분 뒤에 다시 시도해 주세요.`
+        });
+      }
       if (rec.lockedUntil > Date.now()) {
         const min = Math.ceil((rec.lockedUntil - Date.now()) / 60000);
         return res.status(429).json({
@@ -32,6 +46,7 @@ class AdminController {
       }
 
       if (!verifyPassword(password)) {
+        globalFails.push(Date.now());
         rec.count += 1;
         if (rec.count >= MAX_FAILS) { rec.lockedUntil = Date.now() + LOCK_MS; rec.count = 0; }
         failures.set(ip, rec);
@@ -149,7 +164,8 @@ class AdminController {
         teamSize: teamSize ? String(teamSize).trim() : '',
         notes: notes ? notes.trim() : '',
         status: isPublished ? 'published' : 'draft',
-        featured: Boolean(featured)
+        // 폼이 보내지 않은 경우(undefined)에는 기존 대표작 표시를 지우지 않는다
+        featured: featured === undefined ? undefined : Boolean(featured)
       });
 
       res.status(200).json({

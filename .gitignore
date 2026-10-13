@@ -18,6 +18,7 @@ package-lock.json
 # 환경 변수 (보안)
 .env
 backend/.env
+backend/.env.render
 
 # 로그 및 임시 파일
 *.log

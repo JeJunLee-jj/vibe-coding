@@ -8,10 +8,15 @@
     "start": "node server.js",
     "dev": "node --watch server.js"
   },
-  "keywords": ["portfolio", "api", "express"],
+  "keywords": [
+    "portfolio",
+    "api",
+    "express"
+  ],
   "author": "이제준",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2"

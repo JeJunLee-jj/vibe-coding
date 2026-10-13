@@ -55,7 +55,8 @@ class ReservationController {
         if (r.error) invalid.push({ index: i + 1, reason: r.error });
         else valid.push(r.rec);
       });
-      const { added, duplicates } = valid.length ? await repo.addMany(valid) : { added: [], duplicates: 0 };
+      const { added, duplicates, rejected = [] } = valid.length ? await repo.addMany(valid) : { added: [], duplicates: 0 };
+      rejected.forEach((r) => invalid.push({ index: 0, reason: `${r.name}: ${r.reason}` }));   // DB 규칙에 걸린 건
       res.status(200).json({ success: true, added: added.length, duplicates, invalid });
     } catch (err) {
       next(err);
